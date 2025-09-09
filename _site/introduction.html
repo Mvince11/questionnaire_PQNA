@@ -96,48 +96,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="question-block" style="margin-bottom:2em;">
-<p>
-<strong>1</strong> Quel est votre rôle au sein de la collectivité ?
-</p>
-<p><label><input type="radio" name="q1" value="Elu"> Elu</label><br> <label><input type="radio" name="q1" value="Agent"> Agent</label><br></p>
-</div>
-<div class="question-block" style="margin-bottom:2em;">
-<p>
-<strong>1.1</strong> Quel est votre fonction au sein de la collectivité ?
-</p>
-<p><label><input type="radio" name="q1.1" value="Maire ou Président"> Maire ou Président</label><br> <label><input type="radio" name="q1.1" value="Adjoint au maire"> Adjoint au maire</label><br> <label><input type="radio" name="q1.1" value="Vice-président"> Vice-président</label><br> <label><input type="radio" name="q1.1" value="Conseiller"> Conseiller</label><br></p>
-</div>
-<div class="question-block" style="margin-bottom:2em;">
-<p>
-<strong>1.2</strong> Quel est votre fonction au sein de la collectivité ?
-</p>
-<p><label><input type="radio" name="q1.2" value="DGS - Directeur général des services"> DGS - Directeur général des services</label><br> <label><input type="radio" name="q1.2" value="DGST - Directeur général des services techniques"> DGST - Directeur général des services techniques</label><br> <label><input type="radio" name="q1.2" value="DGA - Directeur général adjoint"> DGA - Directeur général adjoint</label><br> <label><input type="radio" name="q1.2" value="Directeur ou responsable de service"> Directeur ou responsable de service</label><br> <label><input type="radio" name="q1.2" value="Chargé de mission"> Chargé de mission</label><br> <label><input type="radio" name="q1.2" value="DGS - Directeur général des services"> DGS - Directeur général des services</label><br></p>
-</div>
-<div class="question-block" style="margin-bottom:2em;">
-<p>
-<strong>1.3</strong> Quelles sont vos attributions ?
-</p>
-<p><label><input type="radio" name="q1.3" value="Direction Générale"> Direction Générale</label><br> <label><input type="radio" name="q1.3" value="Direction Ressources : DAF, DRH"> Direction Ressources : DAF, DRH</label><br> <label><input type="radio" name="q1.3" value="Direction Technique : Aménagement, Bâtiment, Mobilités, Infrastructures de transports, Environnement, Risques, Littoral"> Direction Technique : Aménagement, Bâtiment, Mobilités, Infrastructures de transports, Environnement, Risques, Littoral</label><br></p>
-</div>
-<div class="question-block" style="margin-bottom:2em;">
-<p>
-<strong>2</strong> Quelle structure représentez-vous ?
-</p>
-<p><label><input type="radio" name="q2" value="Une commune"> Une commune</label><br> <label><input type="radio" name="q2" value="Une communauté de communes"> Une communauté de communes</label><br> <label><input type="radio" name="q2" value="Une communauté d’agglomération"> Une communauté d’agglomération</label><br> <label><input type="radio" name="q2" value="Une communauté urbaine"> Une communauté urbaine</label><br> <label><input type="radio" name="q2" value="Une métropole"> Une métropole</label><br> <label><input type="radio" name="q2" value="Un syndicat mixte"> Un syndicat mixte</label><br> <label><input type="radio" name="q2" value="Un département"> Un département</label><br> <label><input type="radio" name="q2" value="Une Région"> Une Région</label><br></p>
-</div>
-<div class="question-block" style="margin-bottom:2em;">
-<p>
-<strong>3</strong> Indiquez le nombre approximatif d’habitants de votre collectivité parmi les 3 choix :
-</p>
-<p><label><input type="radio" name="q3" value="< 20 000 Habitants"> &lt; 20 000 Habitants</label><br> <label><input type="radio" name="q3" value="20 000-50 000 Habitants"> 20 000-50 000 Habitants</label><br> <label><input type="radio" name="q3" value="> 50 000 Habitants"> &gt; 50 000 Habitants</label><br></p>
-</div>
-<div class="question-block" style="margin-bottom:2em;">
-<p>
-<strong>4</strong> Votre collectivité présente-t-elle des spécificités géographiques ?
-</p>
-<p><label><input type="radio" name="q4" value="Territoire de montagne"> Territoire de montagne</label><br> <label><input type="radio" name="q4" value="Territoire littoral"> Territoire littoral</label><br></p>
-</div>
 
 <script>window.currentProgressStep = 1;</script>
 <script>
@@ -259,7 +217,139 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
         
         </div>
-
+<div class="question-block" style="margin:20px; padding:10px; border:1px solid #ccc;">
+<p class="question" style="font-weight:bold;">
+1 — Quel est votre rôle au sein de la collectivité ?
+</p>
+<ul class="reponses" style="list-style-type:none; padding-left:0;">
+<li style="margin:4px 0;">
+<input type="radio" name="q1" value="Elu"> Elu
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q1" value="Agent"> Agent
+</li>
+</ul>
+</div>
+<div class="question-block" style="margin:20px; padding:10px; border:1px solid #ccc;">
+<p class="question" style="font-weight:bold;">
+1.1 — Quel est votre fonction au sein de la collectivité ?
+</p>
+<ul class="reponses" style="list-style-type:none; padding-left:0;">
+<li style="margin:4px 0;">
+<input type="radio" name="q1.1" value="Maire ou Président"> Maire ou Président
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q1.1" value="Adjoint au maire"> Adjoint au maire
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q1.1" value="Vice-président"> Vice-président
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q1.1" value="Conseiller"> Conseiller
+</li>
+</ul>
+</div>
+<div class="question-block" style="margin:20px; padding:10px; border:1px solid #ccc;">
+<p class="question" style="font-weight:bold;">
+1.2 — Quel est votre fonction au sein de la collectivité ?
+</p>
+<ul class="reponses" style="list-style-type:none; padding-left:0;">
+<li style="margin:4px 0;">
+<input type="radio" name="q1.2" value="DGS - Directeur général des services"> DGS - Directeur général des services
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q1.2" value="DGST - Directeur général des services techniques"> DGST - Directeur général des services techniques
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q1.2" value="DGA - Directeur général adjoint"> DGA - Directeur général adjoint
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q1.2" value="Directeur ou responsable de service"> Directeur ou responsable de service
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q1.2" value="Chargé de mission"> Chargé de mission
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q1.2" value="DGS - Directeur général des services"> DGS - Directeur général des services
+</li>
+</ul>
+</div>
+<div class="question-block" style="margin:20px; padding:10px; border:1px solid #ccc;">
+<p class="question" style="font-weight:bold;">
+1.3 — Quelles sont vos attributions ?
+</p>
+<ul class="reponses" style="list-style-type:none; padding-left:0;">
+<li style="margin:4px 0;">
+<input type="radio" name="q1.3" value="Direction Générale"> Direction Générale
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q1.3" value="Direction Ressources : DAF, DRH"> Direction Ressources : DAF, DRH
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q1.3" value="Direction Technique : Aménagement, Bâtiment, Mobilités, Infrastructures de transports, Environnement, Risques, Littoral"> Direction Technique : Aménagement, Bâtiment, Mobilités, Infrastructures de transports, Environnement, Risques, Littoral
+</li>
+</ul>
+</div>
+<div class="question-block" style="margin:20px; padding:10px; border:1px solid #ccc;">
+<p class="question" style="font-weight:bold;">
+2 — Quelle structure représentez-vous ?
+</p>
+<ul class="reponses" style="list-style-type:none; padding-left:0;">
+<li style="margin:4px 0;">
+<input type="radio" name="q2" value="Une commune"> Une commune
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q2" value="Une communauté de communes"> Une communauté de communes
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q2" value="Une communauté d’agglomération"> Une communauté d’agglomération
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q2" value="Une communauté urbaine"> Une communauté urbaine
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q2" value="Une métropole"> Une métropole
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q2" value="Un syndicat mixte"> Un syndicat mixte
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q2" value="Un département"> Un département
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q2" value="Une Région"> Une Région
+</li>
+</ul>
+</div>
+<div class="question-block" style="margin:20px; padding:10px; border:1px solid #ccc;">
+<p class="question" style="font-weight:bold;">
+3 — Indiquez le nombre approximatif d’habitants de votre collectivité parmi les 3 choix :
+</p>
+<ul class="reponses" style="list-style-type:none; padding-left:0;">
+<li style="margin:4px 0;">
+<input type="radio" name="q3" value="< 20 000 Habitants"> &lt; 20 000 Habitants
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q3" value="20 000-50 000 Habitants"> 20 000-50 000 Habitants
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q3" value="> 50 000 Habitants"> &gt; 50 000 Habitants
+</li>
+</ul>
+</div>
+<div class="question-block" style="margin:20px; padding:10px; border:1px solid #ccc;">
+<p class="question" style="font-weight:bold;">
+4 — Votre collectivité présente-t-elle des spécificités géographiques ?
+</p>
+<ul class="reponses" style="list-style-type:none; padding-left:0;">
+<li style="margin:4px 0;">
+<input type="radio" name="q4" value="Territoire de montagne"> Territoire de montagne
+</li>
+<li style="margin:4px 0;">
+<input type="radio" name="q4" value="Territoire littoral"> Territoire littoral
+</li>
+</ul>
+</div>
 </div>
 
 <div class="custom-footer">

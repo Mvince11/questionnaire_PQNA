@@ -25,37 +25,13 @@ intro <- read_xlsx("data/Introduction.xlsx") %>%
 
 questions_list <- intro %>%
   group_by(Numero, Questions) %>%
-  summarise(options = list(Reponses), .groups = "drop") %>%
+  summarise(reponses = list(Reponses), .groups = "drop") %>%
   arrange(Numero)
 
 questions_list
 
 ```
 
-```{r, results='asis'}
-#| echo: FALSE
-
-
-# Boucle pour écrire chaque question + ses réponses
-for (i in seq_len(nrow(questions_list))) {
-  numero <- questions_list$Numero[i]
-  question <- questions_list$Questions[i]
-  reponses <- unlist(questions_list$options[i])
-
-  cat("<div class='question-block' style='margin-bottom:2em;'>\n")
-  cat(sprintf("<p><strong>%s</strong> %s</p>\n", numero, question))
-
-  # Construire les boutons radio
-  for (r in reponses) {
-    cat(sprintf(
-      "<label><input type='radio' name='q%s' value='%s'> %s</label><br>\n",
-      numero, r, r
-    ))
-  }
-
-  cat("</div>\n\n")
-}
-```
 
 ```{=html}
 
@@ -116,7 +92,39 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
         
         </div>
+```
 
+```{r, results='asis'}
+#| echo: FALSE
+
+
+# Générer le HTML à partir de la liste
+for (i in seq_len(nrow(questions_list))) {
+  numero   <- questions_list$Numero[i]
+  question <- questions_list$Questions[i]
+  reponses <- unlist(questions_list$reponses[i])
+
+  # Ouverture du bloc
+  cat("<div class='question-block' style='margin:20px; padding:10px; border:1px solid #ccc;'>\n")
+
+  # Question
+  cat(sprintf("  <p class='question' style='font-weight:bold;'>%s — %s</p>\n", numero, question))
+
+  # Réponses
+  cat("  <ul class='reponses' style='list-style-type:none; padding-left:0;'>\n")
+  for (r in reponses) {
+    cat(sprintf("    <li style='margin:4px 0;'><input type='radio' name='q%s' value='%s'> %s</li>\n",
+                numero, r, r))
+  }
+  cat("  </ul>\n")
+
+  # Fermeture du bloc
+  cat("</div>\n\n")
+}
+
+```
+
+```{=html}
 </div>
 
 ```
