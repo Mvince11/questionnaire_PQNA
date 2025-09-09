@@ -1,0 +1,79 @@
+---
+title: ""
+lang: fr
+back-to-top-navigation: false
+format:
+  html:
+    page-layout: custom   
+---
+
+::: {.fullwidth }
+<div class="page-layout-custom">
+
+<div style="color:white; margin-left:10%; font-size: 1.8em; margin-top: 4%; font-weight: bold;">
+Diagnostic Flash
+</div>
+
+<div style="color:white; margin-left:10%; font-size: 1.8em; font-weight: bold;">
+"Transition et adaptation au changement climatique"
+</div>
+
+<br>
+
+<div style="color:white; margin-left:10%; font-size: 1.4em; font-weight: bold;">
+Préparez l'entretien d'échanges avec votre référent Cerema en établissant un état des lieux
+</div>
+
+<div style="color:white; margin-left:10%; font-size: 1.4em; font-weight: bold; margin-top: -17px">
+des forces et des besoins de votre territoire.
+</div>
+
+<button class="btn" style="margin-left: 10%;
+  box-shadow: inset 1px 1px 3px #712929, inset -1px -1px 3px #ccc7c7;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-top: 40px;">Commencer</button>
+
+
+</div>
+:::
+
+```{=html}
+
+<div class="container">
+    <!-- Colonne gauche -->
+    <div class="left-column">
+      <div class="info-block">
+        <img src="images/main_pomme.png" alt="Pomme">
+        <div class="info-text">
+          <h3>Disposer d'un état des lieux</h3>
+          <h4>Répondez à quelques questions et recevez votre rapport avec un premier niveau de recommandations du Cerema.</h4>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <img src="images/cible.png" alt="Pomme">
+        <div class="info-text">
+          <h3>Déterminer vos priorités</h3>
+          <h4>Sur la base de ce rapport, établissez vos priorités d'actions et définissez, avec votre référent Cerema, les solutions mobilisables.</h4>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <img src="images/ecran.png" alt="Pomme">
+        <div class="info-text">
+          <h3>Faciliter le passage à l'action</h3>
+          <h4>Bénéficiez, par thématique, d'une boîte à outils et de retours d'expériences inspirants.</h4>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonne droite -->
+    <div class="right-column">
+      <img src="images/image_diag.png" alt="Image droite">
+    </div>
+  </div>
+
+
+```

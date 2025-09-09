@@ -1,0 +1,27 @@
+project:
+  type: website
+  
+website:
+  navbar:
+    logo: "/images/logos/logo_pqna.png"
+    logo-alt: "ZAE Marticot"
+    #title: "Observatoire de la vulnérabilité <br> aux inondations Vienne - Clain"
+    search: false
+  # sidebar:
+  #   style: "docked"
+  #   search: true
+  #   contents:
+  #     - href: index.qmd
+  #       text: Home
+  #     - about.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    
+
+
+
+
+
