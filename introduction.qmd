@@ -1,0 +1,151 @@
+---
+title: ""
+lang: fr
+back-to-top-navigation: true
+format:
+  html:
+    page-layout: custom 
+---
+
+
+```{r}
+#| echo: FALSE
+#| include: FALSE
+
+library(dplyr)
+library(readxl)
+library(stringr)
+
+intro <- read_xlsx("data/Introduction.xlsx") %>%
+  filter(!is.na(Numero), !is.na(Questions), !is.na(Reponses)) %>%   # on garde que les lignes complètes
+  mutate(
+    Numero = as.character(Numero)                                   # on garde le format textuel (1.0, 1.1)
+  ) %>%
+  arrange(Numero, Questions)
+
+questions_list <- intro %>%
+  group_by(Numero, Questions) %>%
+  summarise(options = list(Reponses), .groups = "drop") %>%
+  arrange(Numero)
+
+questions_list
+
+```
+
+```{r, results='asis'}
+#| echo: FALSE
+
+
+# Boucle pour écrire chaque question + ses réponses
+for (i in seq_len(nrow(questions_list))) {
+  numero <- questions_list$Numero[i]
+  question <- questions_list$Questions[i]
+  reponses <- unlist(questions_list$options[i])
+
+  cat("<div class='question-block' style='margin-bottom:2em;'>\n")
+  cat(sprintf("<p><strong>%s</strong> %s</p>\n", numero, question))
+
+  # Construire les boutons radio
+  for (r in reponses) {
+    cat(sprintf(
+      "<label><input type='radio' name='q%s' value='%s'> %s</label><br>\n",
+      numero, r, r
+    ))
+  }
+
+  cat("</div>\n\n")
+}
+```
+
+```{=html}
+
+<script>window.currentProgressStep = 1;</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const bar = document.getElementById('progress-bar');
+  if (!bar) return;
+
+  // priorité : variable JS définie dans la page
+  let step = window.currentProgressStep || null;
+
+  // fallback : déduire depuis URL (si tu le veux)
+  if (!step) {
+    const m = window.location.pathname.match(/(\d+)/);
+    if (m) step = parseInt(m[1], 10);
+  }
+
+  if (!step || isNaN(step)) step = 1;
+
+  const active = bar.querySelector(`.progress-item[data-step="${step}"]`);
+  if (active) active.classList.add('active');
+});
+</script>
+
+<div style="margin-left:10%; margin-right:10%;">
+{{< include _includes/progression.html >}}
+</div>
+```
+
+```{=html}
+<div style="border: 1px solid #f6f3f3;
+            margin-left:10%;
+            margin-right: 10%;">
+            
+   <div style="color: red; font-size:0.8rem; margin-top: 3px; margin-bottom: 40px; margin-left: 10px;">*Champs obligatoires</div>          
+            
+
+        <div style="margin-left:4%;
+                    margin-right:4%;
+                    text-align: left;
+                    font-family: Arial,sans-serif, monospace;
+                    color: rgba(41,37,116,1) !important;
+                    font-weight: bold;"
+                    >
+            <div> Centre d'études et d'expertise sur les risques, l'environnement, la mobilité et l'aménagement, le Cerema accompagne les       collectivités pour anticiper les effets du changement climatique, réduire la vulnérabilité et renforcer la résilience territoriale.
+            </div>
+            
+            <br>
+            
+            <div> Votre collectivité / groupement de collectivités a récemment adhéré au Cerema et bénéficie à ce titre d’une relation partenariale renforcée avec notre établissement. Afin de mieux connaître les forces et besoins de votre territoire sur les principaux leviers de la transition et de l’adaptation au changement climatique, il vous est proposé de réaliser ce diagnostic en ligne. A l'issue du questionnaire, vous disposerez d’un rapport avec des pistes de réflexion et exemples de solutions concrètes en lien avec nos champs d’actions. Des échanges complémentaires avec votre référent permettront de préciser, au besoin, vos priorités d’actions.
+            </div>
+            
+            <br>
+            
+            <div>
+        Le Cerema s'engage à observer et à faire observer la plus stricte confidentialité à l’égard des informations délivrées dans le présent questionnaire. Le Cerema s’engage à ce que ces informations soient traitées avec le même degré de protection qu’il accorde à ses propres informations confidentielles et ne soient communiquées qu'aux seuls membres de son personnel permanent ou temporaire ayant à les connaitre.
+            </div>
+        
+        </div>
+
+</div>
+
+```
+
+```{=html}
+<div class="custom-footer">
+
+  <div class="dots">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+
+  <button style="background-color: #ef7757;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: 6px;
+  font-family: normal;
+  border-color: coral;"> Suivant > </button>
+</div>
+```

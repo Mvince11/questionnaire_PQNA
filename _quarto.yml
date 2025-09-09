@@ -4,20 +4,25 @@ project:
 website:
   navbar:
     logo: "/images/logos/logo_pqna.png"
-    logo-alt: "ZAE Marticot"
-    #title: "Observatoire de la vulnérabilité <br> aux inondations Vienne - Clain"
+    logo-alt: "PQNA"
     search: false
-  # sidebar:
-  #   style: "docked"
-  #   search: true
-  #   contents:
-  #     - href: index.qmd
-  #       text: Home
-  #     - about.qmd
+  
+  page-footer:
+    left: "Site créé avec [Quarto](https://quarto.org/)"
+    center: "©CEREMA"
+    background: light
+    right: 
+      - icon: linkedin
+        href: https://fr.linkedin.com/company/cerema
+      - icon: twitter-x 
+        href: https://x.com/ceremacom
+      - icon: youtube
+        href: https://www.youtube.com/@cerema3139
 
 format:
   html:
     theme: cosmo
+    page-layout: custom
     css: styles.css
     
 

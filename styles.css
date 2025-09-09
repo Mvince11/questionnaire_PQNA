@@ -27,6 +27,7 @@
   margin-right: 30px;
 }
 
+
 .fullwidth{
   background-color: #ef7757 !important;
   padding-bottom: 50px;
@@ -35,9 +36,10 @@
 .container {
       display: flex;
       align-items: stretch;
-      padding: 50px 5% !important;
+      padding: 70px 5% !important;
       gap: 40px;
-      float: left;
+      padding-left: 0 !important;
+      margin-right: 25vw;
     }
 
     .left-column {
@@ -83,4 +85,80 @@
       height: auto;
       object-fit: contain;
     }
+    
+    /* Le conteneur horizontal */
+.progress-bar {
+  display: flex;                 /* 🔹 tout sur une ligne */
+  flex-direction: row;           /* 🔹 orientation horizontale */
+  justify-content: space-between;/* 🔹 répartis sur la largeur */
+  align-items: center;           /* 🔹 alignement vertical centré */
+  gap: 2rem;                     /* 🔹 espace entre les items */
+  flex-wrap: nowrap;             /* 🔹 reste sur une ligne (pas de retour) */
+  /*overflow-x: auto;*/              /* 🔹 si trop large -> scroll horizontal */
+  padding: 1rem;
+  width: max-content;
+}
 
+.progress-item {
+  display: inline-flex;          /* 🔹 cercle + texte côte à côte */
+  align-items: center;
+  white-space: nowrap;           /* 🔹 évite que le texte passe à la ligne */
+}
+
+.progress-item .circle {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #8c9197;
+  color: white;
+  font-weight: lighter;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;          /* 🔹 espace entre le cercle et le texte */
+}
+
+.progress-item .label {
+  font-size: 0.8rem;
+}
+
+/* style élément actif */
+.progress-item.active .circle {
+  background-color: rgba(41,37,116,1) !important;
+}
+.progress-item.active .label {
+  color: rgba(41,37,116,1) !important;
+  font-weight: 550;
+}
+
+.dots {
+  display: flex;
+  gap: 5px; /* espace entre les cercles */
+  margin: 0 auto; /* centre horizontalement */
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: #c0c1ba;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+
+.custom-footer {
+  position: sticky;       /* reste visible quand on scrolle */
+  bottom: 0;              /* collé en bas */
+  left: 0;
+  width: 100%;
+  align-items: center;       
+  justify-content: space-between;
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 2px solid #eeb6b0;
+  display: flex;
+  background-color: white;
+}

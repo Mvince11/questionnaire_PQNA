@@ -1,7 +1,7 @@
 ---
 title: ""
 lang: fr
-back-to-top-navigation: false
+back-to-top-navigation: true
 format:
   html:
     page-layout: custom   
