@@ -24,7 +24,7 @@ intro <- read_xlsx("data/Introduction.xlsx") %>%
   arrange(Numero, Questions)
 
 questions_list <- intro %>%
-  group_by(Numero, Questions) %>%
+  group_by(Numero, Questions, Style) %>%
   summarise(reponses = list(Reponses), .groups = "drop") %>%
   arrange(Numero)
 
@@ -75,7 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     text-align: left;
                     font-family: Arial,sans-serif, monospace;
                     color: rgba(41,37,116,1) !important;
-                    font-weight: bold;"
+                    font-weight: bold;
+                    margin-bottom: 70px;"
                     >
             <div> Centre d'études et d'expertise sur les risques, l'environnement, la mobilité et l'aménagement, le Cerema accompagne les       collectivités pour anticiper les effets du changement climatique, réduire la vulnérabilité et renforcer la résilience territoriale.
             </div>
@@ -102,26 +103,50 @@ document.addEventListener("DOMContentLoaded", function () {
 for (i in seq_len(nrow(questions_list))) {
   numero   <- questions_list$Numero[i]
   question <- questions_list$Questions[i]
+  style    <- ifelse(is.na(questions_list$Style[i]), "radio", questions_list$Style[i])
   reponses <- unlist(questions_list$reponses[i])
 
-  # Ouverture du bloc
-  cat("<div class='question-block' style='margin:20px; padding:10px; border:1px solid #ccc;'>\n")
+  cat("<div class='question-block' style='margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;'>\n")
+  cat(sprintf("  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s — %s</p>\n", numero, question))
 
-  # Question
-  cat(sprintf("  <p class='question' style='font-weight:bold;'>%s — %s</p>\n", numero, question))
-
-  # Réponses
-  cat("  <ul class='reponses' style='list-style-type:none; padding-left:0;'>\n")
-  for (r in reponses) {
-    cat(sprintf("    <li style='margin:4px 0;'><input type='radio' name='q%s' value='%s'> %s</li>\n",
-                numero, r, r))
+  if (style == "radio") {
+    for (j in seq_along(reponses)) {
+      id <- paste0("q", numero, "_", j)
+      cat(sprintf(
+        "  <input type='radio' id='%s' name='q%s' value='%s'>
+           <label for='%s' style='display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1) !important; color: #293574; font-weight: bold; opacity: 0.9;'>%s</label>\n",
+        id, numero, reponses[j], id, reponses[j]
+      ))
+    }
+  } else if (style == "checkbox") {
+    for (j in seq_along(reponses)) {
+      id <- paste0("q", numero, "_", j)
+      cat(sprintf(
+        "  <input type='checkbox' id='%s' name='q%s' value='%s'>
+           <label for='%s' style='display:inline-block; margin:4px 10px 4px 0; color: #293574; font-weight: bold; opacity: 0.9;'>%s</label>\n",
+        id, numero, reponses[j], id, reponses[j]
+      ))
+    }
+  } else if (style == "textarea") {
+    cat(sprintf(
+      "  <textarea name='q%s' rows='4' cols='50' style='width:100%%; margin-top:6px; color: #293574; font-weight: bold; opacity: 0.9;'></textarea>\n",
+      numero
+    ))
+  } else if (style == "select") {
+    cat(sprintf(
+      "  <select name='q%s' style='width:100%%; margin-top:6px; border-color:rgba(239,119,87,1) !important; border-radius:6px; height:35px; color: #293574; font-weight: bold; opacity: 0.9;'>\n",
+      numero
+    ))
+    for (r in reponses) {
+      cat(sprintf("    <option value='%s'>%s</option>\n", r, r))
+    }
+    cat("  </select>\n")
   }
-  cat("  </ul>\n")
 
-  # Fermeture du bloc
   cat("</div>\n\n")
 }
 
+
 ```
 
 ```{=html}
@@ -130,30 +155,5 @@ for (i in seq_len(nrow(questions_list))) {
 ```
 
 ```{=html}
-<div class="custom-footer">
-
-  <div class="dots">
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-  </div>
-
-  <button style="background-color: #ef7757;
-  border-radius: 8px;
-  font-size: 1.3rem;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-right: 6px;
-  font-family: normal;
-  border-color: coral;"> Suivant > </button>
-</div>
+{{< include _includes/custom_footer.html >}}
 ```

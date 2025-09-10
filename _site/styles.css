@@ -161,4 +161,87 @@
   border-top: 2px solid #eeb6b0;
   display: flex;
   background-color: white;
+  height: 100px;
+}
+
+
+input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  appearance: none;       /* retire le style par défaut */
+  border: 2px solid rgba(239,119,87,1) !important;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  top: 3px;
+}
+
+input[type="radio"]:checked::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 8px;
+  height: 8px;
+  background-color: rgba(239,119,87,1) !important;
+  border-radius: 50%;
+}
+
+input[type="radio"] + label {
+  margin-left: 6px;       /* petit espace entre case et texte */
+  vertical-align: middle; /* alignement vertical cohérent */
+  cursor: pointer;        /* le texte aussi cliquable */
+}
+
+/* On masque le style natif */
+input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  appearance: none;      /* supprime le rendu par défaut */
+  border: 2px solid rgba(239,119,87,1) !important;
+  border-radius: 4px;
+  cursor: pointer;
+  vertical-align: middle; /* aligne avec le texte */
+  position: relative;
+  bottom: 2px;
+}
+
+/* Quand cochée → ajoute la coche orange, centrée */
+input[type="checkbox"]:checked::before {
+  content: "✓";
+  color: white;
+  font-size: 13px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(239,119,87,1) !important;
+  width: inherit;
+  height: inherit;
+  border-radius: 6px;
+  text-align: center;
+  bottom: 25px;
+}
+
+/* Le label à côté : change de couleur quand l'input est coché */
+input[type="radio"]:checked + label,
+input[type="checkbox"]:checked + label{
+  color: rgba(239,119,87,1) !important;   /* label devient orange quand coché */
+  font-weight: bold;
+}
+
+/* Pour garder tout bien aligné horizontalement */
+input[type="checkbox"] + label {
+  margin-left: 6px;       /* petit espace entre case et texte */
+  vertical-align: middle; /* alignement vertical cohérent */
+  cursor: pointer;        /* le texte aussi cliquable */
+}
+
+select {
+  
+  border-top: 1px solid orange;
+  border-right: 1px solid orange;
+  border-bottom: 1px solid orange;
+  border-left: 1px solid orange;
 }
