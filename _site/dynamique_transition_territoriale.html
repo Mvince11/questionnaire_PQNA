@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>introduction</title>
+<title>dynamique_transition_territoriale</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -97,7 +97,7 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<script>window.currentProgressStep = 1;</script>
+<script>window.currentProgressStep = 2;</script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const bar = document.getElementById('progress-bar');
@@ -189,96 +189,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 </div>
-<div style="border: 1px solid #f6f3f3;
-            margin-left:10%;
-            margin-right: 10%;">
-            
-   <div style="color: red; font-size:0.8rem; margin-top: 3px; margin-bottom: 40px; margin-left: 10px;">*Champs obligatoires</div>          
-            
-
-        <div style="margin-left:4%;
-                    margin-right:4%;
-                    text-align: left;
-                    font-family: Arial,sans-serif, monospace;
-                    color: rgba(41,37,116,1) !important;
-                    font-weight: bold;
-                    margin-bottom: 70px;">
-            <div> Centre d'études et d'expertise sur les risques, l'environnement, la mobilité et l'aménagement, le Cerema accompagne les       collectivités pour anticiper les effets du changement climatique, réduire la vulnérabilité et renforcer la résilience territoriale.
-            </div>
-            
-            <br>
-            
-            <div> Votre collectivité / groupement de collectivités a récemment adhéré au Cerema et bénéficie à ce titre d’une relation partenariale renforcée avec notre établissement. Afin de mieux connaître les forces et besoins de votre territoire sur les principaux leviers de la transition et de l’adaptation au changement climatique, il vous est proposé de réaliser ce diagnostic en ligne. A l'issue du questionnaire, vous disposerez d’un rapport avec des pistes de réflexion et exemples de solutions concrètes en lien avec nos champs d’actions. Des échanges complémentaires avec votre référent permettront de préciser, au besoin, vos priorités d’actions.
-            </div>
-            
-            <br>
-            
-            <div>
-        Le Cerema s'engage à observer et à faire observer la plus stricte confidentialité à l’égard des informations délivrées dans le présent questionnaire. Le Cerema s’engage à ce que ces informations soient traitées avec le même degré de protection qu’il accorde à ses propres informations confidentielles et ne soient communiquées qu'aux seuls membres de son personnel permanent ou temporaire ayant à les connaitre.
-            </div>
-        
-        </div>
-
-<script>
-function handleCondition(event) {
-  const value = event.target.value;
-
-  document.querySelectorAll('.question-block[data-condition]').forEach(block => {
-    block.style.display = 'none';
-  });
-
-  document.querySelectorAll(`.question-block[data-condition='${value}']`).forEach(block => {
-    block.style.display = 'block';
-  });
-}
-</script>
-
-<div class="question-block" style=" margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
-<p style="font-weight:bold; font-size:1rem; color:#293574;">
-1 — Quel est votre rôle au sein de la collectivité ?
-</p>
-<p><select name="q1" onchange="handleCondition(event)" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…">Sélectionner…</option> <option value="Elu">Elu</option> <option value="Agent">Agent</option> </select></p>
-</div>
-<div class="question-block" data-condition="Elu" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
-<p style="font-weight:bold; font-size:1rem; color:#293574;">
-1.1 — Quel est votre fonction au sein de la collectivité ?
-</p>
-<p><select name="q1.1" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…">Sélectionner…</option> <option value="Maire ou Président">Maire ou Président</option> <option value="Adjoint au maire">Adjoint au maire</option> <option value="Vice-président">Vice-président</option> <option value="Conseiller">Conseiller</option> </select></p>
-</div>
-<div class="question-block" data-condition="Agent" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
-<p style="font-weight:bold; font-size:1rem; color:#293574;">
-1.2 — Quel est votre fonction au sein de la collectivité ?
-</p>
-<p><select name="q1.2" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…">Sélectionner…</option> <option value="DGS - Directeur général des services">DGS - Directeur général des services</option> <option value="DGST - Directeur général des services techniques">DGST - Directeur général des services techniques</option> <option value="DGA - Directeur général adjoint">DGA - Directeur général adjoint</option> <option value="Directeur ou responsable de service">Directeur ou responsable de service</option> <option value="Chargé de mission">Chargé de mission</option> <option value="DGS - Directeur général des services">DGS - Directeur général des services</option> </select></p>
-</div>
-<div class="question-block" data-condition="Agent" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
-<p style="font-weight:bold; font-size:1rem; color:#293574;">
-1.3 — Quelles sont vos attributions ?
-</p>
-<p><select name="q1.3" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…">Sélectionner…</option> <option value="Direction Générale">Direction Générale</option> <option value="Direction Ressources : DAF, DRH">Direction Ressources : DAF, DRH</option> <option value="Direction Technique : Aménagement, Bâtiment, Mobilités, Infrastructures de transports, Environnement, Risques, Littoral">Direction Technique : Aménagement, Bâtiment, Mobilités, Infrastructures de transports, Environnement, Risques, Littoral</option> </select></p>
-</div>
-<div class="question-block" style=" margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
-<p style="font-weight:bold; font-size:1rem; color:#293574;">
-2 — Quelle structure représentez-vous ?
-</p>
-<p><select name="q2" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Une commune">Une commune</option> <option value="Une communauté de communes">Une communauté de communes</option> <option value="Une communauté d’agglomération">Une communauté d’agglomération</option> <option value="Une communauté urbaine">Une communauté urbaine</option> <option value="Une métropole">Une métropole</option> <option value="Un syndicat mixte">Un syndicat mixte</option> <option value="Un département">Un département</option> <option value="Une Région">Une Région</option> </select></p>
-</div>
-<div class="question-block" style=" margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
-<p style="font-weight:bold; font-size:1rem; color:#293574;">
-3 — Indiquez le nombre approximatif d’habitants de votre collectivité parmi les 3 choix :
-</p>
-<p><input type="radio" id="q3_1" name="q3" value="< 20 000 Habitants"> <label for="q3_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">&lt; 20 000 Habitants</label> <input type="radio" id="q3_2" name="q3" value="20 000-50 000 Habitants"> <label for="q3_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">20 000-50 000 Habitants</label> <input type="radio" id="q3_3" name="q3" value="> 50 000 Habitants"> <label for="q3_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">&gt; 50 000 Habitants</label></p>
-</div>
-<div class="question-block" style=" margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
-<p style="font-weight:bold; font-size:1rem; color:#293574;">
-4 — Votre collectivité présente-t-elle des spécificités géographiques ?
-</p>
-<p><input type="checkbox" id="q4_1" name="q4" value="Territoire de montagne"> <label for="q4_1" style="display:inline-block; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Territoire de montagne</label> <input type="checkbox" id="q4_2" name="q4" value="Territoire littoral"> <label for="q4_2" style="display:inline-block; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Territoire littoral</label> <input type="checkbox" id="q4_3" name="q4" value="Aucune(s)"> <label for="q4_3" style="display:inline-block; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Aucune(s)</label></p>
-</div>
-
-
-</div>
-
 <div class="custom-footer">
 
   <div class="dots">

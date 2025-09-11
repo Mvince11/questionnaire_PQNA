@@ -1,0 +1,54 @@
+---
+title: ""
+lang: fr
+back-to-top-navigation: true
+format:
+  html:
+    page-layout: custom 
+---
+
+```{=html}
+
+<script>window.currentProgressStep = 2;</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const bar = document.getElementById('progress-bar');
+  if (!bar) return;
+
+  // priorité : variable JS définie dans la page
+  let step = window.currentProgressStep || null;
+
+  // fallback : déduire depuis URL (si tu le veux)
+  if (!step) {
+    const m = window.location.pathname.match(/(\d+)/);
+    if (m) step = parseInt(m[1], 10);
+  }
+
+  if (!step || isNaN(step)) step = 1;
+
+  const active = bar.querySelector(`.progress-item[data-step="${step}"]`);
+  if (active) active.classList.add('active');
+});
+</script>
+
+<div style="margin-left:10%; margin-right:10%;">
+{{< include _includes/progression.html >}}
+</div>
+```
+
+```{=html}
+{{< include _includes/custom_footer.html >}}
+
+ <button style="background-color: #ef7757;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: 6px;
+  font-family: normal;
+  border-color: coral;"
+  onclick="window.location.href='dynamique_transition_territoriale.html';"> Suivant > </button>
+  
+  </div>
+
+```

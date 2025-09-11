@@ -24,7 +24,7 @@ intro <- read_xlsx("data/Introduction.xlsx") %>%
   arrange(Numero, Questions)
 
 questions_list <- intro %>%
-  group_by(Numero, Questions, Style) %>%
+  group_by(Numero, Questions, Style, Condition) %>%
   summarise(reponses = list(Reponses), .groups = "drop") %>%
   arrange(Numero)
 
@@ -95,27 +95,50 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
 ```
 
+```{=html}
+
+<script>
+function handleCondition(event) {
+  const value = event.target.value;
+
+  document.querySelectorAll('.question-block[data-condition]').forEach(block => {
+    block.style.display = 'none';
+  });
+
+  document.querySelectorAll(`.question-block[data-condition='${value}']`).forEach(block => {
+    block.style.display = 'block';
+  });
+}
+</script>
+
+```
+
 ```{r, results='asis'}
 #| echo: FALSE
 
-
-# Générer le HTML à partir de la liste
+# Boucle sur les questions
 for (i in seq_len(nrow(questions_list))) {
   numero   <- questions_list$Numero[i]
   question <- questions_list$Questions[i]
   style    <- ifelse(is.na(questions_list$Style[i]), "radio", questions_list$Style[i])
+  condition <- questions_list$Condition[i]
   reponses <- unlist(questions_list$reponses[i])
 
-  cat("<div class='question-block' style='margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;'>\n")
+  # Attribut conditionnel
+  condition_attr <- if (!is.na(condition)) sprintf("data-condition='%s'", condition) else ""
+  display_style <- if (!is.na(condition)) "display:none;" else ""
+
+  cat(sprintf("<div class='question-block' %s style='%s margin:20px 0; padding:15px; margin-left:4%%; margin-right:4%%;'>\n", condition_attr, display_style))
   cat(sprintf("  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s — %s</p>\n", numero, question))
 
   if (style == "radio") {
     for (j in seq_along(reponses)) {
       id <- paste0("q", numero, "_", j)
+      onchange <- if (numero == 1) "onchange='handleCondition(this.value)'" else ""
       cat(sprintf(
-        "  <input type='radio' id='%s' name='q%s' value='%s'>
-           <label for='%s' style='display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1) !important; color: #293574; font-weight: bold; opacity: 0.9;'>%s</label>\n",
-        id, numero, reponses[j], id, reponses[j]
+        "  <input type='radio' id='%s' name='q%s' value='%s' %s>
+         <label for='%s' style='display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;'>%s</label>\n",
+        id, numero, reponses[j], onchange, id, reponses[j]
       ))
     }
   } else if (style == "checkbox") {
@@ -123,19 +146,20 @@ for (i in seq_len(nrow(questions_list))) {
       id <- paste0("q", numero, "_", j)
       cat(sprintf(
         "  <input type='checkbox' id='%s' name='q%s' value='%s'>
-           <label for='%s' style='display:inline-block; margin:4px 10px 4px 0; color: #293574; font-weight: bold; opacity: 0.9;'>%s</label>\n",
+         <label for='%s' style='display:inline-block; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;'>%s</label>\n",
         id, numero, reponses[j], id, reponses[j]
       ))
     }
   } else if (style == "textarea") {
     cat(sprintf(
-      "  <textarea name='q%s' rows='4' cols='50' style='width:100%%; margin-top:6px; color: #293574; font-weight: bold; opacity: 0.9;'></textarea>\n",
+      "  <textarea name='q%s' rows='4' cols='50' style='width:100%%; margin-top:6px; color:#293574; font-weight:bold; opacity:0.9;'></textarea>\n",
       numero
     ))
   } else if (style == "select") {
+    onchange <- if (numero == 1) "onchange='handleCondition(event)'" else ""
     cat(sprintf(
-      "  <select name='q%s' style='width:100%%; margin-top:6px; border-color:rgba(239,119,87,1) !important; border-radius:6px; height:35px; color: #293574; font-weight: bold; opacity: 0.9;'>\n",
-      numero
+      "  <select name='q%s' %s style='width:100%%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;'>\n",
+      numero, onchange
     ))
     for (r in reponses) {
       cat(sprintf("    <option value='%s'>%s</option>\n", r, r))
@@ -145,6 +169,8 @@ for (i in seq_len(nrow(questions_list))) {
 
   cat("</div>\n\n")
 }
+
+cat("</body>\n</html>")
 
 
 ```
@@ -156,4 +182,17 @@ for (i in seq_len(nrow(questions_list))) {
 
 ```{=html}
 {{< include _includes/custom_footer.html >}}
+
+ <button style="background-color: #ef7757;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: 6px;
+  font-family: normal;
+  border-color: coral;"
+  onclick="window.location.href='dynamique_transition_territoriale.html';"> Suivant > </button>
+  
+  </div>
+
 ```
