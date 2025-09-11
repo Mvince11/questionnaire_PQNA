@@ -239,9 +239,12 @@ input[type="checkbox"] + label {
 }
 
 select {
-  
   border-top: 1px solid orange;
   border-right: 1px solid orange;
   border-bottom: 1px solid orange;
   border-left: 1px solid orange;
+}
+
+select + label {
+  margin-left: 10px;
 }

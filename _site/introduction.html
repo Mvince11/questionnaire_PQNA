@@ -261,7 +261,7 @@ function handleCondition(event) {
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 2 — Quelle structure représentez-vous ?
 </p>
-<p><select name="q2" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Une commune">Une commune</option> <option value="Une communauté de communes">Une communauté de communes</option> <option value="Une communauté d’agglomération">Une communauté d’agglomération</option> <option value="Une communauté urbaine">Une communauté urbaine</option> <option value="Une métropole">Une métropole</option> <option value="Un syndicat mixte">Un syndicat mixte</option> <option value="Un département">Un département</option> <option value="Une Région">Une Région</option> </select></p>
+<p><select name="q2" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…">Sélectionner…</option> <option value="Une commune">Une commune</option> <option value="Une communauté de communes">Une communauté de communes</option> <option value="Une communauté d’agglomération">Une communauté d’agglomération</option> <option value="Une communauté urbaine">Une communauté urbaine</option> <option value="Une métropole">Une métropole</option> <option value="Un syndicat mixte">Un syndicat mixte</option> <option value="Un département">Un département</option> <option value="Une Région">Une Région</option> </select></p>
 </div>
 <div class="question-block" style=" margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
@@ -404,7 +404,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/website\.quarto\.pub\/questionnaire_pqna");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
