@@ -154,14 +154,14 @@ document.addEventListener("DOMContentLoaded", function () {
 library(stringr)
 
 for (i in seq_len(nrow(questions_list))) {
-  numero     <- as.character(questions_list$Numero[i])       # ex "1", "1.1", "2"
+  numero     <- as.character(questions_list$Numero[i])
   question   <- questions_list$Questions[i]
   style      <- ifelse(is.na(questions_list$Style[i]), "radio", questions_list$Style[i])
   condition  <- if ("Condition" %in% names(questions_list)) questions_list$Condition[i] else NA
   parent_col <- if ("Parent" %in% names(questions_list)) questions_list$Parent[i] else NA
   reponses   <- unlist(questions_list$reponses[i])
 
-  # --- si condition : attacher au parent explicitement défini ---
+  # --- conditionnel ou non ---
   if (!is.na(parent_col) && nzchar(parent_col)) {
     cond_safe <- ifelse(is.na(condition), "", gsub("'", "&#39;", condition))
     condition_attr <- sprintf(
@@ -172,24 +172,26 @@ for (i in seq_len(nrow(questions_list))) {
     condition_attr <- "class='question-block' style='margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;'"
   }
 
-  # --- wrapper principal ---
+  # --- bloc question ---
   cat(sprintf("<div %s id='q%s'>\n", condition_attr, numero))
-  cat(sprintf("  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s — %s</p>\n",
+  cat(sprintf("  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s — %s <span style='color:red;'>*</span></p>\n",
               numero, question))
 
-  # --- affichage des réponses avec styles ---
+  # --- réponses selon le style ---
   if (style == "radio") {
     for (j in seq_along(reponses)) {
       id  <- paste0("q", numero, "_", j)
       val <- reponses[j]
+      required_attr <- if (j == 1) "required" else ""
       cat(sprintf(
-        "  <input type='radio' id='%s' name='q%s' value='%s'>\n  <label for='%s'
+        "  <input type='radio' id='%s' name='q%s' value='%s' %s>\n  <label for='%s'
         style='display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;'>%s</label>\n",
-        id, numero, gsub("'", "&#39;", val), id, val
+        id, numero, gsub("'", "&#39;", val), required_attr, id, val
       ))
     }
 
   } else if (style == "checkbox") {
+    # Les checkboxes ne supportent pas bien "required" en HTML natif
     for (j in seq_along(reponses)) {
       id  <- paste0("q", numero, "_", j)
       val <- reponses[j]
@@ -202,13 +204,13 @@ for (i in seq_len(nrow(questions_list))) {
 
   } else if (style == "textarea") {
     cat(sprintf(
-      "  <textarea name='q%s' rows='4' cols='50' style='width:100%%; margin-top:6px; color:#293574; font-weight:bold; opacity:0.9;'></textarea>\n",
+      "  <textarea name='q%s' rows='4' cols='50' required style='width:100%%; margin-top:6px; color:#293574; font-weight:bold; opacity:0.9;'></textarea>\n",
       numero
     ))
 
   } else if (style == "select") {
     cat(sprintf(
-      "  <select name='q%s'
+      "  <select name='q%s' required
       style='width:100%%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;'>\n",
       numero
     ))
@@ -224,6 +226,7 @@ for (i in seq_len(nrow(questions_list))) {
 cat("</body>\n</html>")
 
 
+
 ```
 
 ```{=html}
@@ -232,6 +235,8 @@ cat("</body>\n</html>")
 ```
 
 ```{=html}
+ <div class="custom-footer">
+
 {{< include _includes/custom_footer.html >}}
 
  <button style="background-color: #ef7757;
@@ -245,5 +250,24 @@ cat("</body>\n</html>")
   onclick="window.location.href='dynamique_transition_territoriale.html';"> Suivant > </button>
   
   </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const dots = document.querySelectorAll("#footer-dots .dot");
+  let step = window.currentProgressStep || null;
+
+  // Fallback depuis l'URL si nécessaire
+  if (!step) {
+    const match = window.location.pathname.match(/(\d+)/);
+    if (match) step = parseInt(match[1], 10);
+  }
+
+  if (!step || isNaN(step)) step = 1;
+
+  // Activer le dot correspondant
+  const activeDot = document.querySelector(`#footer-dots .dot[data-step="${step}"]`);
+  if (activeDot) activeDot.classList.add("active");
+});
+</script>
 
 ```

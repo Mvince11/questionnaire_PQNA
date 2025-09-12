@@ -103,10 +103,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const bar = document.getElementById('progress-bar');
   if (!bar) return;
 
-  // priorité : variable JS définie dans la page
   let step = window.currentProgressStep || null;
 
-  // fallback : déduire depuis URL (si tu le veux)
+  // fallback depuis l'URL
   if (!step) {
     const m = window.location.pathname.match(/(\d+)/);
     if (m) step = parseInt(m[1], 10);
@@ -114,8 +113,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!step || isNaN(step)) step = 1;
 
-  const active = bar.querySelector(`.progress-item[data-step="${step}"]`);
-  if (active) active.classList.add('active');
+  // Activer l'étape courante
+  const current = bar.querySelector(`.progress-item[data-step="${step}"]`);
+  if (current) current.classList.add('active');
+
+  // Activer l'étape précédente si elle existe
+  const previous = bar.querySelector(`.progress-item[data-step="${step - 1}"]`);
+  if (previous) previous.classList.add('active');
 });
 </script>
 
@@ -189,26 +193,65 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 </div>
-<div class="custom-footer">
+<div style="border: 1px solid #f6f3f3;
+            margin-left:10%;
+            margin-right: 10%;">
+            
+   <div style="color: red; font-size:0.8rem; margin-top: 3px; margin-bottom: 40px; margin-left: 10px;">*Champs obligatoires</div>          
+            
 
-  <div class="dots">
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
+        <div style="margin-left:4%;
+                    margin-right:4%;
+                    text-align: left;
+                    font-family: Arial,sans-serif, monospace;
+                    color: rgba(41,37,116,1) !important;
+                    font-weight: bold;
+                    margin-bottom: 70px;">
+            <h4 style="font-weight: bold;"> Dynamique de transition territoriale </h4>
+            
+            <br>
+                    
+            <div> L’été 2022 est représentatif des bouleversements (canicule, incendies, sécheresse, contraintes énergétiques) qui impactent                   les territoires. Opérant à tous les niveaux, la transition territoriale
+                  <li style="margin-left: 12px;"> Vise à innover en faveur d’un modèle plus sobre, résilient et inclusif </li>
+                  <li style="margin-left: 12px;"> S’anticipe par la mise en place d’un cadre structurant, en concertation avec les acteurs concernés. </li>
+            </div>
+            
+            <br>
+        
+        </div>
+</div>        
+<div class="custom-footer">
+<button style="background-color: #ef7757;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 6px;
+  font-family: normal;
+  border-color: coral;" onclick="window.location.href='introduction.html';"> &lt; Précédent</button>
+  
+  
+
+
+  <div id="footer-dots" class="dots">
+    <span class="dot" data-step="1"></span>
+    <span class="dot" data-step="2"></span>
+    <span class="dot" data-step="3"></span>
+    <span class="dot" data-step="4"></span>
+    <span class="dot" data-step="5"></span>
+    <span class="dot" data-step="6"></span>
+    <span class="dot" data-step="7"></span>
+    <span class="dot" data-step="8"></span>
+    <span class="dot" data-step="9"></span>
+    <span class="dot" data-step="10"></span>
+    <span class="dot" data-step="11"></span>
+    <span class="dot" data-step="12"></span>
   </div>
 
   
 
 
+  
  <button style="background-color: #ef7757;
   border-radius: 8px;
   font-size: 1.3rem;
@@ -219,6 +262,25 @@ document.addEventListener("DOMContentLoaded", function () {
   border-color: coral;" onclick="window.location.href='dynamique_transition_territoriale.html';"> Suivant &gt; </button>
   
   </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const dots = document.querySelectorAll("#footer-dots .dot");
+  let step = window.currentProgressStep || null;
+
+  // Fallback depuis l'URL si nécessaire
+  if (!step) {
+    const match = window.location.pathname.match(/(\d+)/);
+    if (match) step = parseInt(match[1], 10);
+  }
+
+  if (!step || isNaN(step)) step = 1;
+
+  // Activer le dot correspondant
+  const activeDot = document.querySelector(`#footer-dots .dot[data-step="${step}"]`);
+  if (activeDot) activeDot.classList.add("active");
+});
+</script>
 
 
 
