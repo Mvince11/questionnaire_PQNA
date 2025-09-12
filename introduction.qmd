@@ -24,7 +24,7 @@ intro <- read_xlsx("data/Introduction.xlsx") %>%
   arrange(Numero, Questions)
 
 questions_list <- intro %>%
-  group_by(Numero, Questions, Style, Condition) %>%
+  group_by(Numero,Parent, Questions, Style, Condition) %>%
   summarise(reponses = list(Reponses), .groups = "drop") %>%
   arrange(Numero)
 
@@ -98,17 +98,52 @@ document.addEventListener("DOMContentLoaded", function () {
 ```{=html}
 
 <script>
-function handleCondition(event) {
-  const value = event.target.value;
+document.addEventListener("DOMContentLoaded", function () {
+  const normalize = s => String(s||"").trim().toLowerCase();
 
-  document.querySelectorAll('.question-block[data-condition]').forEach(block => {
-    block.style.display = 'none';
+  function parseExpected(cond) {
+    if (!cond) return [];
+    return cond.split(",").map(s => s.trim()).filter(Boolean).map(s => s.toLowerCase());
+  }
+
+  function updateForParent(parentName) {
+    // sélection des blocs conditionnels pour CE parent
+    const blocks = document.querySelectorAll(`.conditional[data-parent-question='${parentName}']`);
+    if (!blocks) return;
+
+    // valeurs attendues par bloc et état du parent
+    const parentEls = Array.from(document.querySelectorAll(`[name='${parentName}']`));
+    // collect selected values of the parent
+    const selected = [];
+    parentEls.forEach(el => {
+      if ((el.type === "radio" || el.type === "checkbox") && el.checked) selected.push(normalize(el.value));
+      else if (el.tagName === "SELECT" && el.value) selected.push(normalize(el.value));
+      else if ((el.tagName === "TEXTAREA" || el.type === "text") && el.value) selected.push(normalize(el.value));
+    });
+
+    blocks.forEach(block => {
+      const expected = parseExpected(block.dataset.condition); // array lowercase
+      const show = expected.some(e => selected.includes(e));
+      block.style.display = show ? "block" : "none";
+    });
+  }
+
+  // bind change listeners to all controls that have a name
+  const controls = document.querySelectorAll("input[name], select[name], textarea[name]");
+  controls.forEach(ctrl => {
+    ctrl.addEventListener("change", function (e) {
+      const parentName = e.target.name;
+      updateForParent(parentName);
+    });
   });
 
-  document.querySelectorAll(`.question-block[data-condition='${value}']`).forEach(block => {
-    block.style.display = 'block';
+  // init: run updates for all parents present in the page
+  const parents = new Set();
+  document.querySelectorAll(".conditional").forEach(b => {
+    if (b.dataset.parentQuestion) parents.add(b.dataset.parentQuestion);
   });
-}
+  parents.forEach(p => updateForParent(p));
+});
 </script>
 
 ```
@@ -116,53 +151,69 @@ function handleCondition(event) {
 ```{r, results='asis'}
 #| echo: FALSE
 
-# Boucle sur les questions
+library(stringr)
+
 for (i in seq_len(nrow(questions_list))) {
-  numero   <- questions_list$Numero[i]
-  question <- questions_list$Questions[i]
-  style    <- ifelse(is.na(questions_list$Style[i]), "radio", questions_list$Style[i])
-  condition <- questions_list$Condition[i]
-  reponses <- unlist(questions_list$reponses[i])
+  numero     <- as.character(questions_list$Numero[i])       # ex "1", "1.1", "2"
+  question   <- questions_list$Questions[i]
+  style      <- ifelse(is.na(questions_list$Style[i]), "radio", questions_list$Style[i])
+  condition  <- if ("Condition" %in% names(questions_list)) questions_list$Condition[i] else NA
+  parent_col <- if ("Parent" %in% names(questions_list)) questions_list$Parent[i] else NA
+  reponses   <- unlist(questions_list$reponses[i])
 
-  # Attribut conditionnel
-  condition_attr <- if (!is.na(condition)) sprintf("data-condition='%s'", condition) else ""
-  display_style <- if (!is.na(condition)) "display:none;" else ""
+  # --- si condition : attacher au parent explicitement défini ---
+  if (!is.na(parent_col) && nzchar(parent_col)) {
+    cond_safe <- ifelse(is.na(condition), "", gsub("'", "&#39;", condition))
+    condition_attr <- sprintf(
+      "class='question-block conditional' data-parent-question='q%s' data-condition='%s' style='display:none; margin:20px 0; padding:15px; margin-left:4%%; margin-right:4%%;'",
+      parent_col, cond_safe
+    )
+  } else {
+    condition_attr <- "class='question-block' style='margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;'"
+  }
 
-  cat(sprintf("<div class='question-block' %s style='%s margin:20px 0; padding:15px; margin-left:4%%; margin-right:4%%;'>\n", condition_attr, display_style))
-  cat(sprintf("  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s — %s</p>\n", numero, question))
+  # --- wrapper principal ---
+  cat(sprintf("<div %s id='q%s'>\n", condition_attr, numero))
+  cat(sprintf("  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s — %s</p>\n",
+              numero, question))
 
+  # --- affichage des réponses avec styles ---
   if (style == "radio") {
     for (j in seq_along(reponses)) {
-      id <- paste0("q", numero, "_", j)
-      #onchange <- if (numero == 1) "onchange='handleCondition(this.value)'" else ""
+      id  <- paste0("q", numero, "_", j)
+      val <- reponses[j]
       cat(sprintf(
-        "  <input type='radio' id='%s' name='q%s' value='%s'>
-         <label for='%s' style='display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;'>%s</label>\n",
-        id, numero, reponses[j], id, reponses[j]
+        "  <input type='radio' id='%s' name='q%s' value='%s'>\n  <label for='%s'
+        style='display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;'>%s</label>\n",
+        id, numero, gsub("'", "&#39;", val), id, val
       ))
     }
+
   } else if (style == "checkbox") {
     for (j in seq_along(reponses)) {
-      id <- paste0("q", numero, "_", j)
+      id  <- paste0("q", numero, "_", j)
+      val <- reponses[j]
       cat(sprintf(
-        "  <input type='checkbox' id='%s' name='q%s' value='%s'>
-         <label for='%s' style='display:inline-block; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;'>%s</label>\n",
-        id, numero, reponses[j], id, reponses[j]
+        "  <input type='checkbox' id='%s' name='q%s' value='%s'>\n  <label for='%s'
+        style='display:inline-block; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;'>%s</label>\n",
+        id, numero, gsub("'", "&#39;", val), id, val
       ))
     }
+
   } else if (style == "textarea") {
     cat(sprintf(
       "  <textarea name='q%s' rows='4' cols='50' style='width:100%%; margin-top:6px; color:#293574; font-weight:bold; opacity:0.9;'></textarea>\n",
       numero
     ))
+
   } else if (style == "select") {
-    onchange <- if (numero == 1) "onchange='handleCondition(event)'" else ""
     cat(sprintf(
-      "  <select name='q%s' %s style='width:100%%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;'>\n",
-      numero, onchange
+      "  <select name='q%s'
+      style='width:100%%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;'>\n",
+      numero
     ))
     for (r in reponses) {
-      cat(sprintf("    <option value='%s'>%s</option>\n", r, r))
+      cat(sprintf("    <option value='%s'>%s</option>\n", gsub("'", "&#39;", r), r))
     }
     cat("  </select>\n")
   }
@@ -171,6 +222,7 @@ for (i in seq_len(nrow(questions_list))) {
 }
 
 cat("</body>\n</html>")
+
 
 ```
 
