@@ -27,8 +27,28 @@ questions_list <- intro %>%
   summarise(reponses = list(Reponses), .groups = "drop") %>%
   arrange(Numero)
 
+questions_list$reponses <- strsplit(as.character(questions_list$reponses), ";")
+
 questions_list
 
+```
+
+```{=html}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const normalize = s => String(s||"").trim().toLowerCase();
+  const valIntro = localStorage.getItem("q2") || "";
+
+  // Cacher toutes les réponses marquées data-extra si la condition n’est pas remplie
+  document.querySelectorAll("[data-extra]").forEach(el => {
+    if (normalize(valIntro) !== normalize(el.dataset.extra)) {
+      el.style.display = "none";   // cache label
+      const input = document.getElementById(el.getAttribute("for"));
+      if (input) input.style.display = "none"; // cache input associé
+    }
+  });
+});
+</script>
 ```
 
 
@@ -63,36 +83,6 @@ document.addEventListener("DOMContentLoaded", function () {
 <div style="margin-left:10%; margin-right:10%;">
 {{< include _includes/progression.html >}}
 </div>
-```
-
-```{=html}
-<div style="border: 1px solid #f6f3f3;
-            margin-left:10%;
-            margin-right: 10%;">
-            
-   <div style="color: red; font-size:0.8rem; margin-top: 3px; margin-bottom: 40px; margin-left: 10px;">*Champs obligatoires</div>          
-            
-
-        <div style="margin-left:4%;
-                    margin-right:4%;
-                    text-align: left;
-                    font-family: Arial,sans-serif, monospace;
-                    color: rgba(41,37,116,1) !important;
-                    font-weight: bold;
-                    margin-bottom: 70px;"
-                    >
-            <h4 style="font-weight: bold;"> Dynamique de transition territoriale </h4>
-            
-            <br>
-                    
-            <div> L’été 2022 est représentatif des bouleversements (canicule, incendies, sécheresse, contraintes énergétiques) qui impactent                   les territoires. Opérant à tous les niveaux, la transition territoriale
-                  <li style="margin-left: 12px;"> Vise à innover en faveur d’un modèle plus sobre, résilient et inclusif </li>
-                  <li style="margin-left: 12px;"> S’anticipe par la mise en place d’un cadre structurant, en concertation avec les acteurs concernés. </li>
-            </div>
-            
-            <br>
-        
-        </div>
 ```
 
 ```{=html}
@@ -147,6 +137,37 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 ```
+
+```{=html}
+<div style="border: 1px solid #f6f3f3;
+            margin-left:10%;
+            margin-right: 10%;">
+            
+   <div style="color: red; font-size:0.8rem; margin-top: 3px; margin-bottom: 40px; margin-left: 10px;">*Champs obligatoires</div>          
+            
+
+        <div style="margin-left:4%;
+                    margin-right:4%;
+                    text-align: left;
+                    font-family: Arial,sans-serif, monospace;
+                    color: rgba(41,37,116,1) !important;
+                    font-weight: bold;
+                    margin-bottom: 70px;"
+                    >
+            <h4 style="font-weight: bold;"> Dynamique de transition territoriale </h4>
+            
+            <br>
+                    
+            <div> L’été 2022 est représentatif des bouleversements (canicule, incendies, sécheresse, contraintes énergétiques) qui impactent                   les territoires. Opérant à tous les niveaux, la transition territoriale
+                  <li style="margin-left: 12px;"> Vise à innover en faveur d’un modèle plus sobre, résilient et inclusif </li>
+                  <li style="margin-left: 12px;"> S’anticipe par la mise en place d’un cadre structurant, en concertation avec les acteurs concernés. </li>
+            </div>
+            
+            <br>
+        
+        </div>
+```
+
 
 ```{r, results='asis'}
 #| echo: FALSE

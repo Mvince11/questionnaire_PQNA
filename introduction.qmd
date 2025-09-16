@@ -28,6 +28,9 @@ questions_list <- intro %>%
   summarise(reponses = list(Reponses), .groups = "drop") %>%
   arrange(Numero)
 
+questions_list$reponses <- strsplit(as.character(questions_list$reponses), ";")
+
+
 questions_list
 
 ```
@@ -233,6 +236,23 @@ cat("</body>\n</html>")
 </div>
 
 ```
+
+```{=html}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const select = document.querySelector("select[name='q2']");
+  console.log("Select trouvé :", select);
+
+  if (select) {
+    select.addEventListener("change", function () {
+      localStorage.setItem("q2", select.value);
+      console.log("Sauvegarde q2 =", select.value);
+    });
+  }
+});
+</script>
+```
+
 
 ```{=html}
  <div class="custom-footer">

@@ -96,6 +96,21 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const normalize = s => String(s||"").trim().toLowerCase();
+  const valIntro = localStorage.getItem("q2") || "";
+
+  // Cacher toutes les réponses marquées data-extra si la condition n’est pas remplie
+  document.querySelectorAll("[data-extra]").forEach(el => {
+    if (normalize(valIntro) !== normalize(el.dataset.extra)) {
+      el.style.display = "none";   // cache label
+      const input = document.getElementById(el.getAttribute("for"));
+      if (input) input.style.display = "none"; // cache input associé
+    }
+  });
+});
+</script>
 
 <script>window.currentProgressStep = 2;</script>
 <script>
@@ -193,32 +208,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 </div>
-<div style="border: 1px solid #f6f3f3;
-            margin-left:10%;
-            margin-right: 10%;">
-            
-   <div style="color: red; font-size:0.8rem; margin-top: 3px; margin-bottom: 40px; margin-left: 10px;">*Champs obligatoires</div>          
-            
-
-        <div style="margin-left:4%;
-                    margin-right:4%;
-                    text-align: left;
-                    font-family: Arial,sans-serif, monospace;
-                    color: rgba(41,37,116,1) !important;
-                    font-weight: bold;
-                    margin-bottom: 70px;">
-            <h4 style="font-weight: bold;"> Dynamique de transition territoriale </h4>
-            
-            <br>
-                    
-            <div> L’été 2022 est représentatif des bouleversements (canicule, incendies, sécheresse, contraintes énergétiques) qui impactent                   les territoires. Opérant à tous les niveaux, la transition territoriale
-                  <li style="margin-left: 12px;"> Vise à innover en faveur d’un modèle plus sobre, résilient et inclusif </li>
-                  <li style="margin-left: 12px;"> S’anticipe par la mise en place d’un cadre structurant, en concertation avec les acteurs concernés. </li>
-            </div>
-            
-            <br>
-        
-        </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -269,66 +258,95 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
+<div style="border: 1px solid #f6f3f3;
+            margin-left:10%;
+            margin-right: 10%;">
+            
+   <div style="color: red; font-size:0.8rem; margin-top: 3px; margin-bottom: 40px; margin-left: 10px;">*Champs obligatoires</div>          
+            
+
+        <div style="margin-left:4%;
+                    margin-right:4%;
+                    text-align: left;
+                    font-family: Arial,sans-serif, monospace;
+                    color: rgba(41,37,116,1) !important;
+                    font-weight: bold;
+                    margin-bottom: 70px;">
+            <h4 style="font-weight: bold;"> Dynamique de transition territoriale </h4>
+            
+            <br>
+                    
+            <div> L’été 2022 est représentatif des bouleversements (canicule, incendies, sécheresse, contraintes énergétiques) qui impactent                   les territoires. Opérant à tous les niveaux, la transition territoriale
+                  <li style="margin-left: 12px;"> Vise à innover en faveur d’un modèle plus sobre, résilient et inclusif </li>
+                  <li style="margin-left: 12px;"> S’anticipe par la mise en place d’un cadre structurant, en concertation avec les acteurs concernés. </li>
+            </div>
+            
+            <br>
+        
+        </div>
+<div id="q1" class="question-block conditional" data-parent-question="q2" data-condition="Un syndicat mixte" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+1 — Avez-vous enclenché une démarche de transition territoriale ? <span style="color:red;">*</span>
+</p>
+<p><input type="radio" id="q1_1" name="q1" value="Non applicable à l’échelle de mon syndicat (SSI syndicat)" required=""> <label for="q1_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non applicable à l’échelle de mon syndicat (SSI syndicat)</label></p>
+</div>
 <div id="q1" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 1 — Avez-vous enclenché une démarche de transition territoriale ? <span style="color:red;">*</span>
 </p>
-<p><input type="radio" id="q1_1" name="q1" value="Oui" required=""> <label for="q1_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q1_2" name="q1" value="Non"> <label for="q1_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non</label> <input type="radio" id="q1_3" name="q1" value="Je ne sais pas"> <label for="q1_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas</label></p>
+<p><input type="radio" id="q1_1" name="q1" value="Oui&nbsp;" required=""> <label for="q1_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui&nbsp;</label> <input type="radio" id="q1_2" name="q1" value="Non&nbsp;"> <label for="q1_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non&nbsp;</label> <input type="radio" id="q1_3" name="q1" value="Je ne sais pas&nbsp;"> <label for="q1_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas&nbsp;</label></p>
 </div>
-<div id="q1.2" class="question-block conditional" data-parent-question="q1" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q1.1" class="question-block conditional" data-parent-question="q1" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
-1.2 — Transition : Précisez les démarches entreprises à l’échelle du territoire, parmi les propositions ci-après : <span style="color:red;">*</span>
+1.1 — Transition : Précisez les démarches entreprises à l’échelle du territoire, parmi les propositions ci-après : <span style="color:red;">*</span>
 </p>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_1" name="q1.2" value="Nous anticipons les défis à venir (changement climatique, érosion de la biodiversité, contraintes énergétiques, etc.) en adoptant un projet de
-territoire sobre et résilient"> <label for="q1.2_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous anticipons les défis à venir (changement climatique, érosion de la biodiversité, contraintes énergétiques, etc.) en adoptant un projet de territoire sobre et résilient</label></p>
+<p><input type="checkbox" id="q1.1_1" name="q1.1" value="Nous anticipons les défis à venir (changement climatique, érosion de la biodiversité, contraintes énergétiques, etc.) en adoptant un projet de
+territoire sobre et résilient&nbsp;"> <label for="q1.1_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous anticipons les défis à venir (changement climatique, érosion de la biodiversité, contraintes énergétiques, etc.) en adoptant un projet de territoire sobre et résilient&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_2" name="q1.2" value="Nous nous appuyons sur un diagnostic (état des lieux écologiques, vulnérabilités climatiques)"> <label for="q1.2_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous nous appuyons sur un diagnostic (état des lieux écologiques, vulnérabilités climatiques)</label></p>
+<p><input type="checkbox" id="q1.1_2" name="q1.1" value="Nous nous appuyons sur un diagnostic (état des lieux écologiques, vulnérabilités climatiques)&nbsp;"> <label for="q1.1_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous nous appuyons sur un diagnostic (état des lieux écologiques, vulnérabilités climatiques)&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_3" name="q1.2" value="Nous mettons en œuvre des projets concrets (pistes cyclables, renaturation, rénovation énergétique de bâtiment, évaluation des émissions de gaz à effet de serre, etc.) de manière priorisée et évaluée au regard
-de la transition"> <label for="q1.2_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous mettons en œuvre des projets concrets (pistes cyclables, renaturation, rénovation énergétique de bâtiment, évaluation des émissions de gaz à effet de serre, etc.) de manière priorisée et évaluée au regard de la transition</label></p>
+<p><input type="checkbox" id="q1.1_3" name="q1.1" value="Nous mettons en œuvre des projets concrets (pistes cyclables, renaturation, rénovation énergétique de bâtiment, évaluation des émissions de gaz à effet de serre, etc.) de manière priorisée et évaluée au regard de la transition&nbsp;"> <label for="q1.1_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous mettons en œuvre des projets concrets (pistes cyclables, renaturation, rénovation énergétique de bâtiment, évaluation des émissions de gaz à effet de serre, etc.) de manière priorisée et évaluée au regard de la transition&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_4" name="q1.2" value="En interne, nos agents et/ou élus se sont appropriés la démarche ; le chef de l’exécutif et le DGS en
-assurent un portage fort"> <label for="q1.2_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">En interne, nos agents et/ou élus se sont appropriés la démarche ; le chef de l’exécutif et le DGS en assurent un portage fort</label></p>
+<p><input type="checkbox" id="q1.1_4" name="q1.1" value="En interne, nos agents et/ou élus se sont appropriés la démarche "> <label for="q1.1_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">En interne, nos agents et/ou élus se sont appropriés la démarche </label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_5" name="q1.2" value="Nous avons recours à des processus participatifs
-pour coconstruire les projets"> <label for="q1.2_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous avons recours à des processus participatifs pour coconstruire les projets</label></p>
+<p><input type="checkbox" id="q1.1_5" name="q1.1" value=" le chef de l’exécutif et le DGS en assurent un portage fort&nbsp;"> <label for="q1.1_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;"> le chef de l’exécutif et le DGS en assurent un portage fort&nbsp;</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q1.1_6" name="q1.1" value="Nous avons recours à des processus participatifs pour coconstruire les projets"> <label for="q1.1_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous avons recours à des processus participatifs pour coconstruire les projets</label></p>
 </div>
 </div>
 <div id="q2" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 2 — Transition : Ressentez-vous le besoin de mobiliser un service d’expertise pour vous accompagner sur cette thématique ? <span style="color:red;">*</span>
 </p>
-<p><input type="radio" id="q2_1" name="q2" value="Oui" required=""> <label for="q2_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q2_2" name="q2" value="Non, pas à ce stade"> <label for="q2_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non, pas à ce stade</label></p>
+<p><input type="radio" id="q2_1" name="q2" value="Oui&nbsp;" required=""> <label for="q2_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui&nbsp;</label> <input type="radio" id="q2_2" name="q2" value=" Non, pas à ce stade"> <label for="q2_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;"> Non, pas à ce stade</label></p>
 </div>
 <div id="q2.1" class="question-block conditional" data-parent-question="q2" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 2.1 — Transition : Choisir les services d’expertise prioritaires ci-après : 2 réponses maximum <span style="color:red;">*</span>
 </p>
 <div class="option-line">
-<p><input type="checkbox" id="q2.1_1" name="q2.1" value="Monter en compétences sur les items de la
-transition et l’adaptation"> <label for="q2.1_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Monter en compétences sur les items de la transition et l’adaptation</label></p>
+<p><input type="checkbox" id="q2.1_1" name="q2.1" value="Monter en compétences sur les items de la transition et l’adaptation&nbsp;"> <label for="q2.1_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Monter en compétences sur les items de la transition et l’adaptation&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q2.1_2" name="q2.1" value="Renforcer projets et/ou documents de planification au regard des enjeux de transition écologique et de
-résilience"> <label for="q2.1_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Renforcer projets et/ou documents de planification au regard des enjeux de transition écologique et de résilience</label></p>
+<p><input type="checkbox" id="q2.1_2" name="q2.1" value="Renforcer projets et/ou documents de planification au regard des enjeux de transition écologique et de résilience&nbsp;"> <label for="q2.1_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Renforcer projets et/ou documents de planification au regard des enjeux de transition écologique et de résilience&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q2.1_3" name="q2.1" value="Prioriser et mettre en cohérence stratégies et projets"> <label for="q2.1_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Prioriser et mettre en cohérence stratégies et projets</label></p>
+<p><input type="checkbox" id="q2.1_3" name="q2.1" value="Prioriser et mettre en cohérence stratégies et projets&nbsp;"> <label for="q2.1_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Prioriser et mettre en cohérence stratégies et projets&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q2.1_4" name="q2.1" value="Renforcer le diagnostic de résilience / adaptation au changement climatique"> <label for="q2.1_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Renforcer le diagnostic de résilience / adaptation au changement climatique</label></p>
+<p><input type="checkbox" id="q2.1_4" name="q2.1" value="Renforcer le diagnostic de résilience / adaptation au changement climatique&nbsp;"> <label for="q2.1_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Renforcer le diagnostic de résilience / adaptation au changement climatique&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q2.1_5" name="q2.1" value="Fédérer les acteurs, mettre en place une gouvernance élargie"> <label for="q2.1_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Fédérer les acteurs, mettre en place une gouvernance élargie</label></p>
+<p><input type="checkbox" id="q2.1_5" name="q2.1" value="Fédérer les acteurs, mettre en place une gouvernance élargie&nbsp;"> <label for="q2.1_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Fédérer les acteurs, mettre en place une gouvernance élargie&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q2.1_6" name="q2.1" value="Evaluer la démarche au regard des enjeux de
-transition et résilience"> <label for="q2.1_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Evaluer la démarche au regard des enjeux de transition et résilience</label></p>
+<p><input type="checkbox" id="q2.1_6" name="q2.1" value="Evaluer la démarche au regard des enjeux de transition et résilience&nbsp;"> <label for="q2.1_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Evaluer la démarche au regard des enjeux de transition et résilience&nbsp;</label></p>
 </div>
 <div class="option-line">
 <p><input type="checkbox" id="q2.1_7" name="q2.1" value="Elaborer une démarche globale (acculturation, portrait de territoire, stratégie et mise en récits, plan d’actions et évaluation)"> <label for="q2.1_7" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Elaborer une démarche globale (acculturation, portrait de territoire, stratégie et mise en récits, plan d’actions et évaluation)</label></p>
@@ -500,7 +518,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/website\.quarto\.pub\/questionnaire_pqna");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
