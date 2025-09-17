@@ -37,14 +37,16 @@ questions_list
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const normalize = s => String(s||"").trim().toLowerCase();
-  const valIntro = localStorage.getItem("q2") || "";
+  const valIntro = normalize(localStorage.getItem("q2"));
 
-  // Cacher toutes les réponses marquées data-extra si la condition n’est pas remplie
-  document.querySelectorAll("[data-extra]").forEach(el => {
-    if (normalize(valIntro) !== normalize(el.dataset.extra)) {
-      el.style.display = "none";   // cache label
-      const input = document.getElementById(el.getAttribute("for"));
-      if (input) input.style.display = "none"; // cache input associé
+  document.querySelectorAll(".conditional").forEach(block => {
+    const parent = normalize(block.dataset.parentQuestion);
+    const condition = normalize(block.dataset.condition);
+
+    if (valIntro === condition) {
+      block.style.display = "block";
+    } else {
+      block.style.display = "none";
     }
   });
 });
@@ -180,9 +182,9 @@ for (i in seq_len(nrow(questions_list))) {
   style      <- ifelse(is.na(questions_list$Style[i]), "radio", questions_list$Style[i])
   condition  <- if ("Condition" %in% names(questions_list)) questions_list$Condition[i] else NA
   parent_col <- if ("Parent" %in% names(questions_list)) questions_list$Parent[i] else NA
-  reponses   <- unlist(questions_list$reponses[i])
+  reponses   <- unlist(questions_list$reponses[i])  
 
-  # --- conditionnel ou non ---
+  # --- bloc conditionnel ou non ---
   if (!is.na(parent_col) && nzchar(parent_col)) {
     cond_safe <- ifelse(is.na(condition), "", gsub("'", "&#39;", condition))
     condition_attr <- sprintf(
@@ -193,12 +195,12 @@ for (i in seq_len(nrow(questions_list))) {
     condition_attr <- "class='question-block' style='margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;'"
   }
 
-  # --- bloc question ---
+  # --- ouverture du bloc question ---
   cat(sprintf("<div %s id='q%s'>\n", condition_attr, numero))
-  cat(sprintf("  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s — %s <span style='color:red;'>*</span></p>\n",
-              numero, question))
+  cat(sprintf("  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s <span style='color:red;'>*</span></p>\n",
+              question))
 
-  # --- réponses selon le style ---
+  # --- affichage des réponses ---
   if (style == "radio") {
     for (j in seq_along(reponses)) {
       id  <- paste0("q", numero, "_", j)
@@ -212,7 +214,6 @@ for (i in seq_len(nrow(questions_list))) {
     }
 
   } else if (style == "checkbox") {
-    # Les checkboxes ne supportent pas bien "required" en HTML natif
     for (j in seq_along(reponses)) {
       id  <- paste0("q", numero, "_", j)
       val <- reponses[j]
@@ -241,10 +242,12 @@ for (i in seq_len(nrow(questions_list))) {
     cat("  </select>\n")
   }
 
+  # --- fermeture du bloc ---
   cat("</div>\n\n")
 }
 
 cat("</body>\n</html>")
+
 
 
 
@@ -280,7 +283,7 @@ cat("</body>\n</html>")
   margin-right: 6px;
   font-family: normal;
   border-color: coral;"
-  onclick="window.location.href='dynamique_transition_territoriale.html';"> Suivant > </button>
+  onclick="window.location.href='amenagement_urbain_durable.html';"> Suivant > </button>
   
   </div>
 

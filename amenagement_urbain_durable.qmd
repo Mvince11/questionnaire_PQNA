@@ -7,7 +7,6 @@ format:
     page-layout: custom 
 ---
 
-
 ```{r}
 #| echo: FALSE
 #| include: FALSE
@@ -16,7 +15,7 @@ library(dplyr)
 library(readxl)
 library(stringr)
 
-intro <- read_xlsx("data/Introduction.xlsx") %>%
+intro <- read_xlsx("data/Amenagement_urbain_durable.xlsx") %>%
   filter(!is.na(Numero), !is.na(Questions), !is.na(Reponses)) %>%   # on garde que les lignes complètes
   mutate(
     Numero = as.character(Numero)                                   # on garde le format textuel (1.0, 1.1)
@@ -30,7 +29,6 @@ questions_list <- intro %>%
 
 questions_list$reponses <- strsplit(as.character(questions_list$reponses), ";")
 
-
 questions_list
 
 ```
@@ -38,31 +36,35 @@ questions_list
 ```{=html}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll("select[name='q2'], input[name='q2']").forEach(el => {
-    el.addEventListener("change", function () {
-      if (el.checked) {
-        localStorage.setItem("q2", el.value);
-        console.log("Sauvegarde q2 =", el.value);
-    });
+  const normalize = s => String(s || "").trim().toLowerCase();
+  const valIntro = localStorage.getItem("q2");  // ce qui a été sauvegardé
+
+  console.log("Valeur récupérée :", valIntro); // debug
+
+  document.querySelectorAll(".conditional[data-parent-question='q2']").forEach(block => {
+    const expected = normalize(block.dataset.condition);
+    if (normalize(valIntro) === expected) {
+      block.style.display = "block";   // on montre
+    } else {
+      block.style.display = "none";    // on cache
+    }
   });
 });
 </script>
-
 ```
 
 
 ```{=html}
 
-<script>window.currentProgressStep = 1;</script>
+<script>window.currentProgressStep = 3;</script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const bar = document.getElementById('progress-bar');
   if (!bar) return;
 
-  // priorité : variable JS définie dans la page
   let step = window.currentProgressStep || null;
 
-  // fallback : déduire depuis URL (si tu le veux)
+  // fallback depuis l'URL
   if (!step) {
     const m = window.location.pathname.match(/(\d+)/);
     if (m) step = parseInt(m[1], 10);
@@ -70,47 +72,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!step || isNaN(step)) step = 1;
 
-  const active = bar.querySelector(`.progress-item[data-step="${step}"]`);
-  if (active) active.classList.add('active');
+  // Activer toutes les étapes jusqu'à l'étape courante
+  for (let i = 1; i <= step; i++) {
+    const item = bar.querySelector(`.progress-item[data-step="${i}"]`);
+    if (item) item.classList.add('active');
+  }
 });
 </script>
 
 <div style="margin-left:10%; margin-right:10%;">
 {{< include _includes/progression.html >}}
 </div>
-```
-
-```{=html}
-<div style="border: 1px solid #f6f3f3;
-            margin-left:10%;
-            margin-right: 10%;">
-            
-   <div style="color: red; font-size:0.8rem; margin-top: 3px; margin-bottom: 40px; margin-left: 10px;">*Champs obligatoires</div>          
-            
-
-        <div style="margin-left:4%;
-                    margin-right:4%;
-                    text-align: left;
-                    font-family: Arial,sans-serif, monospace;
-                    color: rgba(41,37,116,1) !important;
-                    font-weight: bold;
-                    margin-bottom: 70px;"
-                    >
-            <div> Centre d'études et d'expertise sur les risques, l'environnement, la mobilité et l'aménagement, le Cerema accompagne les       collectivités pour anticiper les effets du changement climatique, réduire la vulnérabilité et renforcer la résilience territoriale.
-            </div>
-            
-            <br>
-            
-            <div> Votre collectivité / groupement de collectivités a récemment adhéré au Cerema et bénéficie à ce titre d’une relation partenariale renforcée avec notre établissement. Afin de mieux connaître les forces et besoins de votre territoire sur les principaux leviers de la transition et de l’adaptation au changement climatique, il vous est proposé de réaliser ce diagnostic en ligne. A l'issue du questionnaire, vous disposerez d’un rapport avec des pistes de réflexion et exemples de solutions concrètes en lien avec nos champs d’actions. Des échanges complémentaires avec votre référent permettront de préciser, au besoin, vos priorités d’actions.
-            </div>
-            
-            <br>
-            
-            <div>
-        Le Cerema s'engage à observer et à faire observer la plus stricte confidentialité à l’égard des informations délivrées dans le présent questionnaire. Le Cerema s’engage à ce que ces informations soient traitées avec le même degré de protection qu’il accorde à ses propres informations confidentielles et ne soient communiquées qu'aux seuls membres de son personnel permanent ou temporaire ayant à les connaitre.
-            </div>
-        
-        </div>
 ```
 
 ```{=html}
@@ -166,6 +138,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
 ```
 
+```{=html}
+<div style="border: 1px solid #f6f3f3;
+            margin-left:10%;
+            margin-right: 10%;">
+            
+   <div style="color: red; font-size:0.8rem; margin-top: 3px; margin-bottom: 40px; margin-left: 10px;">*Champs obligatoires</div>          
+            
+
+        <div style="margin-left:4%;
+                    margin-right:4%;
+                    text-align: left;
+                    font-family: Arial,sans-serif, monospace;
+                    color: rgba(41,37,116,1) !important;
+                    font-weight: bold;
+                    margin-bottom: 70px;"
+                    >
+            <h4 style="font-weight: bold;"> Aménagement urbain durable </h4>
+            
+            <br>
+                    
+            <div> Le changement climatique appelle à repenser l’aménagement en faveur d’espaces urbains vivables.</div>             <div> Concrètement, il s’agit de combiner différentes expertises pour envisager des solutions globales : qualité du cadre de vie, revitalisation de quartier, développement des mobilités douces, renaturation, protection de la biodiversité, gestion des nuisances, gestion des déchets du BTP, etc.
+Cette approche s’applique aussi bien à l’échelle du quartier (écoquartiers) que de l’îlot (cour d’école résiliente).
+            </div>
+            
+            <br>
+        
+        </div>
+```
+
+
 ```{r, results='asis'}
 #| echo: FALSE
 
@@ -177,9 +179,9 @@ for (i in seq_len(nrow(questions_list))) {
   style      <- ifelse(is.na(questions_list$Style[i]), "radio", questions_list$Style[i])
   condition  <- if ("Condition" %in% names(questions_list)) questions_list$Condition[i] else NA
   parent_col <- if ("Parent" %in% names(questions_list)) questions_list$Parent[i] else NA
-  reponses   <- unlist(questions_list$reponses[i])
+  reponses   <- unlist(questions_list$reponses[i])  
 
-  # --- conditionnel ou non ---
+  # --- bloc conditionnel ou non ---
   if (!is.na(parent_col) && nzchar(parent_col)) {
     cond_safe <- ifelse(is.na(condition), "", gsub("'", "&#39;", condition))
     condition_attr <- sprintf(
@@ -190,12 +192,12 @@ for (i in seq_len(nrow(questions_list))) {
     condition_attr <- "class='question-block' style='margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;'"
   }
 
-  # --- bloc question ---
+  # --- ouverture du bloc question ---
   cat(sprintf("<div %s id='q%s'>\n", condition_attr, numero))
-  cat(sprintf("  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s<span style='color:red;'>*</span></p>\n",
+  cat(sprintf("  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s <span style='color:red;'>*</span></p>\n",
               question))
 
-  # --- réponses selon le style ---
+  # --- affichage des réponses ---
   if (style == "radio") {
     for (j in seq_along(reponses)) {
       id  <- paste0("q", numero, "_", j)
@@ -209,13 +211,12 @@ for (i in seq_len(nrow(questions_list))) {
     }
 
   } else if (style == "checkbox") {
-    # Les checkboxes ne supportent pas bien "required" en HTML natif
     for (j in seq_along(reponses)) {
       id  <- paste0("q", numero, "_", j)
       val <- reponses[j]
       cat(sprintf(
-        "  <input type='checkbox' id='%s' name='q%s' value='%s'>\n  <label for='%s'
-        style='display:inline-block; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;'>%s</label>\n",
+        "<div class='option-line'>\n  <input type='checkbox' id='%s' name='q%s' value='%s'>\n  <label for='%s'
+        style='display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;'>%s</label>\n</div>\n",
         id, numero, gsub("'", "&#39;", val), id, val
       ))
     }
@@ -238,12 +239,11 @@ for (i in seq_len(nrow(questions_list))) {
     cat("  </select>\n")
   }
 
+  # --- fermeture du bloc ---
   cat("</div>\n\n")
 }
 
 cat("</body>\n</html>")
-
-
 
 ```
 
@@ -252,28 +252,23 @@ cat("</body>\n</html>")
 
 ```
 
-```{=html}
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const select = document.querySelector("select[name='q2']");
-  console.log("Select trouvé :", select);
-
-  if (select) {
-    select.addEventListener("change", function () {
-      localStorage.setItem("q2", select.value);
-      console.log("Sauvegarde q2 =", select.value);
-    });
-  }
-});
-</script>
-```
-
 
 ```{=html}
- <div class="custom-footer">
-
+<div class="custom-footer">
+<button style="background-color: #ef7757;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 6px;
+  font-family: normal;
+  border-color: coral;"
+  onclick="window.location.href='introduction.html';"> < Précédent</button>
+  
+  
 {{< include _includes/custom_footer.html >}}
 
+  
  <button style="background-color: #ef7757;
   border-radius: 8px;
   font-size: 1.3rem;
