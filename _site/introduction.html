@@ -100,13 +100,25 @@ ul.task-list li input[type="checkbox"] {
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll("select[name='q2'], input[name='q2']").forEach(el => {
     el.addEventListener("change", function () {
-      if (el.checked) {
-        localStorage.setItem("q2", el.value);
-        console.log("Sauvegarde q2 =", el.value);
+      let value;
+
+      if (el.type === "radio" || el.type === "checkbox") {
+        if (el.checked) value = el.value;
+      }
+
+      if (el.tagName === "SELECT") {
+        value = el.value;
+      }
+
+      if (value !== undefined) {
+        localStorage.setItem("q2", value);
+        console.log("Réponse q2 enregistrée :", value);
+      }
     });
   });
 });
 </script>
+
 
 
 <script>window.currentProgressStep = 1;</script>
@@ -308,7 +320,7 @@ Quelles sont vos attributions ?<span style="color:red;">*</span>
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 Quelle structure représentez-vous ?<span style="color:red;">*</span>
 </p>
-<p><select name="q2" required="" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…&nbsp;">Sélectionner…&nbsp;</option> <option value=" Une commune&nbsp;"> Une commune&nbsp;</option> <option value="Une communauté de communes&nbsp;">Une communauté de communes&nbsp;</option> <option value="Une communauté d’agglomération&nbsp;">Une communauté d’agglomération&nbsp;</option> <option value="Une communauté urbaine&nbsp;">Une communauté urbaine&nbsp;</option> <option value="Une communauté urbaine&nbsp;">Une communauté urbaine&nbsp;</option> <option value="Une métropole&nbsp;">Une métropole&nbsp;</option> <option value="Un syndicat mixte&nbsp;">Un syndicat mixte&nbsp;</option> <option value="Un département&nbsp;">Un département&nbsp;</option> <option value="Une Région">Une Région</option> </select></p>
+<p><select name="q2" required="" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…&nbsp;">Sélectionner…&nbsp;</option> <option value=" Une commune&nbsp;"> Une commune&nbsp;</option> <option value="Une communauté de communes&nbsp;">Une communauté de communes&nbsp;</option> <option value="Une communauté d’agglomération&nbsp;">Une communauté d’agglomération&nbsp;</option> <option value="Une communauté urbaine&nbsp;">Une communauté urbaine&nbsp;</option> <option value="Une communauté urbaine&nbsp;">Une communauté urbaine&nbsp;</option> <option value="Une métropole&nbsp;">Une métropole&nbsp;</option> <option value="Un syndicat mixte">Un syndicat mixte</option> <option value="Un département&nbsp;">Un département&nbsp;</option> <option value="Une Région">Une Région</option> </select></p>
 </div>
 <div id="q3" class="question-block conditional" data-parent-question="q2" data-condition="Une commune, Une communauté de communes, Un syndicat mixte" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
@@ -485,7 +497,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/website\.quarto\.pub\/questionnaire_pqna");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

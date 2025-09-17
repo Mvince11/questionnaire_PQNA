@@ -98,21 +98,26 @@ ul.task-list li input[type="checkbox"] {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const normalize = s => String(s||"").trim().toLowerCase();
+  const normalize = s => String(s || "").trim().toLowerCase();
   const valIntro = normalize(localStorage.getItem("q2"));
+  console.log("Valeur stockée (normalisée) :", valIntro);
 
   document.querySelectorAll(".conditional").forEach(block => {
-    const parent = normalize(block.dataset.parentQuestion);
     const condition = normalize(block.dataset.condition);
+    console.log("Condition attendue :", condition);
 
     if (valIntro === condition) {
       block.style.display = "block";
+      block.classList.add("visible");
     } else {
       block.style.display = "none";
+      block.classList.remove("visible");
     }
   });
 });
 </script>
+
+
 
 <script>window.currentProgressStep = 2;</script>
 <script>
@@ -316,7 +321,7 @@ territoire sobre et résilient&nbsp;"> <label for="q1.1_1" style="display:conten
 <p><input type="checkbox" id="q1.1_6" name="q1.1" value="Nous avons recours à des processus participatifs pour coconstruire les projets"> <label for="q1.1_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous avons recours à des processus participatifs pour coconstruire les projets</label></p>
 </div>
 </div>
-<div id="q1b" class="question-block conditional" data-parent-question="q2" data-condition="Un syndicat mixte" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q1b" class="question-block conditional" data-parent-question="q2" data-condition="&quot;Un syndicat mixte&quot;" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 Avez-vous enclenché une démarche de transition territoriale ? <span style="color:red;">*</span>
 </p>
@@ -520,7 +525,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp("https:\/\/website\.quarto\.pub\/questionnaire_pqna");
+      var filterRegex = new RegExp('/' + window.location.host + '/');
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

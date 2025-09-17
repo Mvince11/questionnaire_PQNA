@@ -40,13 +40,25 @@ questions_list
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll("select[name='q2'], input[name='q2']").forEach(el => {
     el.addEventListener("change", function () {
-      if (el.checked) {
-        localStorage.setItem("q2", el.value);
-        console.log("Sauvegarde q2 =", el.value);
+      let value;
+
+      if (el.type === "radio" || el.type === "checkbox") {
+        if (el.checked) value = el.value;
+      }
+
+      if (el.tagName === "SELECT") {
+        value = el.value;
+      }
+
+      if (value !== undefined) {
+        localStorage.setItem("q2", value);
+        console.log("Réponse q2 enregistrée :", value);
+      }
     });
   });
 });
 </script>
+
 
 ```
 

@@ -36,21 +36,26 @@ questions_list
 ```{=html}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const normalize = s => String(s||"").trim().toLowerCase();
+  const normalize = s => String(s || "").trim().toLowerCase();
   const valIntro = normalize(localStorage.getItem("q2"));
+  console.log("Valeur stockée (normalisée) :", valIntro);
 
   document.querySelectorAll(".conditional").forEach(block => {
-    const parent = normalize(block.dataset.parentQuestion);
     const condition = normalize(block.dataset.condition);
+    console.log("Condition attendue :", condition);
 
     if (valIntro === condition) {
       block.style.display = "block";
+      block.classList.add("visible");
     } else {
       block.style.display = "none";
+      block.classList.remove("visible");
     }
   });
 });
 </script>
+
+
 ```
 
 
