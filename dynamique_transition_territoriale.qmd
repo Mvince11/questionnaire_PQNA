@@ -33,31 +33,6 @@ questions_list
 
 ```
 
-```{=html}
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const normalize = s => String(s || "").trim().toLowerCase();
-  const valIntro = normalize(localStorage.getItem("q2"));
-  console.log("Valeur stockée (normalisée) :", valIntro);
-
-  document.querySelectorAll(".conditional").forEach(block => {
-    const condition = normalize(block.dataset.condition);
-    console.log("Condition attendue :", condition);
-
-    if (valIntro === condition) {
-      block.style.display = "block";
-      block.classList.add("visible");
-    } else {
-      block.style.display = "none";
-      block.classList.remove("visible");
-    }
-  });
-});
-</script>
-
-
-```
-
 
 ```{=html}
 
@@ -96,50 +71,68 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const normalize = s => String(s||"").trim().toLowerCase();
+  const normalize = s => String(s || "").trim().toLowerCase();
 
   function parseExpected(cond) {
     if (!cond) return [];
-    return cond.split(",").map(s => s.trim()).filter(Boolean).map(s => s.toLowerCase());
+    return cond.split(",").map(s => s.trim()).filter(Boolean).map(normalize);
   }
 
-  function updateForParent(parentName) {
-    // sélection des blocs conditionnels pour CE parent
-    const blocks = document.querySelectorAll(`.conditional[data-parent-question='${parentName}']`);
-    if (!blocks) return;
-
-    // valeurs attendues par bloc et état du parent
-    const parentEls = Array.from(document.querySelectorAll(`[name='${parentName}']`));
-    // collect selected values of the parent
+  function getSelectedValues(parentName) {
     const selected = [];
+    const parentEls = document.querySelectorAll(`[name='${parentName}']`);
     parentEls.forEach(el => {
-      if ((el.type === "radio" || el.type === "checkbox") && el.checked) selected.push(normalize(el.value));
-      else if (el.tagName === "SELECT" && el.value) selected.push(normalize(el.value));
-      else if ((el.tagName === "TEXTAREA" || el.type === "text") && el.value) selected.push(normalize(el.value));
+      if ((el.type === "radio" || el.type === "checkbox") && el.checked) {
+        selected.push(normalize(el.value));
+      } else if (el.tagName === "SELECT" && el.value) {
+        selected.push(normalize(el.value));
+      } else if ((el.tagName === "TEXTAREA" || el.type === "text") && el.value) {
+        selected.push(normalize(el.value));
+      }
+    });
+    return selected;
+  }
+
+  function updateBlock(block) {
+    const expectedValues = parseExpected(block.dataset.condition);
+    const parentNames = block.dataset.parentQuestion?.split(";").map(normalize) || [];
+
+    let show = false;
+    parentNames.forEach(parent => {
+      const selected = getSelectedValues(parent);
+      if (expectedValues.some(val => selected.includes(val))) {
+        show = true;
+      }
     });
 
-    blocks.forEach(block => {
-      const expected = parseExpected(block.dataset.condition); // array lowercase
-      const show = expected.some(e => selected.includes(e));
-      block.style.display = show ? "block" : "none";
+    block.style.display = show ? "block" : "none";
+    block.classList.toggle("visible", show);
+  }
+
+  function updateBlocksForParent(parentName) {
+    document.querySelectorAll(".conditional").forEach(block => {
+      const parentNames = block.dataset.parentQuestion?.split(";").map(normalize) || [];
+
+      // NE PAS mettre à jour le bloc si c’est lui-même qui contient le champ déclencheur
+      const parentField = document.querySelector(`[name='${parentName}']`);
+      if (parentField && block.contains(parentField)) return;
+
+      if (parentNames.includes(normalize(parentName))) {
+        updateBlock(block);
+      }
     });
   }
 
-  // bind change listeners to all controls that have a name
+  // Bind change listeners
   const controls = document.querySelectorAll("input[name], select[name], textarea[name]");
   controls.forEach(ctrl => {
     ctrl.addEventListener("change", function (e) {
-      const parentName = e.target.name;
-      updateForParent(parentName);
+      updateBlocksForParent(e.target.name);
     });
   });
 
-  // init: run updates for all parents present in the page
-  const parents = new Set();
-  document.querySelectorAll(".conditional").forEach(b => {
-    if (b.dataset.parentQuestion) parents.add(b.dataset.parentQuestion);
-  });
-  parents.forEach(p => updateForParent(p));
+  // Initial rendering
+  document.querySelectorAll(".conditional").forEach(updateBlock);
 });
 </script>
 
@@ -263,6 +256,40 @@ cat("</body>\n</html>")
 
 ```
 
+
+```{=html}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const normalize = s => String(s || "").trim().toLowerCase();
+  const valIntro = normalize(localStorage.getItem("q2"));
+
+  // Bloc question 1a (syndicat mixte)
+  const q1a = document.querySelector('#q1a');
+  if (q1a) {
+    if (valIntro === "un syndicat mixte") {
+      q1a.style.display = "block";
+      q1a.classList.add("visible");
+    } else {
+      q1a.style.display = "none";
+      q1a.classList.remove("visible");
+    }
+  }
+
+  // Bloc question 1 (autres cas)
+  const q1 = document.querySelector('#q1');
+  if (q1) {
+    if (valIntro !== "un syndicat mixte") {
+      q1.style.display = "block";
+      q1.classList.add("visible");
+    } else {
+      q1.style.display = "none";
+      q1.classList.remove("visible");
+    }
+  }
+});
+</script>
+
+```
 
 ```{=html}
 <div class="custom-footer">

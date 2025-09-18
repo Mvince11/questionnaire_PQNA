@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.38">
+<meta name="generator" content="quarto-1.6.39">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -35,10 +35,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-b663525e4b92bb903b2199e2d401bf36.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-24269e503d783a6f653f2bd7748c8826.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-f95efca093a1a11a1ff6b1787f15c966.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -245,52 +245,58 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const normalize = s => String(s||"").trim().toLowerCase();
+  const normalize = s => String(s || "").trim().toLowerCase();
 
   function parseExpected(cond) {
     if (!cond) return [];
-    return cond.split(",").map(s => s.trim()).filter(Boolean).map(s => s.toLowerCase());
+    return cond.split(",").map(s => s.trim()).filter(Boolean).map(normalize);
   }
 
-  function updateForParent(parentName) {
-    // sélection des blocs conditionnels pour CE parent
-    const blocks = document.querySelectorAll(`.conditional[data-parent-question='${parentName}']`);
-    if (!blocks) return;
-
-    // valeurs attendues par bloc et état du parent
-    const parentEls = Array.from(document.querySelectorAll(`[name='${parentName}']`));
-    // collect selected values of the parent
+  function getSelectedValues(parentName) {
     const selected = [];
+    const parentEls = document.querySelectorAll(`[name='${parentName}']`);
     parentEls.forEach(el => {
-      if ((el.type === "radio" || el.type === "checkbox") && el.checked) selected.push(normalize(el.value));
-      else if (el.tagName === "SELECT" && el.value) selected.push(normalize(el.value));
-      else if ((el.tagName === "TEXTAREA" || el.type === "text") && el.value) selected.push(normalize(el.value));
+      if ((el.type === "radio" || el.type === "checkbox") && el.checked) {
+        selected.push(normalize(el.value));
+      } else if (el.tagName === "SELECT" && el.value) {
+        selected.push(normalize(el.value));
+      } else if ((el.tagName === "TEXTAREA" || el.type === "text") && el.value) {
+        selected.push(normalize(el.value));
+      }
     });
-
-    blocks.forEach(block => {
-      const expected = parseExpected(block.dataset.condition); // array lowercase
-      const show = expected.some(e => selected.includes(e));
-      block.style.display = show ? "block" : "none";
-    });
+    return selected;
   }
 
-  // bind change listeners to all controls that have a name
+  function updateBlock(block) {
+    const expectedValues = parseExpected(block.dataset.condition);
+    const parentNames = block.dataset.parentQuestion.split(";").map(normalize);
+
+    let show = false;
+    parentNames.forEach(parent => {
+      const selected = getSelectedValues(parent);
+      if (expectedValues.some(val => selected.includes(val))) {
+        show = true;
+      }
+    });
+
+    block.style.display = show ? "block" : "none";
+  }
+
+  function updateAllBlocks() {
+    document.querySelectorAll(".conditional").forEach(updateBlock);
+  }
+
+  // Bind change listeners
   const controls = document.querySelectorAll("input[name], select[name], textarea[name]");
   controls.forEach(ctrl => {
-    ctrl.addEventListener("change", function (e) {
-      const parentName = e.target.name;
-      updateForParent(parentName);
-    });
+    ctrl.addEventListener("change", updateAllBlocks);
   });
 
-  // init: run updates for all parents present in the page
-  const parents = new Set();
-  document.querySelectorAll(".conditional").forEach(b => {
-    if (b.dataset.parentQuestion) parents.add(b.dataset.parentQuestion);
-  });
-  parents.forEach(p => updateForParent(p));
+  // Initial rendering
+  updateAllBlocks();
 });
 </script>
+
 
 <div id="q1" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
@@ -320,7 +326,7 @@ Quelles sont vos attributions ?<span style="color:red;">*</span>
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 Quelle structure représentez-vous ?<span style="color:red;">*</span>
 </p>
-<p><select name="q2" required="" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…&nbsp;">Sélectionner…&nbsp;</option> <option value=" Une commune&nbsp;"> Une commune&nbsp;</option> <option value="Une communauté de communes&nbsp;">Une communauté de communes&nbsp;</option> <option value="Une communauté d’agglomération&nbsp;">Une communauté d’agglomération&nbsp;</option> <option value="Une communauté urbaine&nbsp;">Une communauté urbaine&nbsp;</option> <option value="Une communauté urbaine&nbsp;">Une communauté urbaine&nbsp;</option> <option value="Une métropole&nbsp;">Une métropole&nbsp;</option> <option value="Un syndicat mixte">Un syndicat mixte</option> <option value="Un département&nbsp;">Un département&nbsp;</option> <option value="Une Région">Une Région</option> </select></p>
+<p><select name="q2" required="" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…">Sélectionner…</option> <option value=" Une commune"> Une commune</option> <option value="Une communauté de communes">Une communauté de communes</option> <option value="Une communauté d’agglomération">Une communauté d’agglomération</option> <option value="Une communauté urbaine">Une communauté urbaine</option> <option value="Une communauté urbaine">Une communauté urbaine</option> <option value="Une métropole">Une métropole</option> <option value="Un syndicat mixte">Un syndicat mixte</option> <option value="Un département">Un département</option> <option value="Une Région">Une Région</option> </select></p>
 </div>
 <div id="q3" class="question-block conditional" data-parent-question="q2" data-condition="Une commune, Une communauté de communes, Un syndicat mixte" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
@@ -338,19 +344,6 @@ Votre collectivité présente-t-elle des spécificités géographiques ?<span st
 
 </div>
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const select = document.querySelector("select[name='q2']");
-  console.log("Select trouvé :", select);
-
-  if (select) {
-    select.addEventListener("change", function () {
-      localStorage.setItem("q2", select.value);
-      console.log("Sauvegarde q2 =", select.value);
-    });
-  }
-});
-</script>
  <div class="custom-footer">
 
 

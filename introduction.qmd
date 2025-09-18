@@ -129,52 +129,58 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const normalize = s => String(s||"").trim().toLowerCase();
+  const normalize = s => String(s || "").trim().toLowerCase();
 
   function parseExpected(cond) {
     if (!cond) return [];
-    return cond.split(",").map(s => s.trim()).filter(Boolean).map(s => s.toLowerCase());
+    return cond.split(",").map(s => s.trim()).filter(Boolean).map(normalize);
   }
 
-  function updateForParent(parentName) {
-    // sélection des blocs conditionnels pour CE parent
-    const blocks = document.querySelectorAll(`.conditional[data-parent-question='${parentName}']`);
-    if (!blocks) return;
-
-    // valeurs attendues par bloc et état du parent
-    const parentEls = Array.from(document.querySelectorAll(`[name='${parentName}']`));
-    // collect selected values of the parent
+  function getSelectedValues(parentName) {
     const selected = [];
+    const parentEls = document.querySelectorAll(`[name='${parentName}']`);
     parentEls.forEach(el => {
-      if ((el.type === "radio" || el.type === "checkbox") && el.checked) selected.push(normalize(el.value));
-      else if (el.tagName === "SELECT" && el.value) selected.push(normalize(el.value));
-      else if ((el.tagName === "TEXTAREA" || el.type === "text") && el.value) selected.push(normalize(el.value));
+      if ((el.type === "radio" || el.type === "checkbox") && el.checked) {
+        selected.push(normalize(el.value));
+      } else if (el.tagName === "SELECT" && el.value) {
+        selected.push(normalize(el.value));
+      } else if ((el.tagName === "TEXTAREA" || el.type === "text") && el.value) {
+        selected.push(normalize(el.value));
+      }
     });
-
-    blocks.forEach(block => {
-      const expected = parseExpected(block.dataset.condition); // array lowercase
-      const show = expected.some(e => selected.includes(e));
-      block.style.display = show ? "block" : "none";
-    });
+    return selected;
   }
 
-  // bind change listeners to all controls that have a name
+  function updateBlock(block) {
+    const expectedValues = parseExpected(block.dataset.condition);
+    const parentNames = block.dataset.parentQuestion.split(";").map(normalize);
+
+    let show = false;
+    parentNames.forEach(parent => {
+      const selected = getSelectedValues(parent);
+      if (expectedValues.some(val => selected.includes(val))) {
+        show = true;
+      }
+    });
+
+    block.style.display = show ? "block" : "none";
+  }
+
+  function updateAllBlocks() {
+    document.querySelectorAll(".conditional").forEach(updateBlock);
+  }
+
+  // Bind change listeners
   const controls = document.querySelectorAll("input[name], select[name], textarea[name]");
   controls.forEach(ctrl => {
-    ctrl.addEventListener("change", function (e) {
-      const parentName = e.target.name;
-      updateForParent(parentName);
-    });
+    ctrl.addEventListener("change", updateAllBlocks);
   });
 
-  // init: run updates for all parents present in the page
-  const parents = new Set();
-  document.querySelectorAll(".conditional").forEach(b => {
-    if (b.dataset.parentQuestion) parents.add(b.dataset.parentQuestion);
-  });
-  parents.forEach(p => updateForParent(p));
+  // Initial rendering
+  updateAllBlocks();
 });
 </script>
+
 
 ```
 
@@ -262,22 +268,6 @@ cat("</body>\n</html>")
 ```{=html}
 </div>
 
-```
-
-```{=html}
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const select = document.querySelector("select[name='q2']");
-  console.log("Select trouvé :", select);
-
-  if (select) {
-    select.addEventListener("change", function () {
-      localStorage.setItem("q2", select.value);
-      console.log("Sauvegarde q2 =", select.value);
-    });
-  }
-});
-</script>
 ```
 
 
