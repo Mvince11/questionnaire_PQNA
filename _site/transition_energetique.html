@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>introduction</title>
+<title>transition_energetique</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -96,41 +96,16 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll("select[name='q2'], input[name='q2']").forEach(el => {
-    el.addEventListener("change", function () {
-      let value;
 
-      if (el.type === "radio" || el.type === "checkbox") {
-        if (el.checked) value = el.value;
-      }
-
-      if (el.tagName === "SELECT") {
-        value = el.value;
-      }
-
-      if (value !== undefined) {
-        localStorage.setItem("q2", value);
-        console.log("Réponse q2 enregistrée :", value);
-      }
-    });
-  });
-});
-</script>
-
-
-
-<script>window.currentProgressStep = 1;</script>
+<script>window.currentProgressStep = 6;</script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const bar = document.getElementById('progress-bar');
   if (!bar) return;
 
-  // priorité : variable JS définie dans la page
   let step = window.currentProgressStep || null;
 
-  // fallback : déduire depuis URL (si tu le veux)
+  // fallback depuis l'URL
   if (!step) {
     const m = window.location.pathname.match(/(\d+)/);
     if (m) step = parseInt(m[1], 10);
@@ -138,8 +113,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!step || isNaN(step)) step = 1;
 
-  const active = bar.querySelector(`.progress-item[data-step="${step}"]`);
-  if (active) active.classList.add('active');
+  // Activer toutes les étapes jusqu'à l'étape courante
+  for (let i = 1; i <= step; i++) {
+    const item = bar.querySelector(`.progress-item[data-step="${i}"]`);
+    if (item) item.classList.add('active');
+  }
 });
 </script>
 
@@ -213,35 +191,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 </div>
-<div style="border: 1px solid #f6f3f3;
-            margin-left:10%;
-            margin-right: 10%;">
-            
-   <div style="color: red; font-size:0.8rem; margin-top: 3px; margin-bottom: 40px; margin-left: 10px;">*Champs obligatoires</div>          
-            
-
-        <div style="margin-left:4%;
-                    margin-right:4%;
-                    text-align: left;
-                    font-family: Arial,sans-serif, monospace;
-                    color: rgba(41,37,116,1) !important;
-                    font-weight: bold;
-                    margin-bottom: 70px;">
-            <div> Centre d'études et d'expertise sur les risques, l'environnement, la mobilité et l'aménagement, le Cerema accompagne les       collectivités pour anticiper les effets du changement climatique, réduire la vulnérabilité et renforcer la résilience territoriale.
-            </div>
-            
-            <br>
-            
-            <div> Votre collectivité / groupement de collectivités a récemment adhéré au Cerema et bénéficie à ce titre d’une relation partenariale renforcée avec notre établissement. Afin de mieux connaître les forces et besoins de votre territoire sur les principaux leviers de la transition et de l’adaptation au changement climatique, il vous est proposé de réaliser ce diagnostic en ligne. A l'issue du questionnaire, vous disposerez d’un rapport avec des pistes de réflexion et exemples de solutions concrètes en lien avec nos champs d’actions. Des échanges complémentaires avec votre référent permettront de préciser, au besoin, vos priorités d’actions.
-            </div>
-            
-            <br>
-            
-            <div>
-        Le Cerema s'engage à observer et à faire observer la plus stricte confidentialité à l’égard des informations délivrées dans le présent questionnaire. Le Cerema s’engage à ce que ces informations soient traitées avec le même degré de protection qu’il accorde à ses propres informations confidentielles et ne soient communiquées qu'aux seuls membres de son personnel permanent ou temporaire ayant à les connaitre.
-            </div>
-        
-        </div>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -269,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function updateBlock(block) {
     const expectedValues = parseExpected(block.dataset.condition);
-    const parentNames = block.dataset.parentQuestion.split(";").map(normalize);
+    const parentNames = block.dataset.parentQuestion?.split(";").map(normalize) || [];
 
     let show = false;
     parentNames.forEach(parent => {
@@ -280,72 +229,216 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     block.style.display = show ? "block" : "none";
+    block.classList.toggle("visible", show);
   }
 
-  function updateAllBlocks() {
-    document.querySelectorAll(".conditional").forEach(updateBlock);
+  function updateBlocksForParent(parentName) {
+    document.querySelectorAll(".conditional").forEach(block => {
+      const parentNames = block.dataset.parentQuestion?.split(";").map(normalize) || [];
+
+      // NE PAS mettre à jour le bloc si c’est lui-même qui contient le champ déclencheur
+      const parentField = document.querySelector(`[name='${parentName}']`);
+      if (parentField && block.contains(parentField)) return;
+
+      if (parentNames.includes(normalize(parentName))) {
+        updateBlock(block);
+      }
+    });
   }
 
   // Bind change listeners
   const controls = document.querySelectorAll("input[name], select[name], textarea[name]");
   controls.forEach(ctrl => {
-    ctrl.addEventListener("change", updateAllBlocks);
+    ctrl.addEventListener("change", function (e) {
+      updateBlocksForParent(e.target.name);
+    });
   });
 
   // Initial rendering
-  updateAllBlocks();
+  document.querySelectorAll(".conditional").forEach(updateBlock);
 });
 </script>
 
+<div style="border: 1px solid #f6f3f3;
+            margin-left:10%;
+            margin-right: 10%;">
+            
+   <div style="color: red; font-size:0.8rem; margin-top: 3px; margin-bottom: 40px; margin-left: 10px;">*Champs obligatoires</div>          
+            
 
-<div id="q1" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+        <div style="margin-left:4%;
+                    margin-right:4%;
+                    text-align: left;
+                    font-family: Arial,sans-serif, monospace;
+                    color: rgba(41,37,116,1) !important;
+                    font-weight: bold;
+                    margin-bottom: 70px;">
+            <h4 style="font-weight: bold;"> Transition énergétique </h4>
+            
+            <br>
+                    
+            <div> La transition énergétique se définit par l’évolution des modèles de production, de distribution et de consommation d’énergie pour les rendre plus écologiques. Concrètement, vous pouvez agir sur
+                  <li style="margin-left: 12px;">La consommation d’énergie en privilégiant la sobriété (prioriser les besoins énergétiques essentiels dans les usages individuels et collectifs de l’énergie) et l'efficacité (réduire la quantité d’énergie nécessaire à la satisfaction d’un même besoin)
+                  </li>
+                  <li style="margin-left: 12px;">La distribution : favoriser la distribution et la disponibilité des énergies renouvelables et nouveaux carburants.
+                  </li>
+            </div>
+            
+            <br>
+        
+        </div>
+<div id="q18" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
-Quel est votre rôle au sein de la collectivité ?<span style="color:red;">*</span>
+Avez-vous élaboré une démarche transition énergétique ? <span style="color:red;">*</span>
 </p>
-<p><select name="q1" required="" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…&nbsp;">Sélectionner…&nbsp;</option> <option value=" Elu&nbsp;"> Elu&nbsp;</option> <option value="Agent">Agent</option> </select></p>
+<p><input type="radio" id="q18_1" name="q18" value="Oui" required=""> <label for="q18_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q18_2" name="q18" value="Non"> <label for="q18_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non</label> <input type="radio" id="q18_3" name="q18" value="Je ne sais pas"> <label for="q18_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas</label></p>
 </div>
-<div id="q1.1" class="question-block conditional" data-parent-question="q1" data-condition="Elu" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q18a" class="question-block conditional" data-parent-question="q2" data-condition="Un syndicat mixte
+mixte" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
-Quel est votre fonction au sein de la collectivité ?<span style="color:red;">*</span>
+Avez-vous élaboré une démarche transition énergétique ? <span style="color:red;">*</span>
 </p>
-<p><select name="q1.1" required="" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…&nbsp;">Sélectionner…&nbsp;</option> <option value=" Maire ou Président&nbsp;"> Maire ou Président&nbsp;</option> <option value=" Adjoint au maire&nbsp;"> Adjoint au maire&nbsp;</option> <option value=" Vice-président&nbsp;"> Vice-président&nbsp;</option> <option value=" Conseiller"> Conseiller</option> </select></p>
+<p><input type="radio" id="q18a_1" name="q18a" value="Oui" required=""> <label for="q18a_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q18a_2" name="q18a" value="Non"> <label for="q18a_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non</label> <input type="radio" id="q18a_3" name="q18a" value="Je ne sais pas"> <label for="q18a_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas</label> <input type="radio" id="q18a_4" name="q18a" value="Non applicable à l’échelle de mon syndicat (SSI syndicat)"> <label for="q18a_4" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non applicable à l’échelle de mon syndicat (SSI syndicat)</label></p>
 </div>
-<div id="q1.2" class="question-block conditional" data-parent-question="q1" data-condition="Agent" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q18.1" class="question-block conditional" data-parent-question="q18;q18a" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
-Quel est votre fonction au sein de la collectivité ?<span style="color:red;">*</span>
+Energie : Précisez les démarches entreprises parmi les propositions ci-après <span style="color:red;">*</span>
 </p>
-<p><select name="q1.2" required="" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…&nbsp;">Sélectionner…&nbsp;</option> <option value=" DGS - Directeur général des services&nbsp;"> DGS - Directeur général des services&nbsp;</option> <option value="DGST - Directeur général des services techniques&nbsp;">DGST - Directeur général des services techniques&nbsp;</option> <option value="DGA - Directeur général adjoint&nbsp;">DGA - Directeur général adjoint&nbsp;</option> <option value="Directeur ou responsable de service&nbsp;">Directeur ou responsable de service&nbsp;</option> <option value="Chargé de mission">Chargé de mission</option> </select></p>
+<div class="option-line">
+<p><input type="checkbox" id="q18.1_1" name="q18.1" value="Nous disposons d’un diagnostic des principaux postes de consommation énergétiques (bâtiment et transports)"> <label for="q18.1_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous disposons d’un diagnostic des principaux postes de consommation énergétiques (bâtiment et transports)</label></p>
 </div>
-<div id="q1.3" class="question-block conditional" data-parent-question="q1" data-condition="Agent" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
-<p style="font-weight:bold; font-size:1rem; color:#293574;">
-Quelles sont vos attributions ?<span style="color:red;">*</span>
-</p>
-<p><select name="q1.3" required="" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…&nbsp;">Sélectionner…&nbsp;</option> <option value=" Direction Générale&nbsp;"> Direction Générale&nbsp;</option> <option value="Direction Ressources : DAF, DRH&nbsp;">Direction Ressources : DAF, DRH&nbsp;</option> <option value="Direction Technique : Aménagement, Bâtiment, Mobilités, Infrastructures de transports, Environnement, Risques, Littoral">Direction Technique : Aménagement, Bâtiment, Mobilités, Infrastructures de transports, Environnement, Risques, Littoral</option> </select></p>
+<div class="option-line">
+<p><input type="checkbox" id="q18.1_2" name="q18.1" value="Nous avons évalué le potentiel de réduction des consommations énergétiques (bâtiments et transports)"> <label for="q18.1_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous avons évalué le potentiel de réduction des consommations énergétiques (bâtiments et transports)</label></p>
 </div>
-<div id="q2" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
-<p style="font-weight:bold; font-size:1rem; color:#293574;">
-Quelle structure représentez-vous ?<span style="color:red;">*</span>
-</p>
-<p><select name="q2" required="" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…">Sélectionner…</option> <option value=" Une commune"> Une commune</option> <option value="Une communauté de communes">Une communauté de communes</option> <option value="Une communauté d’agglomération">Une communauté d’agglomération</option> <option value="Une communauté urbaine">Une communauté urbaine</option> <option value="Une communauté urbaine">Une communauté urbaine</option> <option value="Une métropole">Une métropole</option> <option value="Un syndicat mixte">Un syndicat mixte</option> <option value="Un département">Un département</option> <option value="Une Région">Une Région</option> </select></p>
+<div class="option-line">
+<p><input type="checkbox" id="q18.1_3" name="q18.1" value="Nous avons évalué le potentiel de production d’énergie renouvelables à l’échelle du territoire"> <label for="q18.1_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous avons évalué le potentiel de production d’énergie renouvelables à l’échelle du territoire</label></p>
 </div>
-<div id="q3" class="question-block conditional" data-parent-question="q2" data-condition="Une commune, Une communauté de communes, Un syndicat mixte" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
-<p style="font-weight:bold; font-size:1rem; color:#293574;">
-Indiquez le nombre approximatif d’habitants de votre collectivité parmi les 3 choix :<span style="color:red;">*</span>
-</p>
-<p><input type="radio" id="q3_1" name="q3" value="< 20 000 Habitants&nbsp;" required=""> <label for="q3_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">&lt; 20 000 Habitants&nbsp;</label> <input type="radio" id="q3_2" name="q3" value="20 000-50 000 Habitants&nbsp;"> <label for="q3_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">20 000-50 000 Habitants&nbsp;</label> <input type="radio" id="q3_3" name="q3" value="> 50 000 Habitants"> <label for="q3_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">&gt; 50 000 Habitants</label></p>
+<div class="option-line">
+<p><input type="checkbox" id="q18.1_4" name="q18.1" value="Nous avons défini un plan d’actions concret en matière de « transition énergétique »"> <label for="q18.1_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous avons défini un plan d’actions concret en matière de « transition énergétique »</label></p>
 </div>
-<div id="q4" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div class="option-line">
+<p><input type="checkbox" id="q18.1_5" name="q18.1" value="Nous travaillons en concertation avec les parties prenantes internes et externes"> <label for="q18.1_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous travaillons en concertation avec les parties prenantes internes et externes</label></p>
+</div>
+</div>
+<div id="q18.2" class="question-block conditional" data-parent-question="q18;q18a" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
-Votre collectivité présente-t-elle des spécificités géographiques ?<span style="color:red;">*</span>
+Energie : Quels projets avez-vous d’ores et déjà réalisés ? <span style="color:red;">*</span>
 </p>
-<p><input type="checkbox" id="q4_1" name="q4" value="Territoire de montagne&nbsp;"> <label for="q4_1" style="display:inline-block; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Territoire de montagne&nbsp;</label> <input type="checkbox" id="q4_2" name="q4" value="Territoire littoral&nbsp;"> <label for="q4_2" style="display:inline-block; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Territoire littoral&nbsp;</label> <input type="checkbox" id="q4_3" name="q4" value="Aucune(s)"> <label for="q4_3" style="display:inline-block; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Aucune(s)</label></p>
+<div class="option-line">
+<p><input type="checkbox" id="q18.2_1" name="q18.2" value="Diminution des consommations énergétiques du bâtiment"> <label for="q18.2_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Diminution des consommations énergétiques du bâtiment</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q18.2_2" name="q18.2" value="Optimisation de l’éclairage public"> <label for="q18.2_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Optimisation de l’éclairage public</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q18.2_3" name="q18.2" value="Recours à des solutions économes en énergie et/ou favorisant l’économie circulaire des matériaux du BTP"> <label for="q18.2_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Recours à des solutions économes en énergie et/ou favorisant l’économie circulaire des matériaux du BTP</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q18.2_4" name="q18.2" value="Sobriété dimensionnelle | Densification"> <label for="q18.2_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Sobriété dimensionnelle | Densification</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q18.2_5" name="q18.2" value="Sobriété structurelle | Evolution des pratiques et des modes de vie"> <label for="q18.2_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Sobriété structurelle | Evolution des pratiques et des modes de vie</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q18.2_6" name="q18.2" value="Développement des énergies renouvelables"> <label for="q18.2_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Développement des énergies renouvelables</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q18.2_7" name="q18.2" value="Développement des réseaux de chaleur et de froid"> <label for="q18.2_7" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Développement des réseaux de chaleur et de froid</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q18.2_8" name="q18.2" value="Accompagnement de la transition énergétique des systèmes de transport (dont flottes de bus)"> <label for="q18.2_8" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Accompagnement de la transition énergétique des systèmes de transport (dont flottes de bus)</label></p>
+</div>
+</div>
+<div id="q19" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Energie : Ressentez-vous le besoin de mobiliser un service d’expertise pour vous accompagner sur cette thématique ? <span style="color:red;">*</span>
+</p>
+<p><input type="radio" id="q19_1" name="q19" value="Oui" required=""> <label for="q19_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q19_2" name="q19" value="Non, pas à ce stade"> <label for="q19_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non, pas à ce stade</label></p>
+</div>
+<div id="q19.1" class="question-block conditional" data-parent-question="q19" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Energie : Choisir les services d’expertise prioritaires ci-après : 2 réponses maximum <span style="color:red;">*</span>
+</p>
+<div class="option-line">
+<p><input type="checkbox" id="q19.1_1" name="q19.1" value="Réduire les consommations énergétiques du bâtiment"> <label for="q19.1_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Réduire les consommations énergétiques du bâtiment</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q19.1_2" name="q19.1" value="Optimiser l’éclairage public"> <label for="q19.1_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Optimiser l’éclairage public</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q19.1_3" name="q19.1" value="Favoriser les solutions économes en énergie et l’économie circulaire des matériaux du BTP"> <label for="q19.1_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Favoriser les solutions économes en énergie et l’économie circulaire des matériaux du BTP</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q19.1_4" name="q19.1" value="Réussir son projet territorial énergie climat"> <label for="q19.1_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Réussir son projet territorial énergie climat</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q19.1_5" name="q19.1" value="Dimensionner au plus juste les équipements et bâtiments en fonction des usages réels"> <label for="q19.1_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Dimensionner au plus juste les équipements et bâtiments en fonction des usages réels</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q19.1_6" name="q19.1" value="Mettre en place une organisation collective incitative pour modérer les consommations d’énergie (ex : limiter les déplacements, développer les transports en commun)"> <label for="q19.1_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Mettre en place une organisation collective incitative pour modérer les consommations d’énergie (ex : limiter les déplacements, développer les transports en commun)</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q19.1_7" name="q19.1" value="Développer les énergies renouvelables"> <label for="q19.1_7" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Développer les énergies renouvelables</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q19.1_8" name="q19.1" value="Développer les réseaux de chaleur et de froid"> <label for="q19.1_8" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Développer les réseaux de chaleur et de froid</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q19.1_9" name="q19.1" value="Accompagner la transition énergétique des systèmes de transport (dont flottes de bus)"> <label for="q19.1_9" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Accompagner la transition énergétique des systèmes de transport (dont flottes de bus)</label></p>
+</div>
+</div>
+<div id="q20" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Autres besoins sur la transition énergétique&nbsp; <span style="color:red;">*</span>
+</p>
+<textarea name="q20" rows="4" cols="50" required="" style="width:100%; margin-top:6px; color:#293574; font-weight:bold; opacity:0.9;"></textarea>
 </div>
 
 
 </div>
 
- <div class="custom-footer">
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const normalize = s => String(s || "").trim().toLowerCase();
+  const valIntro = normalize(localStorage.getItem("q2"));
 
+  // Bloc question 18a (syndicat mixte)
+  const q18a = document.querySelector('#q18a');
+  if (q18a) {
+    if (valIntro === "un syndicat mixte") {
+      q18a.style.display = "block";
+      q18a.classList.add("visible");
+    } else {
+      q18a.style.display = "none";
+      q18a.classList.remove("visible");
+    }
+  }
+
+  // Bloc question 8 (autres cas)
+  const q18 = document.querySelector('#q18');
+  if (q18) {
+    if (valIntro !== "un syndicat mixte") {
+      q18.style.display = "block";
+      q18.classList.add("visible");
+    } else {
+      q18.style.display = "none";
+      q18.classList.remove("visible");
+    }
+  }
+});
+</script>
+
+<div class="custom-footer">
+<button style="background-color: #ef7757;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 6px;
+  font-family: normal;
+  border-color: coral;" onclick="window.location.href='introduction.html';"> &lt; Précédent</button>
+  
+  
 
 
   <div id="footer-dots" class="dots">
@@ -366,6 +459,7 @@ Votre collectivité présente-t-elle des spécificités géographiques ?<span st
   
 
 
+  
  <button style="background-color: #ef7757;
   border-radius: 8px;
   font-size: 1.3rem;
@@ -373,7 +467,7 @@ Votre collectivité présente-t-elle des spécificités géographiques ?<span st
   padding-right: 15px;
   margin-right: 6px;
   font-family: normal;
-  border-color: coral;" onclick="window.location.href='dynamique_transition_territoriale.html';"> Suivant &gt; </button>
+  border-color: coral;" onclick="window.location.href='transition_energetique.html';"> Suivant &gt; </button>
   
   </div>
 

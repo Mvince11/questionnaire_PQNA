@@ -15,7 +15,7 @@ library(dplyr)
 library(readxl)
 library(stringr)
 
-intro <- read_xlsx("data/Amenagement_urbain_durable.xlsx") %>%
+intro <- read_xlsx("data/transition_energetique.xlsx") %>%
   filter(!is.na(Numero), !is.na(Questions), !is.na(Reponses)) %>%
   mutate(Numero = as.character(Numero))
 
@@ -36,7 +36,7 @@ questions_list <- intro %>%
 
 ```{=html}
 
-<script>window.currentProgressStep = 3;</script>
+<script>window.currentProgressStep = 6;</script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const bar = document.getElementById('progress-bar');
@@ -152,19 +152,21 @@ document.addEventListener("DOMContentLoaded", function () {
                     font-weight: bold;
                     margin-bottom: 70px;"
                     >
-            <h4 style="font-weight: bold;"> Aménagement urbain durable </h4>
+            <h4 style="font-weight: bold;"> Transition énergétique </h4>
             
             <br>
                     
-            <div> Le changement climatique appelle à repenser l’aménagement en faveur d’espaces urbains vivables.</div>             <div> Concrètement, il s’agit de combiner différentes expertises pour envisager des solutions globales : qualité du cadre de vie, revitalisation de quartier, développement des mobilités douces, renaturation, protection de la biodiversité, gestion des nuisances, gestion des déchets du BTP, etc.
-Cette approche s’applique aussi bien à l’échelle du quartier (écoquartiers) que de l’îlot (cour d’école résiliente).
+            <div> La transition énergétique se définit par l’évolution des modèles de production, de distribution et de consommation d’énergie pour les rendre plus écologiques. Concrètement, vous pouvez agir sur
+                  <li style="margin-left: 12px;">La consommation d’énergie en privilégiant la sobriété (prioriser les besoins énergétiques essentiels dans les usages individuels et collectifs de l’énergie) et l'efficacité (réduire la quantité d’énergie nécessaire à la satisfaction d’un même besoin)
+                  </li>
+                  <li style="margin-left: 12px;">La distribution : favoriser la distribution et la disponibilité des énergies renouvelables et nouveaux carburants.
+                  </li>
             </div>
             
             <br>
         
         </div>
 ```
-
 
 ```{r, results='asis'}
 #| echo: FALSE
@@ -256,27 +258,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const normalize = s => String(s || "").trim().toLowerCase();
   const valIntro = normalize(localStorage.getItem("q2"));
 
-  // Bloc question 8a (syndicat mixte)
-  const q8a = document.querySelector('#q8a');
-  if (q8a) {
+  // Bloc question 18a (syndicat mixte)
+  const q18a = document.querySelector('#q18a');
+  if (q18a) {
     if (valIntro === "un syndicat mixte") {
-      q8a.style.display = "block";
-      q8a.classList.add("visible");
+      q18a.style.display = "block";
+      q18a.classList.add("visible");
     } else {
-      q8a.style.display = "none";
-      q8a.classList.remove("visible");
+      q18a.style.display = "none";
+      q18a.classList.remove("visible");
     }
   }
 
   // Bloc question 8 (autres cas)
-  const q8 = document.querySelector('#q8');
-  if (q8) {
+  const q18 = document.querySelector('#q18');
+  if (q18) {
     if (valIntro !== "un syndicat mixte") {
-      q8.style.display = "block";
-      q8.classList.add("visible");
+      q18.style.display = "block";
+      q18.classList.add("visible");
     } else {
-      q8.style.display = "none";
-      q8.classList.remove("visible");
+      q18.style.display = "none";
+      q18.classList.remove("visible");
     }
   }
 });
@@ -308,7 +310,7 @@ document.addEventListener("DOMContentLoaded", function () {
   margin-right: 6px;
   font-family: normal;
   border-color: coral;"
-  onclick="window.location.href='territoire_intelligent.html';"> Suivant > </button>
+  onclick="window.location.href='transition_energetique.html';"> Suivant > </button>
   
   </div>
 
@@ -332,3 +334,4 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 ```
+

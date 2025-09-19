@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>index</title>
+<title>territoire_intelligent</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -96,66 +96,363 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="fullwidth">
-<div class="page-layout-custom">
-<div style="color:white; margin-left:10%; font-size: 1.8em; margin-top: 4%; font-weight: bold;">
-<p>Diagnostic Flash</p>
-</div>
-<div style="color:white; margin-left:10%; font-size: 1.8em; font-weight: bold;">
-<p>“Transition et adaptation au changement climatique”</p>
-</div>
-<p><br></p>
-<div style="color:white; margin-left:10%; font-size: 1.4em; font-weight: bold;">
-<p>Préparez l’entretien d’échanges avec votre référent Cerema en établissant un état des lieux</p>
-</div>
-<div style="color:white; margin-left:10%; font-size: 1.4em; font-weight: bold; margin-top: -17px">
-<p>des forces et des besoins de votre territoire.</p>
-</div>
-<button class="btn" style="margin-left: 10%;
-  box-shadow: inset 1px 1px 3px #712929, inset -1px -1px 3px #ccc7c7;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 1.2em;
-  margin-top: 40px;" onclick="window.location.href='introduction.html';">
-Commencer
-</button>
-</div>
-</div>
 
-<div class="container">
-    <!-- Colonne gauche -->
-    <div class="left-column">
-      <div class="info-block">
-        <img src="images/main_pomme.png" alt="Pomme">
-        <div class="info-text">
-          <h3>Disposer d'un état des lieux</h3>
-          <h4>Répondez à quelques questions et recevez votre rapport avec un premier niveau de recommandations du Cerema.</h4>
-        </div>
-      </div>
+<script>window.currentProgressStep = 4;</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const bar = document.getElementById('progress-bar');
+  if (!bar) return;
 
-      <div class="info-block">
-        <img src="images/cible.png" alt="Pomme">
-        <div class="info-text">
-          <h3>Déterminer vos priorités</h3>
-          <h4>Sur la base de ce rapport, établissez vos priorités d'actions et définissez, avec votre référent Cerema, les solutions mobilisables.</h4>
-        </div>
-      </div>
+  let step = window.currentProgressStep || null;
 
-      <div class="info-block">
-        <img src="images/ecran.png" alt="Pomme">
-        <div class="info-text">
-          <h3>Faciliter le passage à l'action</h3>
-          <h4>Bénéficiez, par thématique, d'une boîte à outils et de retours d'expériences inspirants.</h4>
-        </div>
-      </div>
-    </div>
+  // fallback depuis l'URL
+  if (!step) {
+    const m = window.location.pathname.match(/(\d+)/);
+    if (m) step = parseInt(m[1], 10);
+  }
 
-    <!-- Colonne droite -->
-    <div class="right-column">
-      <img src="images/image_diag.png" alt="Image droite">
-    </div>
+  if (!step || isNaN(step)) step = 1;
+
+  // Activer toutes les étapes jusqu'à l'étape courante
+  for (let i = 1; i <= step; i++) {
+    const item = bar.querySelector(`.progress-item[data-step="${i}"]`);
+    if (item) item.classList.add('active');
+  }
+});
+</script>
+
+<div style="margin-left:10%; margin-right:10%;">
+<div id="progress-bar" class="progress-bar">
+
+  <div class="progress-item" data-step="1">
+    <div class="circle">1</div>
+    <span class="label">Introduction</span>
   </div>
 
+  <div class="progress-item" data-step="2">
+    <div class="circle">2</div>
+    <span class="label">Dynamique <br> territoriale</span>
+  </div>
+
+  <div class="progress-item" data-step="3">
+    <div class="circle">3</div>
+    <span class="label">Aménagement</span>
+  </div>
+  
+  <div class="progress-item" data-step="4">
+    <div class="circle">4</div>
+    <span class="label">Territoire <br> intelligent</span>
+  </div>
+  
+  <div class="progress-item" data-step="5">
+    <div class="circle">5</div>
+    <span class="label">Foncier</span>
+  </div>
+
+  <div class="progress-item" data-step="6">
+    <div class="circle">6</div>
+    <span class="label">Transition <br> énergétique</span>
+  </div>
+  
+  <div class="progress-item" data-step="7">
+    <div class="circle">7</div>
+    <span class="label">Mobilités</span>
+  </div>
+  
+  <div class="progress-item" data-step="8">
+    <div class="circle">8</div>
+    <span class="label">Infrastructures</span>
+  </div>
+  
+  <div class="progress-item" data-step="9">
+    <div class="circle">9</div>
+    <span class="label">Risques <br> naturels</span>
+  </div>
+  
+  <div class="progress-item" data-step="10">
+    <div class="circle">10</div>
+    <span class="label">Renaturation</span>
+  </div>
+  
+  <div class="progress-item" data-step="11">
+    <div class="circle">11</div>
+    <span class="label">Eau</span>
+  </div>
+  
+  <div class="progress-item" data-step="12">
+    <div class="circle">12</div>
+    <span class="label">Littoral</span>
+  </div>
+  
+</div>
+
+
+
+
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const normalize = s => String(s || "").trim().toLowerCase();
+
+  function parseExpected(cond) {
+    if (!cond) return [];
+    return cond.split(",").map(s => s.trim()).filter(Boolean).map(normalize);
+  }
+
+  function getSelectedValues(parentName) {
+    const selected = [];
+    const parentEls = document.querySelectorAll(`[name='${parentName}']`);
+    parentEls.forEach(el => {
+      if ((el.type === "radio" || el.type === "checkbox") && el.checked) {
+        selected.push(normalize(el.value));
+      } else if (el.tagName === "SELECT" && el.value) {
+        selected.push(normalize(el.value));
+      } else if ((el.tagName === "TEXTAREA" || el.type === "text") && el.value) {
+        selected.push(normalize(el.value));
+      }
+    });
+    return selected;
+  }
+
+  function updateBlock(block) {
+    const expectedValues = parseExpected(block.dataset.condition);
+    const parentNames = block.dataset.parentQuestion?.split(";").map(normalize) || [];
+
+    let show = false;
+    parentNames.forEach(parent => {
+      const selected = getSelectedValues(parent);
+      if (expectedValues.some(val => selected.includes(val))) {
+        show = true;
+      }
+    });
+
+    block.style.display = show ? "block" : "none";
+    block.classList.toggle("visible", show);
+  }
+
+  function updateBlocksForParent(parentName) {
+    document.querySelectorAll(".conditional").forEach(block => {
+      const parentNames = block.dataset.parentQuestion?.split(";").map(normalize) || [];
+
+      // NE PAS mettre à jour le bloc si c’est lui-même qui contient le champ déclencheur
+      const parentField = document.querySelector(`[name='${parentName}']`);
+      if (parentField && block.contains(parentField)) return;
+
+      if (parentNames.includes(normalize(parentName))) {
+        updateBlock(block);
+      }
+    });
+  }
+
+  // Bind change listeners
+  const controls = document.querySelectorAll("input[name], select[name], textarea[name]");
+  controls.forEach(ctrl => {
+    ctrl.addEventListener("change", function (e) {
+      updateBlocksForParent(e.target.name);
+    });
+  });
+
+  // Initial rendering
+  document.querySelectorAll(".conditional").forEach(updateBlock);
+});
+</script>
+
+<div style="border: 1px solid #f6f3f3;
+            margin-left:10%;
+            margin-right: 10%;">
+            
+   <div style="color: red; font-size:0.8rem; margin-top: 3px; margin-bottom: 40px; margin-left: 10px;">*Champs obligatoires</div>          
+            
+
+        <div style="margin-left:4%;
+                    margin-right:4%;
+                    text-align: left;
+                    font-family: Arial,sans-serif, monospace;
+                    color: rgba(41,37,116,1) !important;
+                    font-weight: bold;
+                    margin-bottom: 70px;">
+            <h4 style="font-weight: bold;"> Territoire intelligent </h4>
+            
+            <br>
+                    
+            <div> Le numérique constitue un levier essentiel pour réussir sa transition écologique. Pour les territoires, l’enjeu ne se limite pas au choix d’innovations technologiques.
+Il convient de bâtir un projet associant l’ensemble des parties prenantes en intégrant les priorités politiques et les spécifiques locales.
+            </div>
+            
+            <br>
+        
+        </div>
+<div id="q12" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Etes-vous porteur ou partie prenante d’un projet de territoire intelligent et durable ? <span style="color:red;">*</span>
+</p>
+<p><input type="radio" id="q12_1" name="q12" value="Oui" required=""> <label for="q12_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q12_2" name="q12" value="Non"> <label for="q12_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non</label> <input type="radio" id="q12_3" name="q12" value="Je ne sais pas"> <label for="q12_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas</label></p>
+</div>
+<div id="q12a" class="question-block conditional" data-parent-question="q2" data-condition="Un syndicat mixte" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Etes-vous porteur ou partie prenante d’un projet de territoire intelligent et durable ? <span style="color:red;">*</span>
+</p>
+<p><input type="radio" id="q12a_1" name="q12a" value="Oui" required=""> <label for="q12a_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q12a_2" name="q12a" value="Non"> <label for="q12a_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non</label> <input type="radio" id="q12a_3" name="q12a" value="Je ne sais pas"> <label for="q12a_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas</label> <input type="radio" id="q12a_4" name="q12a" value="Non applicable à l’échelle de mon syndicat (SSI syndicat)"> <label for="q12a_4" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non applicable à l’échelle de mon syndicat (SSI syndicat)</label></p>
+</div>
+<div id="q12.1" class="question-block conditional" data-parent-question="q12;q12a" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Territoire : Précisez les démarches entreprises parmi les propositions ci-après : <span style="color:red;">*</span>
+</p>
+<div class="option-line">
+<p><input type="checkbox" id="q12.1_1" name="q12.1" value="Nous avons coconstruit notre projet de territoire avec les parties prenantes (habitants, acteurs économiques et institutionnels, associations), en y intégrant les potentiels de la transition numérique"> <label for="q12.1_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous avons coconstruit notre projet de territoire avec les parties prenantes (habitants, acteurs économiques et institutionnels, associations), en y intégrant les potentiels de la transition numérique</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q12.1_2" name="q12.1" value="Nous fournissons des services publics numériques pour simplifier la vie aux habitants (ex : démarches administratives en ligne accessibles 24h/24, informations en temps réel [bibliothèque, transports, etc.])"> <label for="q12.1_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous fournissons des services publics numériques pour simplifier la vie aux habitants (ex : démarches administratives en ligne accessibles 24h/24, informations en temps réel [bibliothèque, transports, etc.])</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q12.1_3" name="q12.1" value="Nous collectons et analysons de multiples données pour superviser et améliorer le fonctionnement de nos réseaux d’eau, d’électricité, d’éclairage ou de transport"> <label for="q12.1_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous collectons et analysons de multiples données pour superviser et améliorer le fonctionnement de nos réseaux d’eau, d’électricité, d’éclairage ou de transport</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q12.1_4" name="q12.1" value="Nous disposons d’une stratégie globale de gestion de la donnée à l’échelle du territoire (RGPD, partage, gouvernance, accès)"> <label for="q12.1_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous disposons d’une stratégie globale de gestion de la donnée à l’échelle du territoire (RGPD, partage, gouvernance, accès)</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q12.1_5" name="q12.1" value="Nous avons engagé une stratégie numérique responsable et nous évaluons l’impact des technologies numériques utilisées (loi REEN)"> <label for="q12.1_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous avons engagé une stratégie numérique responsable et nous évaluons l’impact des technologies numériques utilisées (loi REEN)</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q12.1_6" name="q12.1" value="Nous avons une politique publique de soutien en faveur de la création de Tiers-lieux (points d’accès publics à internet, espace de fabrication numérique ou coworking, ressourcerie, etc.)."> <label for="q12.1_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous avons une politique publique de soutien en faveur de la création de Tiers-lieux (points d’accès publics à internet, espace de fabrication numérique ou coworking, ressourcerie, etc.).</label></p>
+</div>
+</div>
+<div id="q13" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Territoire : Ressentez-vous le besoin de mobiliser un service d’expertise pour vous accompagner sur cette thématique ? <span style="color:red;">*</span>
+</p>
+<p><input type="radio" id="q13_1" name="q13" value="Oui" required=""> <label for="q13_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q13_2" name="q13" value="Non, pas à ce stade"> <label for="q13_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non, pas à ce stade</label></p>
+</div>
+<div id="q13.1" class="question-block conditional" data-parent-question="q13" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Territoire : Choisir les services d’expertise prioritaires ci- après : 2 réponses maximum <span style="color:red;">*</span>
+</p>
+<div class="option-line">
+<p><input type="checkbox" id="q13.1_1" name="q13.1" value="Sensibiliser les décideurs (élus et agents) aux enjeux de la transition numérique et de la valorisation des données"> <label for="q13.1_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Sensibiliser les décideurs (élus et agents) aux enjeux de la transition numérique et de la valorisation des données</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q13.1_2" name="q13.1" value="Coconstruire un projet de territoire intelligent et durable"> <label for="q13.1_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Coconstruire un projet de territoire intelligent et durable</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q13.1_3" name="q13.1" value="Mettre en place ou améliorer des services à la population, aux entreprises ou associations"> <label for="q13.1_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Mettre en place ou améliorer des services à la population, aux entreprises ou associations</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q13.1_4" name="q13.1" value="Organiser la collecte, le partage, la gouvernance de données, avec l’ensemble des parties prenantes"> <label for="q13.1_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Organiser la collecte, le partage, la gouvernance de données, avec l’ensemble des parties prenantes</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q13.1_5" name="q13.1" value="Intégrer la participation citoyenne dans la définition et la mise en œuvre vos politiques publiques"> <label for="q13.1_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Intégrer la participation citoyenne dans la définition et la mise en œuvre vos politiques publiques</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q13.1_6" name="q13.1" value="Evaluer les impacts du numérique dans vos politiques publiques"> <label for="q13.1_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Evaluer les impacts du numérique dans vos politiques publiques</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q13.1_7" name="q13.1" value="Bénéficier de retours d’expériences dans la perspective de créer un dispositif de soutien aux « Tiers-lieux »"> <label for="q13.1_7" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Bénéficier de retours d’expériences dans la perspective de créer un dispositif de soutien aux « Tiers-lieux »</label></p>
+</div>
+</div>
+<div id="q14" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Autre besoins sur le territoire intelligent <span style="color:red;">*</span>
+</p>
+<textarea name="q14" rows="4" cols="50" required="" style="width:100%; margin-top:6px; color:#293574; font-weight:bold; opacity:0.9;"></textarea>
+</div>
+
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const normalize = s => String(s || "").trim().toLowerCase();
+  const valIntro = normalize(localStorage.getItem("q2"));
+
+  // Bloc question 12a (syndicat mixte)
+  const q12a = document.querySelector('#q12a');
+  if (q12a) {
+    if (valIntro === "un syndicat mixte") {
+      q12a.style.display = "block";
+      q12a.classList.add("visible");
+    } else {
+      q12a.style.display = "none";
+      q12a.classList.remove("visible");
+    }
+  }
+
+  // Bloc question 8 (autres cas)
+  const q12 = document.querySelector('#q12');
+  if (q12) {
+    if (valIntro !== "un syndicat mixte") {
+      q12.style.display = "block";
+      q12.classList.add("visible");
+    } else {
+      q12.style.display = "none";
+      q12.classList.remove("visible");
+    }
+  }
+});
+</script>
+
+<div class="custom-footer">
+<button style="background-color: #ef7757;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 6px;
+  font-family: normal;
+  border-color: coral;" onclick="window.location.href='introduction.html';"> &lt; Précédent</button>
+  
+  
+
+
+  <div id="footer-dots" class="dots">
+    <span class="dot" data-step="1"></span>
+    <span class="dot" data-step="2"></span>
+    <span class="dot" data-step="3"></span>
+    <span class="dot" data-step="4"></span>
+    <span class="dot" data-step="5"></span>
+    <span class="dot" data-step="6"></span>
+    <span class="dot" data-step="7"></span>
+    <span class="dot" data-step="8"></span>
+    <span class="dot" data-step="9"></span>
+    <span class="dot" data-step="10"></span>
+    <span class="dot" data-step="11"></span>
+    <span class="dot" data-step="12"></span>
+  </div>
+
+  
+
+
+  
+ <button style="background-color: #ef7757;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: 6px;
+  font-family: normal;
+  border-color: coral;" onclick="window.location.href='sobriete_fonciere.html';"> Suivant &gt; </button>
+  
+  </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const dots = document.querySelectorAll("#footer-dots .dot");
+  let step = window.currentProgressStep || null;
+
+  // Fallback depuis l'URL si nécessaire
+  if (!step) {
+    const match = window.location.pathname.match(/(\d+)/);
+    if (match) step = parseInt(match[1], 10);
+  }
+
+  if (!step || isNaN(step)) step = 1;
+
+  // Activer le dot correspondant
+  const activeDot = document.querySelector(`#footer-dots .dot[data-step="${step}"]`);
+  if (activeDot) activeDot.classList.add("active");
+});
+</script>
 
 
 

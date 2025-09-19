@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.39">
+<meta name="generator" content="quarto-1.6.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -35,10 +35,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-b663525e4b92bb903b2199e2d401bf36.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f95efca093a1a11a1ff6b1787f15c966.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-24269e503d783a6f653f2bd7748c8826.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -96,23 +96,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const normalize = s => String(s || "").trim().toLowerCase();
-  const valIntro = localStorage.getItem("q2");  // ce qui a été sauvegardé
-
-  console.log("Valeur récupérée :", valIntro); // debug
-
-  document.querySelectorAll(".conditional[data-parent-question='q2']").forEach(block => {
-    const expected = normalize(block.dataset.condition);
-    if (normalize(valIntro) === expected) {
-      block.style.display = "block";   // on montre
-    } else {
-      block.style.display = "none";    // on cache
-    }
-  });
-});
-</script>
 
 <script>window.currentProgressStep = 3;</script>
 <script>
@@ -211,50 +194,68 @@ document.addEventListener("DOMContentLoaded", function () {
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const normalize = s => String(s||"").trim().toLowerCase();
+  const normalize = s => String(s || "").trim().toLowerCase();
 
   function parseExpected(cond) {
     if (!cond) return [];
-    return cond.split(",").map(s => s.trim()).filter(Boolean).map(s => s.toLowerCase());
+    return cond.split(",").map(s => s.trim()).filter(Boolean).map(normalize);
   }
 
-  function updateForParent(parentName) {
-    // sélection des blocs conditionnels pour CE parent
-    const blocks = document.querySelectorAll(`.conditional[data-parent-question='${parentName}']`);
-    if (!blocks) return;
-
-    // valeurs attendues par bloc et état du parent
-    const parentEls = Array.from(document.querySelectorAll(`[name='${parentName}']`));
-    // collect selected values of the parent
+  function getSelectedValues(parentName) {
     const selected = [];
+    const parentEls = document.querySelectorAll(`[name='${parentName}']`);
     parentEls.forEach(el => {
-      if ((el.type === "radio" || el.type === "checkbox") && el.checked) selected.push(normalize(el.value));
-      else if (el.tagName === "SELECT" && el.value) selected.push(normalize(el.value));
-      else if ((el.tagName === "TEXTAREA" || el.type === "text") && el.value) selected.push(normalize(el.value));
+      if ((el.type === "radio" || el.type === "checkbox") && el.checked) {
+        selected.push(normalize(el.value));
+      } else if (el.tagName === "SELECT" && el.value) {
+        selected.push(normalize(el.value));
+      } else if ((el.tagName === "TEXTAREA" || el.type === "text") && el.value) {
+        selected.push(normalize(el.value));
+      }
+    });
+    return selected;
+  }
+
+  function updateBlock(block) {
+    const expectedValues = parseExpected(block.dataset.condition);
+    const parentNames = block.dataset.parentQuestion?.split(";").map(normalize) || [];
+
+    let show = false;
+    parentNames.forEach(parent => {
+      const selected = getSelectedValues(parent);
+      if (expectedValues.some(val => selected.includes(val))) {
+        show = true;
+      }
     });
 
-    blocks.forEach(block => {
-      const expected = parseExpected(block.dataset.condition); // array lowercase
-      const show = expected.some(e => selected.includes(e));
-      block.style.display = show ? "block" : "none";
+    block.style.display = show ? "block" : "none";
+    block.classList.toggle("visible", show);
+  }
+
+  function updateBlocksForParent(parentName) {
+    document.querySelectorAll(".conditional").forEach(block => {
+      const parentNames = block.dataset.parentQuestion?.split(";").map(normalize) || [];
+
+      // NE PAS mettre à jour le bloc si c’est lui-même qui contient le champ déclencheur
+      const parentField = document.querySelector(`[name='${parentName}']`);
+      if (parentField && block.contains(parentField)) return;
+
+      if (parentNames.includes(normalize(parentName))) {
+        updateBlock(block);
+      }
     });
   }
 
-  // bind change listeners to all controls that have a name
+  // Bind change listeners
   const controls = document.querySelectorAll("input[name], select[name], textarea[name]");
   controls.forEach(ctrl => {
     ctrl.addEventListener("change", function (e) {
-      const parentName = e.target.name;
-      updateForParent(parentName);
+      updateBlocksForParent(e.target.name);
     });
   });
 
-  // init: run updates for all parents present in the page
-  const parents = new Set();
-  document.querySelectorAll(".conditional").forEach(b => {
-    if (b.dataset.parentQuestion) parents.add(b.dataset.parentQuestion);
-  });
-  parents.forEach(p => updateForParent(p));
+  // Initial rendering
+  document.querySelectorAll(".conditional").forEach(updateBlock);
 });
 </script>
 
@@ -283,117 +284,148 @@ Cette approche s’applique aussi bien à l’échelle du quartier (écoquartier
             <br>
         
         </div>
-<div id="q1" class="question-block conditional" data-parent-question="qq2" data-condition="Un syndicat mixte" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q8" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 Prenez-vous en compte le changement climatique dans vos projets et opérations d’aménagement ? <span style="color:red;">*</span>
 </p>
-<p><input type="radio" id="q1_1" name="q1" value="Oui&nbsp;" required=""> <label for="q1_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui&nbsp;</label> <input type="radio" id="q1_2" name="q1" value="Non&nbsp;"> <label for="q1_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non&nbsp;</label> <input type="radio" id="q1_3" name="q1" value="Je ne sais pas&nbsp;"> <label for="q1_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas&nbsp;</label> <input type="radio" id="q1_4" name="q1" value="Non applicable à l’échelle de mon syndicat (SSI syndicat)"> <label for="q1_4" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non applicable à l’échelle de mon syndicat (SSI syndicat)</label></p>
+<p><input type="radio" id="q8_1" name="q8" value="Oui&nbsp;" required=""> <label for="q8_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui&nbsp;</label> <input type="radio" id="q8_2" name="q8" value="Non&nbsp;"> <label for="q8_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non&nbsp;</label> <input type="radio" id="q8_3" name="q8" value="Je ne sais pas&nbsp;"> <label for="q8_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas&nbsp;</label></p>
 </div>
-<div id="q1" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q8a" class="question-block conditional" data-parent-question="q2" data-condition="Un syndicat mixte" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 Prenez-vous en compte le changement climatique dans vos projets et opérations d’aménagement ? <span style="color:red;">*</span>
 </p>
-<p><input type="radio" id="q1_1" name="q1" value="Oui&nbsp;" required=""> <label for="q1_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui&nbsp;</label> <input type="radio" id="q1_2" name="q1" value="Non&nbsp;"> <label for="q1_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non&nbsp;</label> <input type="radio" id="q1_3" name="q1" value="Je ne sais pas&nbsp;"> <label for="q1_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas&nbsp;</label></p>
+<p><input type="radio" id="q8a_1" name="q8a" value="Oui&nbsp;" required=""> <label for="q8a_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui&nbsp;</label> <input type="radio" id="q8a_2" name="q8a" value="Non&nbsp;"> <label for="q8a_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non&nbsp;</label> <input type="radio" id="q8a_3" name="q8a" value="Je ne sais pas&nbsp;"> <label for="q8a_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas&nbsp;</label> <input type="radio" id="q8a_4" name="q8a" value="Non applicable à l’échelle de mon syndicat (SSI syndicat)"> <label for="q8a_4" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non applicable à l’échelle de mon syndicat (SSI syndicat)</label></p>
 </div>
-<div id="q1.1" class="question-block conditional" data-parent-question="q1" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q8.1" class="question-block conditional" data-parent-question="q8;q8a" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 Aménagement : Précisez les démarches entreprises parmi les propositions ci-après <span style="color:red;">*</span>
 </p>
 <div class="option-line">
-<p><input type="checkbox" id="q1.1_1" name="q1.1" value="Nous connaissons les leviers à actionner pour répondre aux impératifs d’adaptation au changement climatique dans nos projets d’aménagement&nbsp;"> <label for="q1.1_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous connaissons les leviers à actionner pour répondre aux impératifs d’adaptation au changement climatique dans nos projets d’aménagement&nbsp;</label></p>
+<p><input type="checkbox" id="q8.1_1" name="q8.1" value="Nous connaissons les leviers à actionner pour répondre aux impératifs d’adaptation au changement climatique dans nos projets d’aménagement&nbsp;"> <label for="q8.1_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous connaissons les leviers à actionner pour répondre aux impératifs d’adaptation au changement climatique dans nos projets d’aménagement&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.1_2" name="q1.1" value="Notre stratégie d'aménagement intègre ces leviers&nbsp;"> <label for="q1.1_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Notre stratégie d’aménagement intègre ces leviers&nbsp;</label></p>
+<p><input type="checkbox" id="q8.1_2" name="q8.1" value="Notre stratégie d'aménagement intègre ces leviers&nbsp;"> <label for="q8.1_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Notre stratégie d’aménagement intègre ces leviers&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.1_3" name="q1.1" value="Nos projets d’aménagement sont conçus et réalisés selon une approche multithématique, intégrant le changement climatique&nbsp;"> <label for="q1.1_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nos projets d’aménagement sont conçus et réalisés selon une approche multithématique, intégrant le changement climatique&nbsp;</label></p>
+<p><input type="checkbox" id="q8.1_3" name="q8.1" value="Nos projets d’aménagement sont conçus et réalisés selon une approche multithématique, intégrant le changement climatique&nbsp;"> <label for="q8.1_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nos projets d’aménagement sont conçus et réalisés selon une approche multithématique, intégrant le changement climatique&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.1_4" name="q1.1" value="Nous associons les parties prenantes (habitants, usagers, acteurs locaux…) dans l'élaboration des projets d'aménagement"> <label for="q1.1_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous associons les parties prenantes (habitants, usagers, acteurs locaux…) dans l’élaboration des projets d’aménagement</label></p>
+<p><input type="checkbox" id="q8.1_4" name="q8.1" value="Nous associons les parties prenantes (habitants, usagers, acteurs locaux…) dans l'élaboration des projets d'aménagement"> <label for="q8.1_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous associons les parties prenantes (habitants, usagers, acteurs locaux…) dans l’élaboration des projets d’aménagement</label></p>
 </div>
 </div>
-<div id="q1.2" class="question-block conditional" data-parent-question="q1" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q8.2" class="question-block conditional" data-parent-question="q8;q8a" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 Aménagement : Avez-vous réalisé des projets concrets en faveur des thématiques suivantes ? <span style="color:red;">*</span>
 </p>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_1" name="q1.2" value="Cadre de vie agréable et apaisé&nbsp;"> <label for="q1.2_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Cadre de vie agréable et apaisé&nbsp;</label></p>
+<p><input type="checkbox" id="q8.2_1" name="q8.2" value="Cadre de vie agréable et apaisé&nbsp;"> <label for="q8.2_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Cadre de vie agréable et apaisé&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_2" name="q1.2" value="Espace public et interaction sociale&nbsp;"> <label for="q1.2_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Espace public et interaction sociale&nbsp;</label></p>
+<p><input type="checkbox" id="q8.2_2" name="q8.2" value="Espace public et interaction sociale&nbsp;"> <label for="q8.2_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Espace public et interaction sociale&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_3" name="q1.2" value="Accessibilité et mobilités douces&nbsp;"> <label for="q1.2_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Accessibilité et mobilités douces&nbsp;</label></p>
+<p><input type="checkbox" id="q8.2_3" name="q8.2" value="Accessibilité et mobilités douces&nbsp;"> <label for="q8.2_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Accessibilité et mobilités douces&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_4" name="q1.2" value="Végétalisation&nbsp;"> <label for="q1.2_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Végétalisation&nbsp;</label></p>
+<p><input type="checkbox" id="q8.2_4" name="q8.2" value="Végétalisation&nbsp;"> <label for="q8.2_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Végétalisation&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_5" name="q1.2" value="Lutte contre la surchauffe urbaine&nbsp;"> <label for="q1.2_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Lutte contre la surchauffe urbaine&nbsp;</label></p>
+<p><input type="checkbox" id="q8.2_5" name="q8.2" value="Lutte contre la surchauffe urbaine&nbsp;"> <label for="q8.2_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Lutte contre la surchauffe urbaine&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_6" name="q1.2" value="Protection de la biodiversité&nbsp;"> <label for="q1.2_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Protection de la biodiversité&nbsp;</label></p>
+<p><input type="checkbox" id="q8.2_6" name="q8.2" value="Protection de la biodiversité&nbsp;"> <label for="q8.2_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Protection de la biodiversité&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_7" name="q1.2" value="Bien-être et santé&nbsp;"> <label for="q1.2_7" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Bien-être et santé&nbsp;</label></p>
+<p><input type="checkbox" id="q8.2_7" name="q8.2" value="Bien-être et santé&nbsp;"> <label for="q8.2_7" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Bien-être et santé&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_8" name="q1.2" value="Economie circulaire des matériaux et gestion des déchets du BTP&nbsp;"> <label for="q1.2_8" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Economie circulaire des matériaux et gestion des déchets du BTP&nbsp;</label></p>
+<p><input type="checkbox" id="q8.2_8" name="q8.2" value="Economie circulaire des matériaux et gestion des déchets du BTP&nbsp;"> <label for="q8.2_8" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Economie circulaire des matériaux et gestion des déchets du BTP&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_9" name="q1.2" value="Association des parties prenantes&nbsp;"> <label for="q1.2_9" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Association des parties prenantes&nbsp;</label></p>
+<p><input type="checkbox" id="q8.2_9" name="q8.2" value="Association des parties prenantes&nbsp;"> <label for="q8.2_9" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Association des parties prenantes&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q1.2_10" name="q1.2" value="Evaluation socio-économique des projets d’aménagement"> <label for="q1.2_10" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Evaluation socio-économique des projets d’aménagement</label></p>
+<p><input type="checkbox" id="q8.2_10" name="q8.2" value="Evaluation socio-économique des projets d’aménagement"> <label for="q8.2_10" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Evaluation socio-économique des projets d’aménagement</label></p>
 </div>
 </div>
-<div id="q2" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q9" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 Aménagement : Ressentez-vous le besoin de mobiliser un service d’expertise pour vous accompagner sur cette thématique ? <span style="color:red;">*</span>
 </p>
-<p><input type="radio" id="q2_1" name="q2" value="Oui&nbsp;" required=""> <label for="q2_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui&nbsp;</label> <input type="radio" id="q2_2" name="q2" value="Non, pas à ce stade&nbsp;"> <label for="q2_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non, pas à ce stade&nbsp;</label></p>
+<p><input type="radio" id="q9_1" name="q9" value="Oui&nbsp;" required=""> <label for="q9_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui&nbsp;</label> <input type="radio" id="q9_2" name="q9" value="Non, pas à ce stade&nbsp;"> <label for="q9_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non, pas à ce stade&nbsp;</label></p>
 </div>
-<div id="q3" class="question-block conditional" data-parent-question="q2" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q10" class="question-block conditional" data-parent-question="q9" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 Aménagement : Choisir les services d’expertise prioritaires ci-après : 2 réponses maximum <span style="color:red;">*</span>
 </p>
 <div class="option-line">
-<p><input type="checkbox" id="q3_1" name="q3" value="Bâtir un quartier durable et résilient&nbsp;"> <label for="q3_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Bâtir un quartier durable et résilient&nbsp;</label></p>
+<p><input type="checkbox" id="q10_1" name="q10" value="Bâtir un quartier durable et résilient&nbsp;"> <label for="q10_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Bâtir un quartier durable et résilient&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q3_2" name="q3" value="Revitaliser en s’adaptant au changement climatique&nbsp;"> <label for="q3_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Revitaliser en s’adaptant au changement climatique&nbsp;</label></p>
+<p><input type="checkbox" id="q10_2" name="q10" value="Revitaliser en s’adaptant au changement climatique&nbsp;"> <label for="q10_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Revitaliser en s’adaptant au changement climatique&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q3_3" name="q3" value="Développer et adapter son territoire de montagne au changement climatique&nbsp;"> <label for="q3_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Développer et adapter son territoire de montagne au changement climatique&nbsp;</label></p>
+<p><input type="checkbox" id="q10_3" name="q10" value="Développer et adapter son territoire de montagne au changement climatique&nbsp;"> <label for="q10_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Développer et adapter son territoire de montagne au changement climatique&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q3_4" name="q3" value="&nbsp;Agir pour l’école de demain&nbsp;"> <label for="q3_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">&nbsp;Agir pour l’école de demain&nbsp;</label></p>
+<p><input type="checkbox" id="q10_4" name="q10" value="&nbsp;Agir pour l’école de demain&nbsp;"> <label for="q10_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">&nbsp;Agir pour l’école de demain&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q3_5" name="q3" value="Développer des solutions contre la surchauffe urbaine"> <label for="q3_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Développer des solutions contre la surchauffe urbaine</label></p>
+<p><input type="checkbox" id="q10_5" name="q10" value="Développer des solutions contre la surchauffe urbaine"> <label for="q10_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Développer des solutions contre la surchauffe urbaine</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q3_6" name="q3" value="Mobiliser des solutions fondées sur la nature pour une ville apaisée&nbsp;"> <label for="q3_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Mobiliser des solutions fondées sur la nature pour une ville apaisée&nbsp;</label></p>
+<p><input type="checkbox" id="q10_6" name="q10" value="Mobiliser des solutions fondées sur la nature pour une ville apaisée&nbsp;"> <label for="q10_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Mobiliser des solutions fondées sur la nature pour une ville apaisée&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q3_7" name="q3" value="Aménager en intégrant les enjeux environnementaux (santé, bruit, vibrations, qualité de l’air)&nbsp;"> <label for="q3_7" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Aménager en intégrant les enjeux environnementaux (santé, bruit, vibrations, qualité de l’air)&nbsp;</label></p>
+<p><input type="checkbox" id="q10_7" name="q10" value="Aménager en intégrant les enjeux environnementaux (santé, bruit, vibrations, qualité de l’air)&nbsp;"> <label for="q10_7" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Aménager en intégrant les enjeux environnementaux (santé, bruit, vibrations, qualité de l’air)&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q3_8" name="q3" value="Favoriser l’écoconstruction, gérer des déchets du BTP, valoriser les matériaux du BTP dans les projets de construction et d’aménagement&nbsp;"> <label for="q3_8" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Favoriser l’écoconstruction, gérer des déchets du BTP, valoriser les matériaux du BTP dans les projets de construction et d’aménagement&nbsp;</label></p>
+<p><input type="checkbox" id="q10_8" name="q10" value="Favoriser l’écoconstruction, gérer des déchets du BTP, valoriser les matériaux du BTP dans les projets de construction et d’aménagement&nbsp;"> <label for="q10_8" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Favoriser l’écoconstruction, gérer des déchets du BTP, valoriser les matériaux du BTP dans les projets de construction et d’aménagement&nbsp;</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q3_9" name="q3" value="Mettre en œuvre des démarche participatives"> <label for="q3_9" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Mettre en œuvre des démarche participatives</label></p>
+<p><input type="checkbox" id="q10_9" name="q10" value="Mettre en œuvre des démarche participatives"> <label for="q10_9" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Mettre en œuvre des démarche participatives</label></p>
 </div>
 </div>
-<div id="q4" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q11" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
 Autres besoins sur l’aménagement urbain durable <span style="color:red;">*</span>
 </p>
-<textarea name="q4" rows="4" cols="50" required="" style="width:100%; margin-top:6px; color:#293574; font-weight:bold; opacity:0.9;"></textarea>
+<textarea name="q11" rows="4" cols="50" required="" style="width:100%; margin-top:6px; color:#293574; font-weight:bold; opacity:0.9;"></textarea>
 </div>
 
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const normalize = s => String(s || "").trim().toLowerCase();
+  const valIntro = normalize(localStorage.getItem("q2"));
+
+  // Bloc question 8a (syndicat mixte)
+  const q8a = document.querySelector('#q8a');
+  if (q8a) {
+    if (valIntro === "un syndicat mixte") {
+      q8a.style.display = "block";
+      q8a.classList.add("visible");
+    } else {
+      q8a.style.display = "none";
+      q8a.classList.remove("visible");
+    }
+  }
+
+  // Bloc question 8 (autres cas)
+  const q8 = document.querySelector('#q8');
+  if (q8) {
+    if (valIntro !== "un syndicat mixte") {
+      q8.style.display = "block";
+      q8.classList.add("visible");
+    } else {
+      q8.style.display = "none";
+      q8.classList.remove("visible");
+    }
+  }
+});
+</script>
 
 <div class="custom-footer">
 <button style="background-color: #ef7757;
@@ -434,7 +466,7 @@ Autres besoins sur l’aménagement urbain durable <span style="color:red;">*</s
   padding-right: 15px;
   margin-right: 6px;
   font-family: normal;
-  border-color: coral;" onclick="window.location.href='dynamique_transition_territoriale.html';"> Suivant &gt; </button>
+  border-color: coral;" onclick="window.location.href='territoire_intelligent.html';"> Suivant &gt; </button>
   
   </div>
 
@@ -551,7 +583,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
+      var filterRegex = new RegExp("https:\/\/website\.quarto\.pub\/questionnaire_pqna");
     var isInternal = (href) => {
         return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }

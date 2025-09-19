@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>index</title>
+<title>sobriete_fonciere</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -96,66 +96,361 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<div class="fullwidth">
-<div class="page-layout-custom">
-<div style="color:white; margin-left:10%; font-size: 1.8em; margin-top: 4%; font-weight: bold;">
-<p>Diagnostic Flash</p>
-</div>
-<div style="color:white; margin-left:10%; font-size: 1.8em; font-weight: bold;">
-<p>“Transition et adaptation au changement climatique”</p>
-</div>
-<p><br></p>
-<div style="color:white; margin-left:10%; font-size: 1.4em; font-weight: bold;">
-<p>Préparez l’entretien d’échanges avec votre référent Cerema en établissant un état des lieux</p>
-</div>
-<div style="color:white; margin-left:10%; font-size: 1.4em; font-weight: bold; margin-top: -17px">
-<p>des forces et des besoins de votre territoire.</p>
-</div>
-<button class="btn" style="margin-left: 10%;
-  box-shadow: inset 1px 1px 3px #712929, inset -1px -1px 3px #ccc7c7;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 1.2em;
-  margin-top: 40px;" onclick="window.location.href='introduction.html';">
-Commencer
-</button>
-</div>
-</div>
 
-<div class="container">
-    <!-- Colonne gauche -->
-    <div class="left-column">
-      <div class="info-block">
-        <img src="images/main_pomme.png" alt="Pomme">
-        <div class="info-text">
-          <h3>Disposer d'un état des lieux</h3>
-          <h4>Répondez à quelques questions et recevez votre rapport avec un premier niveau de recommandations du Cerema.</h4>
-        </div>
-      </div>
+<script>window.currentProgressStep = 5;</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const bar = document.getElementById('progress-bar');
+  if (!bar) return;
 
-      <div class="info-block">
-        <img src="images/cible.png" alt="Pomme">
-        <div class="info-text">
-          <h3>Déterminer vos priorités</h3>
-          <h4>Sur la base de ce rapport, établissez vos priorités d'actions et définissez, avec votre référent Cerema, les solutions mobilisables.</h4>
-        </div>
-      </div>
+  let step = window.currentProgressStep || null;
 
-      <div class="info-block">
-        <img src="images/ecran.png" alt="Pomme">
-        <div class="info-text">
-          <h3>Faciliter le passage à l'action</h3>
-          <h4>Bénéficiez, par thématique, d'une boîte à outils et de retours d'expériences inspirants.</h4>
-        </div>
-      </div>
-    </div>
+  // fallback depuis l'URL
+  if (!step) {
+    const m = window.location.pathname.match(/(\d+)/);
+    if (m) step = parseInt(m[1], 10);
+  }
 
-    <!-- Colonne droite -->
-    <div class="right-column">
-      <img src="images/image_diag.png" alt="Image droite">
-    </div>
+  if (!step || isNaN(step)) step = 1;
+
+  // Activer toutes les étapes jusqu'à l'étape courante
+  for (let i = 1; i <= step; i++) {
+    const item = bar.querySelector(`.progress-item[data-step="${i}"]`);
+    if (item) item.classList.add('active');
+  }
+});
+</script>
+
+<div style="margin-left:10%; margin-right:10%;">
+<div id="progress-bar" class="progress-bar">
+
+  <div class="progress-item" data-step="1">
+    <div class="circle">1</div>
+    <span class="label">Introduction</span>
   </div>
 
+  <div class="progress-item" data-step="2">
+    <div class="circle">2</div>
+    <span class="label">Dynamique <br> territoriale</span>
+  </div>
+
+  <div class="progress-item" data-step="3">
+    <div class="circle">3</div>
+    <span class="label">Aménagement</span>
+  </div>
+  
+  <div class="progress-item" data-step="4">
+    <div class="circle">4</div>
+    <span class="label">Territoire <br> intelligent</span>
+  </div>
+  
+  <div class="progress-item" data-step="5">
+    <div class="circle">5</div>
+    <span class="label">Foncier</span>
+  </div>
+
+  <div class="progress-item" data-step="6">
+    <div class="circle">6</div>
+    <span class="label">Transition <br> énergétique</span>
+  </div>
+  
+  <div class="progress-item" data-step="7">
+    <div class="circle">7</div>
+    <span class="label">Mobilités</span>
+  </div>
+  
+  <div class="progress-item" data-step="8">
+    <div class="circle">8</div>
+    <span class="label">Infrastructures</span>
+  </div>
+  
+  <div class="progress-item" data-step="9">
+    <div class="circle">9</div>
+    <span class="label">Risques <br> naturels</span>
+  </div>
+  
+  <div class="progress-item" data-step="10">
+    <div class="circle">10</div>
+    <span class="label">Renaturation</span>
+  </div>
+  
+  <div class="progress-item" data-step="11">
+    <div class="circle">11</div>
+    <span class="label">Eau</span>
+  </div>
+  
+  <div class="progress-item" data-step="12">
+    <div class="circle">12</div>
+    <span class="label">Littoral</span>
+  </div>
+  
+</div>
+
+
+
+
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const normalize = s => String(s || "").trim().toLowerCase();
+
+  function parseExpected(cond) {
+    if (!cond) return [];
+    return cond.split(",").map(s => s.trim()).filter(Boolean).map(normalize);
+  }
+
+  function getSelectedValues(parentName) {
+    const selected = [];
+    const parentEls = document.querySelectorAll(`[name='${parentName}']`);
+    parentEls.forEach(el => {
+      if ((el.type === "radio" || el.type === "checkbox") && el.checked) {
+        selected.push(normalize(el.value));
+      } else if (el.tagName === "SELECT" && el.value) {
+        selected.push(normalize(el.value));
+      } else if ((el.tagName === "TEXTAREA" || el.type === "text") && el.value) {
+        selected.push(normalize(el.value));
+      }
+    });
+    return selected;
+  }
+
+  function updateBlock(block) {
+    const expectedValues = parseExpected(block.dataset.condition);
+    const parentNames = block.dataset.parentQuestion?.split(";").map(normalize) || [];
+
+    let show = false;
+    parentNames.forEach(parent => {
+      const selected = getSelectedValues(parent);
+      if (expectedValues.some(val => selected.includes(val))) {
+        show = true;
+      }
+    });
+
+    block.style.display = show ? "block" : "none";
+    block.classList.toggle("visible", show);
+  }
+
+  function updateBlocksForParent(parentName) {
+    document.querySelectorAll(".conditional").forEach(block => {
+      const parentNames = block.dataset.parentQuestion?.split(";").map(normalize) || [];
+
+      // NE PAS mettre à jour le bloc si c’est lui-même qui contient le champ déclencheur
+      const parentField = document.querySelector(`[name='${parentName}']`);
+      if (parentField && block.contains(parentField)) return;
+
+      if (parentNames.includes(normalize(parentName))) {
+        updateBlock(block);
+      }
+    });
+  }
+
+  // Bind change listeners
+  const controls = document.querySelectorAll("input[name], select[name], textarea[name]");
+  controls.forEach(ctrl => {
+    ctrl.addEventListener("change", function (e) {
+      updateBlocksForParent(e.target.name);
+    });
+  });
+
+  // Initial rendering
+  document.querySelectorAll(".conditional").forEach(updateBlock);
+});
+</script>
+
+<div style="border: 1px solid #f6f3f3;
+            margin-left:10%;
+            margin-right: 10%;">
+            
+   <div style="color: red; font-size:0.8rem; margin-top: 3px; margin-bottom: 40px; margin-left: 10px;">*Champs obligatoires</div>          
+            
+
+        <div style="margin-left:4%;
+                    margin-right:4%;
+                    text-align: left;
+                    font-family: Arial,sans-serif, monospace;
+                    color: rgba(41,37,116,1) !important;
+                    font-weight: bold;
+                    margin-bottom: 70px;">
+            <h4 style="font-weight: bold;"> Sobriété foncière </h4>
+            
+            <br>
+                    
+            <div> En réaffirmant l’objectif de zéro artificialisation nette à l’horizon 2050 et la diminution de moitié du rythme annuel de consommation foncière d’ici 2031, la loi climat et résilience de 2021 appelle les collectivités à repenser en profondeur les modèles d’aménagement du territoire, pour permettre des modes de vie plus sobres et préserver les sols.
+            </div>
+            
+            <br>
+        
+        </div>
+<div id="q15" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Etes-vous engagé dans une dynamique d’observation foncière ? <span style="color:red;">*</span>
+</p>
+<p><input type="radio" id="q15_1" name="q15" value="Oui" required=""> <label for="q15_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q15_2" name="q15" value="Non, notre territoire ne s'inscrit pas encore dans une telle dynamique"> <label for="q15_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non, notre territoire ne s’inscrit pas encore dans une telle dynamique</label> <input type="radio" id="q15_3" name="q15" value="Je ne sais pas"> <label for="q15_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas</label></p>
+</div>
+<div id="q15a" class="question-block conditional" data-parent-question="q2" data-condition="Un syndicat mixte" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Etes-vous engagé dans une dynamique d’observation foncière ? <span style="color:red;">*</span>
+</p>
+<p><input type="radio" id="q15a_1" name="q15a" value="Oui" required=""> <label for="q15a_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q15a_2" name="q15a" value="Non, notre territoire ne s'inscrit pas encore dans une telle dynamique"> <label for="q15a_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non, notre territoire ne s’inscrit pas encore dans une telle dynamique</label> <input type="radio" id="q15a_3" name="q15a" value="Je ne sais pas"> <label for="q15a_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas</label> <input type="radio" id="q15a_4" name="q15a" value="Non applicable à l’échelle de mon syndicat (SSI syndicat)"> <label for="q15a_4" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non applicable à l’échelle de mon syndicat (SSI syndicat)</label></p>
+</div>
+<div id="q15.1" class="question-block conditional" data-parent-question="q15;q15a" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Etes-vous engagés dans des démarches destinées à mieux connaître votre foncier ? <span style="color:red;">*</span>
+</p>
+<div class="option-line">
+<p><input type="checkbox" id="q15.1_1" name="q15.1" value="Oui, nous mesurons la consommation foncière en nous appuyant sur des indicateurs"> <label for="q15.1_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Oui, nous mesurons la consommation foncière en nous appuyant sur des indicateurs</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q15.1_2" name="q15.1" value="Oui, nous disposons d’un observatoire foncier (pour connaître l’appartenance des terrains, les types d’occupation, les contraintes de constructions, les prix du marché, etc.)"> <label for="q15.1_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Oui, nous disposons d’un observatoire foncier (pour connaître l’appartenance des terrains, les types d’occupation, les contraintes de constructions, les prix du marché, etc.)</label></p>
+</div>
+</div>
+<div id="q15.2" class="question-block conditional" data-parent-question="q15;q15a" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Foncier : Précisez les démarches entreprises parmi les propositions ci-après : <span style="color:red;">*</span>
+</p>
+<div class="option-line">
+<p><input type="checkbox" id="q15.2_1" name="q15.2" value="Nous disposons de documents de planification ambitieux en matière de sobriété foncière"> <label for="q15.2_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous disposons de documents de planification ambitieux en matière de sobriété foncière</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q15.2_2" name="q15.2" value="Nous avons mis en place des actions visant à la densification (constructions sur des espaces déjà urbanisés, mutualisation d’équipements) et au recyclage foncier (traitement des friches)"> <label for="q15.2_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous avons mis en place des actions visant à la densification (constructions sur des espaces déjà urbanisés, mutualisation d’équipements) et au recyclage foncier (traitement des friches)</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q15.2_3" name="q15.2" value="Nous mettons en œuvre des actions de lutte contre la vacance des logements et des locaux d’activités (soutien à la réhabilitation–restructuration, taxe sur les locaux vacants, etc.)"> <label for="q15.2_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous mettons en œuvre des actions de lutte contre la vacance des logements et des locaux d’activités (soutien à la réhabilitation–restructuration, taxe sur les locaux vacants, etc.)</label></p>
+</div>
+</div>
+<div id="q16" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Foncier : Ressentez-vous le besoin de mobiliser un service d’expertise pour vous accompagner sur cette thématique ? <span style="color:red;">*</span>
+</p>
+<p><input type="radio" id="q16_1" name="q16" value="Oui" required=""> <label for="q16_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q16_2" name="q16" value="Non, pas à ce stade"> <label for="q16_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non, pas à ce stade</label></p>
+</div>
+<div id="q16.1" class="question-block conditional" data-parent-question="q16" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Foncier : Choisir les services d’expertise prioritaires ci- après : 2 réponses maximum <span style="color:red;">*</span>
+</p>
+<div class="option-line">
+<p><input type="checkbox" id="q16.1_1" name="q16.1" value="Elaborer une stratégie foncière (méthodologie générale)"> <label for="q16.1_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Elaborer une stratégie foncière (méthodologie générale)</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q16.1_2" name="q16.1" value="Élaborer ou réviser un PLUi ambitieux en matière de sobriété foncière et de préservation des sols"> <label for="q16.1_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Élaborer ou réviser un PLUi ambitieux en matière de sobriété foncière et de préservation des sols</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q16.1_3" name="q16.1" value="Connaitre le foncier (observation, évaluation des besoins, recherche de gisements)"> <label for="q16.1_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Connaitre le foncier (observation, évaluation des besoins, recherche de gisements)</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q16.1_4" name="q16.1" value="Connaitre le foncier (observation, évaluation des besoins, recherche de gisements)"> <label for="q16.1_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Connaitre le foncier (observation, évaluation des besoins, recherche de gisements)</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q16.1_5" name="q16.1" value="Limiter l’artificialisation des sols (via recyclage, densification, intensification des usages, désimperméabilisation, etc.)"> <label for="q16.1_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Limiter l’artificialisation des sols (via recyclage, densification, intensification des usages, désimperméabilisation, etc.)</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q16.1_6" name="q16.1" value="Maîtriser le foncier (acquisition, limiter les effets de rétention et de spéculation, opérations complexes)"> <label for="q16.1_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Maîtriser le foncier (acquisition, limiter les effets de rétention et de spéculation, opérations complexes)</label></p>
+</div>
+</div>
+<div id="q17" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Autres besoins sur la sobriété foncière&nbsp; <span style="color:red;">*</span>
+</p>
+<textarea name="q17" rows="4" cols="50" required="" style="width:100%; margin-top:6px; color:#293574; font-weight:bold; opacity:0.9;"></textarea>
+</div>
+
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const normalize = s => String(s || "").trim().toLowerCase();
+  const valIntro = normalize(localStorage.getItem("q2"));
+
+  // Bloc question 15a (syndicat mixte)
+  const q15a = document.querySelector('#q15a');
+  if (q15a) {
+    if (valIntro === "un syndicat mixte") {
+      q15a.style.display = "block";
+      q15a.classList.add("visible");
+    } else {
+      q15a.style.display = "none";
+      q15a.classList.remove("visible");
+    }
+  }
+
+  // Bloc question 8 (autres cas)
+  const q15 = document.querySelector('#q15');
+  if (q15) {
+    if (valIntro !== "un syndicat mixte") {
+      q15.style.display = "block";
+      q15.classList.add("visible");
+    } else {
+      q15.style.display = "none";
+      q15.classList.remove("visible");
+    }
+  }
+});
+</script>
+
+<div class="custom-footer">
+<button style="background-color: #ef7757;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 6px;
+  font-family: normal;
+  border-color: coral;" onclick="window.location.href='introduction.html';"> &lt; Précédent</button>
+  
+  
+
+
+  <div id="footer-dots" class="dots">
+    <span class="dot" data-step="1"></span>
+    <span class="dot" data-step="2"></span>
+    <span class="dot" data-step="3"></span>
+    <span class="dot" data-step="4"></span>
+    <span class="dot" data-step="5"></span>
+    <span class="dot" data-step="6"></span>
+    <span class="dot" data-step="7"></span>
+    <span class="dot" data-step="8"></span>
+    <span class="dot" data-step="9"></span>
+    <span class="dot" data-step="10"></span>
+    <span class="dot" data-step="11"></span>
+    <span class="dot" data-step="12"></span>
+  </div>
+
+  
+
+
+  
+ <button style="background-color: #ef7757;
+  border-radius: 8px;
+  font-size: 1.3rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: 6px;
+  font-family: normal;
+  border-color: coral;" onclick="window.location.href='transition_energetique.html';"> Suivant &gt; </button>
+  
+  </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const dots = document.querySelectorAll("#footer-dots .dot");
+  let step = window.currentProgressStep || null;
+
+  // Fallback depuis l'URL si nécessaire
+  if (!step) {
+    const match = window.location.pathname.match(/(\d+)/);
+    if (match) step = parseInt(match[1], 10);
+  }
+
+  if (!step || isNaN(step)) step = 1;
+
+  // Activer le dot correspondant
+  const activeDot = document.querySelector(`#footer-dots .dot[data-step="${step}"]`);
+  if (activeDot) activeDot.classList.add("active");
+});
+</script>
 
 
 

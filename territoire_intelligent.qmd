@@ -15,7 +15,7 @@ library(dplyr)
 library(readxl)
 library(stringr)
 
-intro <- read_xlsx("data/Amenagement_urbain_durable.xlsx") %>%
+intro <- read_xlsx("data/Territoire_intelligent.xlsx") %>%
   filter(!is.na(Numero), !is.na(Questions), !is.na(Reponses)) %>%
   mutate(Numero = as.character(Numero))
 
@@ -36,7 +36,7 @@ questions_list <- intro %>%
 
 ```{=html}
 
-<script>window.currentProgressStep = 3;</script>
+<script>window.currentProgressStep = 4;</script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const bar = document.getElementById('progress-bar');
@@ -152,19 +152,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     font-weight: bold;
                     margin-bottom: 70px;"
                     >
-            <h4 style="font-weight: bold;"> Aménagement urbain durable </h4>
+            <h4 style="font-weight: bold;"> Territoire intelligent </h4>
             
             <br>
                     
-            <div> Le changement climatique appelle à repenser l’aménagement en faveur d’espaces urbains vivables.</div>             <div> Concrètement, il s’agit de combiner différentes expertises pour envisager des solutions globales : qualité du cadre de vie, revitalisation de quartier, développement des mobilités douces, renaturation, protection de la biodiversité, gestion des nuisances, gestion des déchets du BTP, etc.
-Cette approche s’applique aussi bien à l’échelle du quartier (écoquartiers) que de l’îlot (cour d’école résiliente).
+            <div> Le numérique constitue un levier essentiel pour réussir sa transition écologique. Pour les territoires, l’enjeu ne se limite pas au choix d’innovations technologiques.
+Il convient de bâtir un projet associant l’ensemble des parties prenantes en intégrant les priorités politiques et les spécifiques locales.
             </div>
             
             <br>
         
         </div>
 ```
-
 
 ```{r, results='asis'}
 #| echo: FALSE
@@ -256,27 +255,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const normalize = s => String(s || "").trim().toLowerCase();
   const valIntro = normalize(localStorage.getItem("q2"));
 
-  // Bloc question 8a (syndicat mixte)
-  const q8a = document.querySelector('#q8a');
-  if (q8a) {
+  // Bloc question 12a (syndicat mixte)
+  const q12a = document.querySelector('#q12a');
+  if (q12a) {
     if (valIntro === "un syndicat mixte") {
-      q8a.style.display = "block";
-      q8a.classList.add("visible");
+      q12a.style.display = "block";
+      q12a.classList.add("visible");
     } else {
-      q8a.style.display = "none";
-      q8a.classList.remove("visible");
+      q12a.style.display = "none";
+      q12a.classList.remove("visible");
     }
   }
 
   // Bloc question 8 (autres cas)
-  const q8 = document.querySelector('#q8');
-  if (q8) {
+  const q12 = document.querySelector('#q12');
+  if (q12) {
     if (valIntro !== "un syndicat mixte") {
-      q8.style.display = "block";
-      q8.classList.add("visible");
+      q12.style.display = "block";
+      q12.classList.add("visible");
     } else {
-      q8.style.display = "none";
-      q8.classList.remove("visible");
+      q12.style.display = "none";
+      q12.classList.remove("visible");
     }
   }
 });
@@ -308,7 +307,7 @@ document.addEventListener("DOMContentLoaded", function () {
   margin-right: 6px;
   font-family: normal;
   border-color: coral;"
-  onclick="window.location.href='territoire_intelligent.html';"> Suivant > </button>
+  onclick="window.location.href='sobriete_fonciere.html';"> Suivant > </button>
   
   </div>
 

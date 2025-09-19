@@ -246,9 +246,6 @@ for (i in seq_len(nrow(questions_list))) {
 
 cat("</body>\n</html>")
 
-
-
-
 ```
 
 ```{=html}
@@ -263,27 +260,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const normalize = s => String(s || "").trim().toLowerCase();
   const valIntro = normalize(localStorage.getItem("q2"));
 
-  // Bloc question 1a (syndicat mixte)
-  const q1a = document.querySelector('#q1a');
-  if (q1a) {
+  // Bloc question 5a (syndicat mixte)
+  const q5a = document.querySelector('#q5a');
+  if (q5a) {
     if (valIntro === "un syndicat mixte") {
-      q1a.style.display = "block";
-      q1a.classList.add("visible");
+      q5a.style.display = "block";
+      q5a.classList.add("visible");
     } else {
-      q1a.style.display = "none";
-      q1a.classList.remove("visible");
+      q5a.style.display = "none";
+      q5a.classList.remove("visible");
     }
   }
 
-  // Bloc question 1 (autres cas)
-  const q1 = document.querySelector('#q1');
-  if (q1) {
+  // Bloc question 5 (autres cas)
+  const q5 = document.querySelector('#q5');
+  if (q5) {
     if (valIntro !== "un syndicat mixte") {
-      q1.style.display = "block";
-      q1.classList.add("visible");
+      q5.style.display = "block";
+      q5.classList.add("visible");
     } else {
-      q1.style.display = "none";
-      q1.classList.remove("visible");
+      q5.style.display = "none";
+      q5.classList.remove("visible");
     }
   }
 });
