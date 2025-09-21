@@ -15,7 +15,7 @@ library(dplyr)
 library(readxl)
 library(stringr)
 
-intro <- read_xlsx("data/Infrastructures_resilientes.xlsx") %>%
+intro <- read_xlsx("data/Risques_naturels.xlsx") %>%
   filter(!is.na(Numero), !is.na(Questions), !is.na(Reponses)) %>%
   mutate(Numero = as.character(Numero))
 
@@ -36,7 +36,7 @@ questions_list <- intro %>%
 
 ```{=html}
 
-<script>window.currentProgressStep = 8;</script>
+<script>window.currentProgressStep = 9;</script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const bar = document.getElementById('progress-bar');
@@ -152,11 +152,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     font-weight: bold;
                     margin-bottom: 70px;"
                     >
-            <h4 style="font-weight: bold;"> Mobilités décarbonées </h4>
+            <h4 style="font-weight: bold;"> Gestion et Prévention des risques naturels </h4>
             
             <br>
                     
-            <div> Des aléas d’origine naturelle ou anthropique endommagent les infrastructures bâtimentaires ou de transport. Urbanisation, artificialisation des sols, manque de suivi des ouvrages critiques, sous-estimation de la vulnérabilité de l’environnement et changement climatique aggravent ce phénomène. Le maintien des structures en bon état mobilise des ressources importantes pour les collectivités (financières, matériaux et énergie). Si les solutions d'entretien les moins couteuses sont souvent les plus économes en ressources & énergie et présentent donc le meilleur bilan carbone, sauvegarder le patrimoine passe invariablement par la prise en compte de la résilience dans les investissements (travaux neufs, maintenance ou réhabilitation).
+            <div> Le changement climatique amplifie l’intensité et la fréquence des phénomènes naturels, engendrant des problématiques majeures de sécurité et une augmentation du coût des dommages induits.
+Les gestionnaires territoriaux sont appelés à réduire la vulnérabilité de leur patrimoine, anticiper et mettre en œuvre des stratégies d’aménagement locales pour s’adapter aux risques naturels.
             </div>
             
             <br>
@@ -275,27 +276,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const normalize = s => String(s || "").trim().toLowerCase();
   const valIntro = normalize(localStorage.getItem("q2"));
 
-  // Bloc question 24a (syndicat mixte)
-  const q24a = document.querySelector('#q24a');
-  if (q21a) {
+  // Bloc question 27a (syndicat mixte)
+  const q27a = document.querySelector('#q27a');
+  if (q27a) {
     if (valIntro === "un syndicat mixte") {
-      q24a.style.display = "block";
-      q24a.classList.add("visible");
+      q27a.style.display = "block";
+      q27a.classList.add("visible");
     } else {
-      q24a.style.display = "none";
-      q24a.classList.remove("visible");
+      q27a.style.display = "none";
+      q27a.classList.remove("visible");
     }
   }
 
-  // Bloc question 8 (autres cas)
-  const q24 = document.querySelector('#q24');
-  if (q24) {
+  // Bloc question 27 (autres cas)
+  const q27 = document.querySelector('#q27');
+  if (q27) {
     if (valIntro !== "un syndicat mixte") {
-      q24.style.display = "block";
-      q24.classList.add("visible");
+      q27.style.display = "block";
+      q27.classList.add("visible");
     } else {
-      q24.style.display = "none";
-      q24.classList.remove("visible");
+      q27.style.display = "none";
+      q27.classList.remove("visible");
     }
   }
 });
@@ -313,7 +314,7 @@ document.addEventListener("DOMContentLoaded", function () {
   margin-left: 6px;
   font-family: normal;
   border-color: coral;"
-  onclick="window.location.href='introduction.html';"> < Précédent</button>
+  onclick="window.location.href='infrastructures_resilientes.html';"> < Précédent</button>
   
   
 {{< include _includes/custom_footer.html >}}
@@ -351,3 +352,4 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 ```
+
