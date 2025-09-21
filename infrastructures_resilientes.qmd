@@ -15,7 +15,7 @@ library(dplyr)
 library(readxl)
 library(stringr)
 
-intro <- read_xlsx("data/transition_energetique.xlsx") %>%
+intro <- read_xlsx("data/Infrastructures_resilientes.xlsx") %>%
   filter(!is.na(Numero), !is.na(Questions), !is.na(Reponses)) %>%
   mutate(Numero = as.character(Numero))
 
@@ -36,7 +36,7 @@ questions_list <- intro %>%
 
 ```{=html}
 
-<script>window.currentProgressStep = 6;</script>
+<script>window.currentProgressStep = 8;</script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const bar = document.getElementById('progress-bar');
@@ -152,15 +152,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     font-weight: bold;
                     margin-bottom: 70px;"
                     >
-            <h4 style="font-weight: bold;"> Transition énergétique </h4>
+            <h4 style="font-weight: bold;"> Mobilités décarbonées </h4>
             
             <br>
                     
-            <div> La transition énergétique se définit par l’évolution des modèles de production, de distribution et de consommation d’énergie pour les rendre plus écologiques. Concrètement, vous pouvez agir sur
-                  <li style="margin-left: 12px;">La consommation d’énergie en privilégiant la sobriété (prioriser les besoins énergétiques essentiels dans les usages individuels et collectifs de l’énergie) et l'efficacité (réduire la quantité d’énergie nécessaire à la satisfaction d’un même besoin)
-                  </li>
-                  <li style="margin-left: 12px;">La distribution : favoriser la distribution et la disponibilité des énergies renouvelables et nouveaux carburants.
-                  </li>
+            <div> Des aléas d’origine naturelle ou anthropique endommagent les infrastructures bâtimentaires ou de transport. Urbanisation, artificialisation des sols, manque de suivi des ouvrages critiques, sous-estimation de la vulnérabilité de l’environnement et changement climatique aggravent ce phénomène. Le maintien des structures en bon état mobilise des ressources importantes pour les collectivités (financières, matériaux et énergie). Si les solutions d'entretien les moins couteuses sont souvent les plus économes en ressources & énergie et présentent donc le meilleur bilan carbone, sauvegarder le patrimoine passe invariablement par la prise en compte de la résilience dans les investissements (travaux neufs, maintenance ou réhabilitation).
             </div>
             
             <br>
@@ -173,6 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 library(stringr)
 
+
 for (i in seq_len(nrow(questions_list))) {
   numero     <- as.character(questions_list$Numero[i])
   question   <- questions_list$Questions[i]
@@ -181,7 +178,7 @@ for (i in seq_len(nrow(questions_list))) {
   parent_col <- if ("Parent" %in% names(questions_list)) questions_list$Parent[i] else NA
   reponses   <- unlist(questions_list$reponses[i])  
 
-  # --- bloc conditionnel ou non ---
+  # Bloc conditionnel
   if (!is.na(parent_col) && nzchar(parent_col)) {
     cond_safe <- ifelse(is.na(condition), "", gsub("'", "&#39;", condition))
     condition_attr <- sprintf(
@@ -192,12 +189,32 @@ for (i in seq_len(nrow(questions_list))) {
     condition_attr <- "class='question-block' style='margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;'"
   }
 
-  # --- ouverture du bloc question ---
-  cat(sprintf("<div %s id='q%s'>\n", condition_attr, numero))
-  cat(sprintf("  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s <span style='color:red;'>*</span></p>\n",
-              question))
+  # Traitement du commentaire
+  commentaire <- str_extract(question, "\\[.*?\\]")
+  
+  question_sans_commentaire <- str_replace(question, "\\[.*?\\]", "")
+  
+  if (!is.na(commentaire)) {
+    commentaire <- str_replace_all(commentaire, "\\[|\\]", "")
+    
+    tooltip_html <- sprintf(
+      "<span class='tooltip'><span class='icon'>i</span><span class='tooltiptext'>%s</span></span>",
+      commentaire
+    )
+  } else {
+    tooltip_html <- ""
+  }
+  
+  cat(sprintf("<!-- Commentaire extrait : %s -->\n", commentaire))
 
-  # --- affichage des réponses ---
+  # Affichage de la question
+  cat(sprintf("<div %s id='q%s'>\n", condition_attr, numero))
+  cat(sprintf(
+    "  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s %s <span style='color:red;'>*</span></p>\n",
+    question_sans_commentaire, tooltip_html
+  ))
+
+  # Affichage des réponses
   if (style == "radio") {
     for (j in seq_along(reponses)) {
       id  <- paste0("q", numero, "_", j)
@@ -239,11 +256,11 @@ for (i in seq_len(nrow(questions_list))) {
     cat("  </select>\n")
   }
 
-  # --- fermeture du bloc ---
   cat("</div>\n\n")
 }
 
 cat("</body>\n</html>")
+
 
 ```
 
@@ -258,27 +275,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const normalize = s => String(s || "").trim().toLowerCase();
   const valIntro = normalize(localStorage.getItem("q2"));
 
-  // Bloc question 18a (syndicat mixte)
-  const q18a = document.querySelector('#q18a');
-  if (q18a) {
+  // Bloc question 24a (syndicat mixte)
+  const q24a = document.querySelector('#q24a');
+  if (q21a) {
     if (valIntro === "un syndicat mixte") {
-      q18a.style.display = "block";
-      q18a.classList.add("visible");
+      q24a.style.display = "block";
+      q24a.classList.add("visible");
     } else {
-      q18a.style.display = "none";
-      q18a.classList.remove("visible");
+      q24a.style.display = "none";
+      q24a.classList.remove("visible");
     }
   }
 
   // Bloc question 8 (autres cas)
-  const q18 = document.querySelector('#q18');
-  if (q18) {
+  const q24 = document.querySelector('#q24');
+  if (q24) {
     if (valIntro !== "un syndicat mixte") {
-      q18.style.display = "block";
-      q18.classList.add("visible");
+      q24.style.display = "block";
+      q24.classList.add("visible");
     } else {
-      q18.style.display = "none";
-      q18.classList.remove("visible");
+      q24.style.display = "none";
+      q24.classList.remove("visible");
     }
   }
 });
@@ -310,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
   margin-right: 6px;
   font-family: normal;
   border-color: coral;"
-  onclick="window.location.href='mobilites_decarbonees.html';"> Suivant > </button>
+  onclick="window.location.href='transition_energetique.html';"> Suivant > </button>
   
   </div>
 
@@ -334,4 +351,3 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 ```
-

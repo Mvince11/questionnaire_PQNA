@@ -253,6 +253,41 @@ select + label {
   margin-left: 10px;
 }
 
-
-
-
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 8px;
+  opacity: 1 !important;
+}
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 280px;
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.3s;
+}
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  color: rgb(239, 119, 87);
+  font-weight: bold;
+  line-height: 20px;
+  font-size: 14px;
+  border: 2px solid;
+}

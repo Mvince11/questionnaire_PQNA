@@ -15,7 +15,7 @@ library(dplyr)
 library(readxl)
 library(stringr)
 
-intro <- read_xlsx("data/transition_energetique.xlsx") %>%
+intro <- read_xlsx("data/Mobilites_decarbonees.xlsx") %>%
   filter(!is.na(Numero), !is.na(Questions), !is.na(Reponses)) %>%
   mutate(Numero = as.character(Numero))
 
@@ -36,7 +36,7 @@ questions_list <- intro %>%
 
 ```{=html}
 
-<script>window.currentProgressStep = 6;</script>
+<script>window.currentProgressStep = 7;</script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const bar = document.getElementById('progress-bar');
@@ -152,15 +152,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     font-weight: bold;
                     margin-bottom: 70px;"
                     >
-            <h4 style="font-weight: bold;"> Transition énergétique </h4>
+            <h4 style="font-weight: bold;"> Mobilités décarbonées </h4>
             
             <br>
                     
-            <div> La transition énergétique se définit par l’évolution des modèles de production, de distribution et de consommation d’énergie pour les rendre plus écologiques. Concrètement, vous pouvez agir sur
-                  <li style="margin-left: 12px;">La consommation d’énergie en privilégiant la sobriété (prioriser les besoins énergétiques essentiels dans les usages individuels et collectifs de l’énergie) et l'efficacité (réduire la quantité d’énergie nécessaire à la satisfaction d’un même besoin)
-                  </li>
-                  <li style="margin-left: 12px;">La distribution : favoriser la distribution et la disponibilité des énergies renouvelables et nouveaux carburants.
-                  </li>
+            <div> L’objectif de neutralité carbone à horizon 2050 implique d’importants changements sur l’organisation des systèmes de transports, les usages et comportements, ainsi que les choix technologiques associés. Tous les leviers (report modal, taux de remplissage, efficacité énergétique, sobriété des déplacements) doivent être mobilisés, à la fois pour les voyageurs et les marchandises.
             </div>
             
             <br>
@@ -258,27 +254,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const normalize = s => String(s || "").trim().toLowerCase();
   const valIntro = normalize(localStorage.getItem("q2"));
 
-  // Bloc question 18a (syndicat mixte)
-  const q18a = document.querySelector('#q18a');
-  if (q18a) {
+  // Bloc question 21a (syndicat mixte)
+  const q21a = document.querySelector('#q21a');
+  if (q21a) {
     if (valIntro === "un syndicat mixte") {
-      q18a.style.display = "block";
-      q18a.classList.add("visible");
+      q21a.style.display = "block";
+      q21a.classList.add("visible");
     } else {
-      q18a.style.display = "none";
-      q18a.classList.remove("visible");
+      q21a.style.display = "none";
+      q21a.classList.remove("visible");
     }
   }
 
   // Bloc question 8 (autres cas)
-  const q18 = document.querySelector('#q18');
-  if (q18) {
+  const q21 = document.querySelector('#q21');
+  if (q21) {
     if (valIntro !== "un syndicat mixte") {
-      q18.style.display = "block";
-      q18.classList.add("visible");
+      q21.style.display = "block";
+      q21.classList.add("visible");
     } else {
-      q18.style.display = "none";
-      q18.classList.remove("visible");
+      q21.style.display = "none";
+      q21.classList.remove("visible");
     }
   }
 });
@@ -310,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function () {
   margin-right: 6px;
   font-family: normal;
   border-color: coral;"
-  onclick="window.location.href='mobilites_decarbonees.html';"> Suivant > </button>
+  onclick="window.location.href='infrastructures_resilientes.html';"> Suivant > </button>
   
   </div>
 
@@ -334,4 +330,3 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 ```
-
