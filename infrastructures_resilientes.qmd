@@ -261,7 +261,6 @@ for (i in seq_len(nrow(questions_list))) {
 
 cat("</body>\n</html>")
 
-
 ```
 
 ```{=html}
@@ -277,7 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Bloc question 24a (syndicat mixte)
   const q24a = document.querySelector('#q24a');
-  if (q21a) {
+  if (q24a) {
     if (valIntro === "un syndicat mixte") {
       q24a.style.display = "block";
       q24a.classList.add("visible");
@@ -313,7 +312,7 @@ document.addEventListener("DOMContentLoaded", function () {
   margin-left: 6px;
   font-family: normal;
   border-color: coral;"
-  onclick="window.location.href='introduction.html';"> < Précédent</button>
+  onclick="window.location.href='mobilites_decarbonees.html';"> < Précédent</button>
   
   
 {{< include _includes/custom_footer.html >}}

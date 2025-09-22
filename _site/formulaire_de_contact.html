@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>mobilites_decarbonees</title>
+<title>formulaire_de_contact</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -97,101 +97,6 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<script>window.currentProgressStep = 7;</script>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const bar = document.getElementById('progress-bar');
-  if (!bar) return;
-
-  let step = window.currentProgressStep || null;
-
-  // fallback depuis l'URL
-  if (!step) {
-    const m = window.location.pathname.match(/(\d+)/);
-    if (m) step = parseInt(m[1], 10);
-  }
-
-  if (!step || isNaN(step)) step = 1;
-
-  // Activer toutes les étapes jusqu'à l'étape courante
-  for (let i = 1; i <= step; i++) {
-    const item = bar.querySelector(`.progress-item[data-step="${i}"]`);
-    if (item) item.classList.add('active');
-  }
-});
-</script>
-
-<div style="margin-left:10%; margin-right:10%;">
-<div id="progress-bar" class="progress-bar">
-
-  <div class="progress-item" data-step="1">
-    <div class="circle">1</div>
-    <span class="label">Introduction</span>
-  </div>
-
-  <div class="progress-item" data-step="2">
-    <div class="circle">2</div>
-    <span class="label">Dynamique <br> territoriale</span>
-  </div>
-
-  <div class="progress-item" data-step="3">
-    <div class="circle">3</div>
-    <span class="label">Aménagement</span>
-  </div>
-  
-  <div class="progress-item" data-step="4">
-    <div class="circle">4</div>
-    <span class="label">Territoire <br> intelligent</span>
-  </div>
-  
-  <div class="progress-item" data-step="5">
-    <div class="circle">5</div>
-    <span class="label">Foncier</span>
-  </div>
-
-  <div class="progress-item" data-step="6">
-    <div class="circle">6</div>
-    <span class="label">Transition <br> énergétique</span>
-  </div>
-  
-  <div class="progress-item" data-step="7">
-    <div class="circle">7</div>
-    <span class="label">Mobilités</span>
-  </div>
-  
-  <div class="progress-item" data-step="8">
-    <div class="circle">8</div>
-    <span class="label">Infrastructures</span>
-  </div>
-  
-  <div class="progress-item" data-step="9">
-    <div class="circle">9</div>
-    <span class="label">Risques <br> naturels</span>
-  </div>
-  
-  <div class="progress-item" data-step="10">
-    <div class="circle">10</div>
-    <span class="label">Renaturation</span>
-  </div>
-  
-  <div class="progress-item" data-step="11">
-    <div class="circle">11</div>
-    <span class="label">Eau</span>
-  </div>
-  
-  <div class="progress-item" data-step="12">
-    <div class="circle">12</div>
-    <span class="label">Littoral</span>
-  </div>
-  
-</div>
-
-
-
-
-
-</div>
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const normalize = s => String(s || "").trim().toLowerCase();
@@ -273,144 +178,144 @@ document.addEventListener("DOMContentLoaded", function () {
                     color: rgba(41,37,116,1) !important;
                     font-weight: bold;
                     margin-bottom: 70px;">
-            <h4 style="font-weight: bold;"> Mobilités décarbonées </h4>
-            
-            <br>
-                    
-            <div> L’objectif de neutralité carbone à horizon 2050 implique d’importants changements sur l’organisation des systèmes de transports, les usages et comportements, ainsi que les choix technologiques associés. Tous les leviers (report modal, taux de remplissage, efficacité énergétique, sobriété des déplacements) doivent être mobilisés, à la fois pour les voyageurs et les marchandises.
-            </div>
-            
-            <br>
+            <h4 style="font-weight: bold;"> Formulaire de contact </h4>
         
         </div>
 <!-- Commentaire extrait : NA -->
-<div id="q21" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q39" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
-Avez-vous élaboré une stratégie en faveur des mobilités décarbonées ? <span style="color:red;">*</span>
-</p>
-<p><input type="radio" id="q21_1" name="q21" value="Oui" required=""> <label for="q21_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q21_2" name="q21" value="Non"> <label for="q21_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non</label> <input type="radio" id="q21_3" name="q21" value="Je ne sais pas"> <label for="q21_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas</label></p>
-</div>
-<!-- Commentaire extrait : NA -->
-<div id="q21a" class="question-block conditional" data-parent-question="q2" data-condition="Un syndicat mixte" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
-<p style="font-weight:bold; font-size:1rem; color:#293574;">
-Non applicable à l’échelle de mon syndicat (SSI syndicat) <span style="color:red;">*</span>
-</p>
-<p><input type="radio" id="q21a_1" name="q21a" value="Oui" required=""> <label for="q21a_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q21a_2" name="q21a" value="Non"> <label for="q21a_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non</label> <input type="radio" id="q21a_3" name="q21a" value="Je ne sais pas"> <label for="q21a_3" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Je ne sais pas</label> <input type="radio" id="q21a_4" name="q21a" value="Non applicable à l’échelle de mon syndicat (SSI syndicat)"> <label for="q21a_4" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non applicable à l’échelle de mon syndicat (SSI syndicat)</label></p>
-</div>
-<!-- Commentaire extrait : NA -->
-<div id="q21.1" class="question-block conditional" data-parent-question="q21;q21a" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
-<p style="font-weight:bold; font-size:1rem; color:#293574;">
-Mobilités : Précisez les démarches entreprises parmi les propositions ci-après <span style="color:red;">*</span>
+Parmi les thématiques suivantes, lesquelles vous semblent prioritaires à l’échelle de votre territoire ? <span style="color:red;">*</span>
 </p>
 <div class="option-line">
-<p><input type="checkbox" id="q21.1_1" name="q21.1" value="Nous disposons d’une bonne connaissance des pratiques de déplacements sur notre territoire"> <label for="q21.1_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous disposons d’une bonne connaissance des pratiques de déplacements sur notre territoire</label></p>
+<p><input type="checkbox" id="q39_1" name="q39" value="Dynamique de transition territoriale"> <label for="q39_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Dynamique de transition territoriale</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q21.1_2" name="q21.1" value="Nous avons élaboré une stratégie sur les mobilités décarbonées"> <label for="q21.1_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous avons élaboré une stratégie sur les mobilités décarbonées</label></p>
+<p><input type="checkbox" id="q39_2" name="q39" value="Aménagement urbain durable"> <label for="q39_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Aménagement urbain durable</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q21.1_3" name="q21.1" value="Notre stratégie et nos actions sur les mobilités s’articulent avec d’autres politiques publiques territoriales (énergie, aménagement, urbanisme)"> <label for="q21.1_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Notre stratégie et nos actions sur les mobilités s’articulent avec d’autres politiques publiques territoriales (énergie, aménagement, urbanisme)</label></p>
+<p><input type="checkbox" id="q39_3" name="q39" value="Territoire intelligent"> <label for="q39_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Territoire intelligent</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q21.1_4" name="q21.1" value="Nous utilisons le numérique pour développer des services de mobilités"> <label for="q21.1_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous utilisons le numérique pour développer des services de mobilités</label></p>
+<p><input type="checkbox" id="q39_4" name="q39" value="Sobriété foncière"> <label for="q39_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Sobriété foncière</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q21.1_5" name="q21.1" value="Nous évaluons les projets et politiques en vue de les faire évoluer"> <label for="q21.1_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nous évaluons les projets et politiques en vue de les faire évoluer</label></p>
-</div>
-</div>
-<!-- Commentaire extrait : NA -->
-<div id="q21.2" class="question-block conditional" data-parent-question="q21;q21a" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
-<p style="font-weight:bold; font-size:1rem; color:#293574;">
-Mobilités : Quels projets avez-vous d’ores et déjà réalisés ? <span style="color:red;">*</span>
-</p>
-<div class="option-line">
-<p><input type="checkbox" id="q21.2_1" name="q21.2" value="Développement de nouveaux services de mobilités, sobres en énergie"> <label for="q21.2_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Développement de nouveaux services de mobilités, sobres en énergie</label></p>
+<p><input type="checkbox" id="q39_5" name="q39" value="Transition énergétique"> <label for="q39_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Transition énergétique</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q21.2_2" name="q21.2" value="Accompagnement des usagers (services numériques, conduite du changement des pratiques, conseil aux entreprises pour agir sur la mobilité employeurs)"> <label for="q21.2_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Accompagnement des usagers (services numériques, conduite du changement des pratiques, conseil aux entreprises pour agir sur la mobilité employeurs)</label></p>
+<p><input type="checkbox" id="q39_6" name="q39" value="Mobilités décarbonées"> <label for="q39_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Mobilités décarbonées</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q21.2_3" name="q21.2" value="Développement des modes actifs"> <label for="q21.2_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Développement des modes actifs</label></p>
+<p><input type="checkbox" id="q39_7" name="q39" value="Infrastructures résilientes (réseaux routiers, ouvrages d’art, bâtiments, infrastructures portuaires)"> <label for="q39_7" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Infrastructures résilientes (réseaux routiers, ouvrages d’art, bâtiments, infrastructures portuaires)</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q21.2_4" name="q21.2" value="Adaptation de la voirie au changement climatique (revêtement, végétalisation)"> <label for="q21.2_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Adaptation de la voirie au changement climatique (revêtement, végétalisation)</label></p>
+<p><input type="checkbox" id="q39_8" name="q39" value="Gestion et prévention des risques naturels"> <label for="q39_8" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Gestion et prévention des risques naturels</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q21.2_5" name="q21.2" value="Mise en place d’une ZFE-mobilités"> <label for="q21.2_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Mise en place d’une ZFE-mobilités</label></p>
+<p><input type="checkbox" id="q39_9" name="q39" value="Nature en ville"> <label for="q39_9" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nature en ville</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q21.2_6" name="q21.2" value="Organisation des mobilités en péri-urbain"> <label for="q21.2_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Organisation des mobilités en péri-urbain</label></p>
+<p><input type="checkbox" id="q39_10" name="q39" value="Gestion intégrée de l’eau"> <label for="q39_10" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Gestion intégrée de l’eau</label></p>
 </div>
 <div class="option-line">
-<p><input type="checkbox" id="q21.2_7" name="q21.2" value="Organisation de la logistique urbaine (transports de marchandises)"> <label for="q21.2_7" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Organisation de la logistique urbaine (transports de marchandises)</label></p>
-</div>
-<div class="option-line">
-<p><input type="checkbox" id="q21.2_8" name="q21.2" value="Optimisation des circulations"> <label for="q21.2_8" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Optimisation des circulations</label></p>
-</div>
-<div class="option-line">
-<p><input type="checkbox" id="q21.2_9" name="q21.2" value="Mise en place d’une politique de décarbonation des mobilités"> <label for="q21.2_9" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Mise en place d’une politique de décarbonation des mobilités</label></p>
-</div>
-<div class="option-line">
-<p><input type="checkbox" id="q21.2_10" name="q21.2" value="Mise en place d’une politique de sécurité des déplacements pour favoriser le report modal (ex : cartographie de l’accidentalité, diagnostics spécifiques des lieux d’accidents, sécurité des infrastructures et de leurs aménagements)"> <label for="q21.2_10" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Mise en place d’une politique de sécurité des déplacements pour favoriser le report modal (ex : cartographie de l’accidentalité, diagnostics spécifiques des lieux d’accidents, sécurité des infrastructures et de leurs aménagements)</label></p>
-</div>
-<div class="option-line">
-<p><input type="checkbox" id="q21.2_11" name="q21.2" value="Prospective et connaissance renforcée de la mobilite"> <label for="q21.2_11" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Prospective et connaissance renforcée de la mobilite</label></p>
+<p><input type="checkbox" id="q39_11" name="q39" value="Gestion du littoral"> <label for="q39_11" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Gestion du littoral</label></p>
 </div>
 </div>
 <!-- Commentaire extrait : NA -->
-<div id="q22" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q40" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
-Mobilités : Ressentez-vous le besoin de mobiliser un service d’expertise pour vous accompagner sur cette thématique ? <span style="color:red;">*</span>
+Parmi les thématiques suivantes, lesquelles vous semblent prioritaires à l’échelle de votre territoire ? <span style="color:red;">*</span>
 </p>
-<p><input type="radio" id="q22_1" name="q22" value="Oui" required=""> <label for="q22_1" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Oui</label> <input type="radio" id="q22_2" name="q22" value="Non, pas à ce stade"> <label for="q22_2" style="display:inline-block; margin:4px 15px 4px 0; border-color:rgba(239,119,87,1); color:#293574; font-weight:bold; opacity:0.9;">Non, pas à ce stade</label></p>
+<div class="option-line">
+<p><input type="checkbox" id="q40_1" name="q40" value="Dynamique de transition territoriale"> <label for="q40_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Dynamique de transition territoriale</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q40_2" name="q40" value="Aménagement urbain durable"> <label for="q40_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Aménagement urbain durable</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q40_3" name="q40" value="Territoire intelligent"> <label for="q40_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Territoire intelligent</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q40_4" name="q40" value="Sobriété foncière"> <label for="q40_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Sobriété foncière</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q40_5" name="q40" value="Transition énergétique"> <label for="q40_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Transition énergétique</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q40_6" name="q40" value="Mobilités décarbonées"> <label for="q40_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Mobilités décarbonées</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q40_7" name="q40" value="Infrastructures résilientes (réseaux routiers, ouvrages d’art, bâtiments, infrastructures portuaires)"> <label for="q40_7" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Infrastructures résilientes (réseaux routiers, ouvrages d’art, bâtiments, infrastructures portuaires)</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q40_8" name="q40" value="Gestion et prévention des risques naturels"> <label for="q40_8" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Gestion et prévention des risques naturels</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q40_9" name="q40" value="Nature en ville"> <label for="q40_9" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Nature en ville</label></p>
+</div>
+<div class="option-line">
+<p><input type="checkbox" id="q40_10" name="q40" value="Gestion intégrée de l’eau"> <label for="q40_10" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Gestion intégrée de l’eau</label></p>
+</div>
 </div>
 <!-- Commentaire extrait : NA -->
-<div id="q22.1" class="question-block conditional" data-parent-question="q22" data-condition="Oui" style="display:none; margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<div id="q50" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
-Mobilités : Choisir les services d’expertise prioritaires ci-après : 2 réponses maximum <span style="color:red;">*</span>
+Raison sociale de la collectivité (nom exact) <span style="color:red;">*</span>
 </p>
-<div class="option-line">
-<p><input type="checkbox" id="q22.1_1" name="q22.1" value="Développer de nouveaux services de mobilités, sobres en énergie"> <label for="q22.1_1" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Développer de nouveaux services de mobilités, sobres en énergie</label></p>
+<textarea name="q50" rows="4" cols="50" required="" style="width:100%; margin-top:6px; color:#293574; font-weight:bold; opacity:0.9;"></textarea>
 </div>
-<div class="option-line">
-<p><input type="checkbox" id="q22.1_2" name="q22.1" value="Accompagner les usagers"> <label for="q22.1_2" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Accompagner les usagers</label></p>
-</div>
-<div class="option-line">
-<p><input type="checkbox" id="q22.1_3" name="q22.1" value="Favoriser le développement des modes actifs"> <label for="q22.1_3" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Favoriser le développement des modes actifs</label></p>
-</div>
-<div class="option-line">
-<p><input type="checkbox" id="q22.1_4" name="q22.1" value="Adapter les voiries au changement climatique"> <label for="q22.1_4" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Adapter les voiries au changement climatique</label></p>
-</div>
-<div class="option-line">
-<p><input type="checkbox" id="q22.1_5" name="q22.1" value="Mettre en place une ZFE-mobilités"> <label for="q22.1_5" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Mettre en place une ZFE-mobilités</label></p>
-</div>
-<div class="option-line">
-<p><input type="checkbox" id="q22.1_6" name="q22.1" value="Organiser les mobilités en péri-urbain"> <label for="q22.1_6" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Organiser les mobilités en péri-urbain</label></p>
-</div>
-<div class="option-line">
-<p><input type="checkbox" id="q22.1_7" name="q22.1" value="Organiser la logistique urbaine"> <label for="q22.1_7" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Organiser la logistique urbaine</label></p>
-</div>
-<div class="option-line">
-<p><input type="checkbox" id="q22.1_8" name="q22.1" value="Optimiser les circulations"> <label for="q22.1_8" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Optimiser les circulations</label></p>
-</div>
-<div class="option-line">
-<p><input type="checkbox" id="q22.1_9" name="q22.1" value="Construire une politique globale de décarbonation des mobilités"> <label for="q22.1_9" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Construire une politique globale de décarbonation des mobilités</label></p>
-</div>
-<div class="option-line">
-<p><input type="checkbox" id="q22.1_10" name="q22.1" value="S’inscrire dans une démarche de prospective et connaissance globale de la mobilité"> <label for="q22.1_10" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">S’inscrire dans une démarche de prospective et connaissance globale de la mobilité</label></p>
-</div>
-<div class="option-line">
-<p><input type="checkbox" id="q22.1_11" name="q22.1" value="Mise en place d’une politique de sécurité des déplacements pour favoriser le report modal (ex : cartographie de l’accidentalité, diagnostics spécifiques des lieux d’accidents, sécurité des infrastructures et de leurs aménagements)"> <label for="q22.1_11" style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold; opacity:0.9;">Mise en place d’une politique de sécurité des déplacements pour favoriser le report modal (ex : cartographie de l’accidentalité, diagnostics spécifiques des lieux d’accidents, sécurité des infrastructures et de leurs aménagements)</label></p>
-</div>
-</div>
-<!-- Commentaire extrait : Limité à 200 caractères -->
-<div id="q23" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<!-- Commentaire extrait : NA -->
+<div id="q51" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
 <p style="font-weight:bold; font-size:1rem; color:#293574;">
-Autres besoins sur les mobilités décarbonée <span class="tooltip"><span class="icon">i</span><span class="tooltiptext">Limité à 200 caractères</span></span> <span style="color:red;">*</span>
+Civilité <span style="color:red;">*</span>
 </p>
-<textarea name="q23" rows="4" cols="50" required="" style="width:100%; margin-top:6px; color:#293574; font-weight:bold; opacity:0.9;"></textarea>
+<p><select name="q51" required="" style="width:100%; margin-top:6px; border-color:rgba(239,119,87,1); border-radius:6px; height:35px; color:#293574; font-weight:bold; opacity:0.9;"> <option value="Sélectionner…">Sélectionner…</option> <option value="Mr">Mr</option> <option value="Mme">Mme</option> </select></p>
+</div>
+<!-- Commentaire extrait : NA -->
+<div id="q52" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Nom <span style="color:red;">*</span>
+</p>
+<textarea name="q52" rows="6" cols="60" required="" style="width:100%; margin-top:10px; border:1px solid #ef7757; border-radius:8px; color:#293574; font-weight:normal; font-size:0.95rem; height:35px; resize:none;"></textarea>
+</div>
+<!-- Commentaire extrait : NA -->
+<div id="q53" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Prénom <span style="color:red;">*</span>
+</p>
+<textarea name="q53" rows="6" cols="60" required="" style="width:100%; margin-top:10px; border:1px solid #ef7757; border-radius:8px; color:#293574; font-weight:normal; font-size:0.95rem; height:35px; resize:none;"></textarea>
+</div>
+<!-- Commentaire extrait : NA -->
+<div id="q54" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Email <span style="color:red;">*</span>
+</p>
+<textarea name="q54" rows="6" cols="60" required="" style="width:100%; margin-top:10px; border:1px solid #ef7757; border-radius:8px; color:#293574; font-weight:normal; font-size:0.95rem; height:35px; resize:none;"></textarea>
+</div>
+<!-- Commentaire extrait : NA -->
+<div id="q55" class="question-block" style="margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;">
+<p style="font-weight:bold; font-size:1rem; color:#293574;">
+Téléphone <span style="color:red;">*</span>
+</p>
+<textarea name="q55" rows="6" cols="60" required="" style="width:100%; margin-top:10px; border:1px solid #ef7757; border-radius:8px; color:#293574; font-weight:normal; font-size:0.95rem; height:35px; resize:none;"></textarea>
 </div>
 
+
+
+    <div class="option-line" style="margin-left:5%; margin-right:5%;padding-top:40px;">
+        <input type="checkbox"><label style="display:contents; margin:4px 10px 4px 0; color:#293574; font-weight:bold;                      opacity:0.9;">Je consens à ce que mes données personnelles soient traitées dans le cadre décrit ci-dessous
+                    <span style="color:red;">*</span>
+                           </label>
+                           
+                           
+        <div style="margin-top:25px; color:#293574; opacity:0.9;">
+            <p>Les informations contenues dans le présent questionnaire, complété par vos soins, font l’objet d’un rapport auto-généré par la plateforme Leadseed et analysé par le Cerema.</p>
+            <p>Vos données personnelles sont récoltées pour permettre au Cerema de vous proposer des prestations adaptées à vos besoins par le biais d’e-mails ciblés et d’un contact personnalisé avec un interlocuteur dédié.
+Le responsable de traitement de vos données est le Cerema. Les données personnelles recueillies sont traitées sur la base de votre consentement et jusqu’au retrait de celui-ci ou dans la limite de trois ans à compter du dernier contact avec le Cerema. Seules les personnes habilitées de part leurs fonctions y ont accès.</p>
+            <p>Conformément aux dispositions de la loi informatique et libertés du 6 janvier 1978 modifiée et au règlement européen sur la protection des données 2016/679, vous disposez d’un droit d'accès, de rectification, d'effacement d’opposition et de limitation concernant vos données. Vous pouvez exercer ces droits en vous adressant au délégué à la protection des données à l’adresse suivante : delegue.rgpd@cerema.fr.
+Si vous estimez, après avoir contacté le responsable de traitement, que vos droits ne sont pas respectés, vous pouvez adresser une réclamation à la CNIL.</p>
+        </div>
+
+    </div>
 
 </div>
 
@@ -419,27 +324,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const normalize = s => String(s || "").trim().toLowerCase();
   const valIntro = normalize(localStorage.getItem("q2"));
 
-  // Bloc question 21a (syndicat mixte)
-  const q21a = document.querySelector('#q21a');
-  if (q21a) {
+  // Bloc question 36a (syndicat mixte)
+  const q36a = document.querySelector('#q36a');
+  if (q36a) {
     if (valIntro === "un syndicat mixte") {
-      q21a.style.display = "block";
-      q21a.classList.add("visible");
+      q36a.style.display = "block";
+      q36a.classList.add("visible");
     } else {
-      q21a.style.display = "none";
-      q21a.classList.remove("visible");
+      q36a.style.display = "none";
+      q36a.classList.remove("visible");
     }
   }
 
-  // Bloc question 8 (autres cas)
-  const q21 = document.querySelector('#q21');
-  if (q21) {
+  // Bloc question 36 (autres cas)
+  const q36 = document.querySelector('#q36');
+  if (q36) {
     if (valIntro !== "un syndicat mixte") {
-      q21.style.display = "block";
-      q21.classList.add("visible");
+      q36.style.display = "block";
+      q36.classList.add("visible");
     } else {
-      q21.style.display = "none";
-      q21.classList.remove("visible");
+      q36.style.display = "none";
+      q36.classList.remove("visible");
     }
   }
 });
@@ -453,7 +358,7 @@ document.addEventListener("DOMContentLoaded", function () {
   padding-right: 15px;
   margin-left: 6px;
   font-family: normal;
-  border-color: coral;" onclick="window.location.href='transition_energetique.html';"> &lt; Précédent</button>
+  border-color: coral;" onclick="window.location.href='littoral.html';"> &lt; Précédent</button>
   
   
 
@@ -484,7 +389,7 @@ document.addEventListener("DOMContentLoaded", function () {
   padding-right: 15px;
   margin-right: 6px;
   font-family: normal;
-  border-color: coral;" onclick="window.location.href='infrastructures_resilientes.html';"> Suivant &gt; </button>
+  border-color: coral;" onclick="window.location.href='formulaire_de_contact.html';"> Valider &gt; </button>
   
   </div>
 

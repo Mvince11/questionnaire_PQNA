@@ -15,7 +15,7 @@ library(dplyr)
 library(readxl)
 library(stringr)
 
-intro <- read_xlsx("data/Mobilites_decarbonees.xlsx") %>%
+intro <- read_xlsx("data/littoral.xlsx") %>%
   filter(!is.na(Numero), !is.na(Questions), !is.na(Reponses)) %>%
   mutate(Numero = as.character(Numero))
 
@@ -36,7 +36,7 @@ questions_list <- intro %>%
 
 ```{=html}
 
-<script>window.currentProgressStep = 7;</script>
+<script>window.currentProgressStep = 12;</script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const bar = document.getElementById('progress-bar');
@@ -152,11 +152,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     font-weight: bold;
                     margin-bottom: 70px;"
                     >
-            <h4 style="font-weight: bold;"> Mobilités décarbonées </h4>
+            <h4 style="font-weight: bold;"> Gestion du littoral </h4>
             
             <br>
                     
-            <div> L’objectif de neutralité carbone à horizon 2050 implique d’importants changements sur l’organisation des systèmes de transports, les usages et comportements, ainsi que les choix technologiques associés. Tous les leviers (report modal, taux de remplissage, efficacité énergétique, sobriété des déplacements) doivent être mobilisés, à la fois pour les voyageurs et les marchandises.
+            <div> Aménager les espaces littoraux relève du défi ; les multiples pressions qui s’y exercent (élévation du niveau de la mer notamment) étant appelées à s’amplifier avec le changement climatique.
             </div>
             
             <br>
@@ -169,6 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 library(stringr)
 
+
 for (i in seq_len(nrow(questions_list))) {
   numero     <- as.character(questions_list$Numero[i])
   question   <- questions_list$Questions[i]
@@ -177,7 +178,7 @@ for (i in seq_len(nrow(questions_list))) {
   parent_col <- if ("Parent" %in% names(questions_list)) questions_list$Parent[i] else NA
   reponses   <- unlist(questions_list$reponses[i])  
 
-  # --- bloc conditionnel ou non ---
+  # Bloc conditionnel
   if (!is.na(parent_col) && nzchar(parent_col)) {
     cond_safe <- ifelse(is.na(condition), "", gsub("'", "&#39;", condition))
     condition_attr <- sprintf(
@@ -188,7 +189,6 @@ for (i in seq_len(nrow(questions_list))) {
     condition_attr <- "class='question-block' style='margin:20px 0; padding:15px; margin-left:4%; margin-right:4%;'"
   }
 
-  # --- ouverture du bloc question ---
   # Traitement du commentaire
   commentaire <- str_extract(question, "\\[.*?\\]")
   
@@ -214,7 +214,7 @@ for (i in seq_len(nrow(questions_list))) {
     question_sans_commentaire, tooltip_html
   ))
 
-  # --- affichage des réponses ---
+  # Affichage des réponses
   if (style == "radio") {
     for (j in seq_along(reponses)) {
       id  <- paste0("q", numero, "_", j)
@@ -256,11 +256,11 @@ for (i in seq_len(nrow(questions_list))) {
     cat("  </select>\n")
   }
 
-  # --- fermeture du bloc ---
   cat("</div>\n\n")
 }
 
 cat("</body>\n</html>")
+
 
 ```
 
@@ -275,27 +275,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const normalize = s => String(s || "").trim().toLowerCase();
   const valIntro = normalize(localStorage.getItem("q2"));
 
-  // Bloc question 21a (syndicat mixte)
-  const q21a = document.querySelector('#q21a');
-  if (q21a) {
+  // Bloc question 36a (syndicat mixte)
+  const q36a = document.querySelector('#q36a');
+  if (q36a) {
     if (valIntro === "un syndicat mixte") {
-      q21a.style.display = "block";
-      q21a.classList.add("visible");
+      q36a.style.display = "block";
+      q36a.classList.add("visible");
     } else {
-      q21a.style.display = "none";
-      q21a.classList.remove("visible");
+      q36a.style.display = "none";
+      q36a.classList.remove("visible");
     }
   }
 
-  // Bloc question 8 (autres cas)
-  const q21 = document.querySelector('#q21');
-  if (q21) {
+  // Bloc question 36 (autres cas)
+  const q36 = document.querySelector('#q36');
+  if (q36) {
     if (valIntro !== "un syndicat mixte") {
-      q21.style.display = "block";
-      q21.classList.add("visible");
+      q36.style.display = "block";
+      q36.classList.add("visible");
     } else {
-      q21.style.display = "none";
-      q21.classList.remove("visible");
+      q36.style.display = "none";
+      q36.classList.remove("visible");
     }
   }
 });
@@ -313,7 +313,7 @@ document.addEventListener("DOMContentLoaded", function () {
   margin-left: 6px;
   font-family: normal;
   border-color: coral;"
-  onclick="window.location.href='transition_energetique.html';"> < Précédent</button>
+  onclick="window.location.href='gestion_integree_de_l_eau.html';"> < Précédent</button>
   
   
 {{< include _includes/custom_footer.html >}}
@@ -327,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
   margin-right: 6px;
   font-family: normal;
   border-color: coral;"
-  onclick="window.location.href='infrastructures_resilientes.html';"> Suivant > </button>
+  onclick="window.location.href='formulaire_de_contact.html';"> Suivant > </button>
   
   </div>
 

@@ -189,9 +189,30 @@ for (i in seq_len(nrow(questions_list))) {
   }
 
   # --- ouverture du bloc question ---
+  # Traitement du commentaire
+  commentaire <- str_extract(question, "\\[.*?\\]")
+  
+  question_sans_commentaire <- str_replace(question, "\\[.*?\\]", "")
+  
+  if (!is.na(commentaire)) {
+    commentaire <- str_replace_all(commentaire, "\\[|\\]", "")
+    
+    tooltip_html <- sprintf(
+      "<span class='tooltip'><span class='icon'>i</span><span class='tooltiptext'>%s</span></span>",
+      commentaire
+    )
+  } else {
+    tooltip_html <- ""
+  }
+  
+  cat(sprintf("<!-- Commentaire extrait : %s -->\n", commentaire))
+
+  # Affichage de la question
   cat(sprintf("<div %s id='q%s'>\n", condition_attr, numero))
-  cat(sprintf("  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s <span style='color:red;'>*</span></p>\n",
-              question))
+  cat(sprintf(
+    "  <p style='font-weight:bold; font-size:1rem; color:#293574;'>%s %s <span style='color:red;'>*</span></p>\n",
+    question_sans_commentaire, tooltip_html
+  ))
 
   # --- affichage des réponses ---
   if (style == "radio") {
@@ -292,7 +313,7 @@ document.addEventListener("DOMContentLoaded", function () {
   margin-left: 6px;
   font-family: normal;
   border-color: coral;"
-  onclick="window.location.href='introduction.html';"> < Précédent</button>
+  onclick="window.location.href='territoire_intelligent.html';"> < Précédent</button>
   
   
 {{< include _includes/custom_footer.html >}}
