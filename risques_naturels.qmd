@@ -328,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
   margin-right: 6px;
   font-family: normal;
   border-color: coral;"
-  onclick="window.location.href='risques_naturels.html';"> Suivant > </button>
+  onclick="window.location.href='nature_en_ville.html';"> Suivant > </button>
   
   </div>
 
